@@ -9,7 +9,7 @@
 title: drsinBlog 
 email: 86478582@qq.com
 description: > # this means to ignore newlines until "baseurl:"
-	drsin blog 
+  drsin blog 
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "http://ninowon.com" # the base hostname & protocol for your site
 twitter_username: drisn 
