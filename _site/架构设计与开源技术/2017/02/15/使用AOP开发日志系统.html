@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>使用AOP开发管理日志系统</title>
+  <meta name="description" content="在Spring-Boot中使用AOP开发的一套完整的用户操作日志系统">
+
+  <meta name="description" content="我不生产代码，只是github的搬用工   
+"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#157878">
+  <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="/assets/css/style.css?v=e27648511d3ca5ca2bee3bdafb3897fa255a53d6">
+  <link rel="stylesheet" href="/assets/css/main.css">
+  <link rel="canonical" href="http://localhost:4000/%E6%9E%B6%E6%9E%84%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%BC%80%E6%BA%90%E6%8A%80%E6%9C%AF/2017/02/15/%E4%BD%BF%E7%94%A8AOP%E5%BC%80%E5%8F%91%E6%97%A5%E5%BF%97%E7%B3%BB%E7%BB%9F.html">
+  <link rel="alternate" type="application/rss+xml" title="drsinBlog" href="http://localhost:4000/feed.xml">
+
+    <script>
+    // 百度统计代码
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?9509c46947d444c42bdfd33deeaff852";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+    </script>
+
+
+</head>
+
+  <body>
+  <header class="site-header">
+
+  <div class="wrapper">
+
+    <a class="site-title" href="/">drsinBlog</a>
+
+    <nav class="site-nav">
+      <a href="#" class="menu-icon">
+        <svg viewBox="0 0 18 15">
+          <path fill="#424242" d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.031C17.335,0,18,0.665,18,1.484L18,1.484z"/>
+          <path fill="#424242" d="M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0c0-0.82,0.665-1.484,1.484-1.484 h15.031C17.335,6.031,18,6.696,18,7.516L18,7.516z"/>
+          <path fill="#424242" d="M18,13.516C18,14.335,17.335,15,16.516,15H1.484C0.665,15,0,14.335,0,13.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.031C17.335,12.031,18,12.696,18,13.516L18,13.516z"/>
+        </svg>
+      </a>
+
+      <div class="trigger">
+        
+          
+          <a class="page-link" href="/about/">About</a>
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+          <a class="page-link" href="/">create myself blog </a>
+          
+        
+      </div>
+    </nav>
+
+  </div>
+
+</header>
+
+    <section class="page-header">
+      <h1 class="project-name">drsinBlog</h1>
+      <h2 class="project-tagline">我不生产代码，只是github的搬用工   
+</h2>
+      
+        <a href="http://github.com/drsin/drsin.github.io" class="btn">View on GitHub</a>
+      
+      
+        <a href="http://github.com/drsin/drsin.github.io/zipball/gh-pages" class="btn">Download .zip</a>
+        <a href="http://github.com/drsin/drsin.github.io/tarball/gh-pages" class="btn">Download .tar.gz</a>
+      
+    </section>
+
+    <section class="main-content">
+      <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title" itemprop="name headline">使用AOP开发管理日志系统</h1>
+    <p class="post-meta"><time datetime="2017-02-15T00:19:09+08:00" itemprop="datePublished">Feb 15, 2017</time></p>
+  </header>
+
+  <div class="post-content" itemprop="articleBody">
+    <ul id="markdown-toc">
+  <li><a href="#简要" id="markdown-toc-简要">简要</a></li>
+  <li><a href="#概念" id="markdown-toc-概念">概念</a></li>
+  <li><a href="#开发" id="markdown-toc-开发">开发</a></li>
+</ul>
+
+<h2 id="简要">简要</h2>
+
+<ul>
+  <li>分享一下昨天做的一套基于Spring AOP特性的一套日志管理系统。</li>
+</ul>
+
+<h2 id="概念">概念</h2>
+
+<ul>
+  <li>先来脑补一下AOP的相关知识</li>
+</ul>
+
+<blockquote>
+  <p>AOP（Aspect Oriented Programming），即面向切面编程，可以说是OOP（Object Oriented Programming，面向对象编程）的补充和完善。OOP引入封装、继承、多态等概念来建立一种对象层次结构，用于模拟公共行为的一个集合。不过OOP允许开发者定义纵向的关系，但并不适合定义横向的关系，例如日志功能。日志代码往往横向地散布在所有对象层次中，而与它对应的对象的核心功能毫无关系对于其他类型的代码，如安全性、异常处理和透明的持续性也都是如此，这种散布在各处的无关的代码被称为横切（cross cutting），在OOP设计中，它导致了大量代码的重复，而不利于各个模块的重用。</p>
+</blockquote>
+
+<blockquote>
+  <p>AOP技术恰恰相反，它利用一种称为”横切”的技术，剖解开封装的对象内部，并将那些影响了多个类的公共行为封装到一个可重用模块，并将其命名为”Aspect”，即切面。所谓”切面”，简单说就是那些与业务无关，却为业务模块所共同调用的逻辑或责任封装起来，便于减少系统的重复代码，降低模块之间的耦合度，并有利于未来的可操作性和可维护性。</p>
+</blockquote>
+
+<blockquote>
+  <p>使用”横切”技术，AOP把软件系统分为两个部分：核心关注点和横切关注点。业务处理的主要流程是核心关注点，与之关系不大的部分是横切关注点。横切关注点的一个特点是，他们经常发生在核心关注点的多处，而各处基本相似，比如权限认证、日志、事物。AOP的作用在于分离系统中的各种关注点，将核心关注点和横切关注点分离开来。</p>
+</blockquote>
+
+<ul>
+  <li>Spring对AOP的支持</li>
+</ul>
+
+<blockquote>
+  <p>Spring中AOP代理由Spring的IOC容器负责生成、管理，其依赖关系也由IOC容器负责管理。因此，AOP代理可以直接使用容器中的其它bean实例作为目标，这种关系可由IOC容器的依赖注入提供。Spring创建代理的规则为：</p>
+</blockquote>
+
+<blockquote>
+  <p>1、默认使用Java动态代理来创建AOP代理，这样就可以为任何接口实例创建代理了</p>
+</blockquote>
+
+<blockquote>
+  <p>2、当需要代理的类不是代理接口的时候，Spring会切换为使用CGLIB代理，也可强制使用CGLIB</p>
+</blockquote>
+
+<h2 id="开发">开发</h2>
+
+<ul>
+  <li>
+    <p>先预览一下效果图</p>
+
+    <p><img src="http://jiaohongwei.github.io/images/2017-02/20170214161453.png" alt="Object" /></p>
+  </li>
+</ul>
+
+<ol>
+  <li>
+    <p>需要先在数据库（Oracle）创建好一个LOGGER表，用来存储日志信息，表结构如下：</p>
+
+    <p><img src="http://jiaohongwei.github.io/images/2017-02/20170214163248.png" alt="Object" /></p>
+  </li>
+  <li>
+    <p>自定义注解 拦截方法</p>
+
+    <div class="language-java highlighter-rouge"><pre class="highlight"><code>    
+<span class="nd">@Retention</span><span class="o">(</span><span class="n">RetentionPolicy</span><span class="o">.</span><span class="na">RUNTIME</span><span class="o">)</span>
+<span class="nd">@Target</span><span class="o">({</span><span class="n">ElementType</span><span class="o">.</span><span class="na">METHOD</span><span class="o">})</span>
+<span class="nd">@Documented</span>
+<span class="kd">public</span> <span class="nd">@interface</span> <span class="n">SystemServiceLog</span> <span class="o">{</span>
+    <span class="c1">//模块名</span>
+    <span class="n">String</span> <span class="nf">moduleName</span><span class="o">()</span> <span class="k">default</span> <span class="s">""</span><span class="o">;</span>
+    <span class="c1">//操作类型</span>
+    <span class="n">OperationType</span> <span class="nf">operation_type</span><span class="o">()</span> <span class="k">default</span> <span class="n">OperationType</span><span class="o">.</span><span class="na">SELECT</span><span class="o">;</span>
+    <span class="c1">//操作内容</span>
+    <span class="n">String</span> <span class="nf">operation</span><span class="o">()</span> <span class="k">default</span> <span class="s">""</span><span class="o">;</span>
+<span class="o">}</span>
+
+</code></pre>
+    </div>
+  </li>
+  <li>
+    <p>定义用于记录日志的实体类</p>
+
+    <div class="language-java highlighter-rouge"><pre class="highlight"><code>   <span class="nd">@Data</span>
+   <span class="nd">@lombok</span><span class="o">.</span><span class="na">Setter</span>
+   <span class="nd">@lombok</span><span class="o">.</span><span class="na">Getter</span>
+   <span class="nd">@NoArgsConstructor</span>
+   <span class="nd">@AllArgsConstructor</span>
+   <span class="nd">@Entity</span>
+   <span class="nd">@Table</span><span class="o">(</span><span class="n">name</span> <span class="o">=</span> <span class="s">"LOGGER"</span><span class="o">)</span>
+   <span class="kd">public</span> <span class="kd">class</span> <span class="nc">AspectEntity</span> <span class="kd">implements</span> <span class="n">Serializable</span> <span class="o">{</span>
+       <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="kt">long</span> <span class="n">serialVersionUID</span> <span class="o">=</span> <span class="mi">1L</span><span class="o">;</span>
+       <span class="nd">@Id</span>
+       <span class="nd">@GeneratedValue</span><span class="o">(</span><span class="n">generator</span> <span class="o">=</span> <span class="s">"uuid"</span><span class="o">)</span>
+       <span class="nd">@GenericGenerator</span><span class="o">(</span><span class="n">name</span> <span class="o">=</span> <span class="s">"uuid"</span><span class="o">,</span> <span class="n">strategy</span> <span class="o">=</span> <span class="s">"uuid"</span><span class="o">)</span>
+       <span class="kd">private</span> <span class="n">String</span> <span class="n">id</span><span class="o">;</span>
+       <span class="kd">private</span> <span class="n">String</span> <span class="n">ip</span><span class="o">;</span>
+       <span class="kd">private</span> <span class="n">String</span> <span class="n">username</span><span class="o">;</span>
+       <span class="nd">@Column</span><span class="o">(</span><span class="n">name</span> <span class="o">=</span> <span class="s">"METHOD_NAME"</span><span class="o">)</span>
+       <span class="kd">private</span> <span class="n">String</span> <span class="n">methodname</span><span class="o">;</span>
+       <span class="kd">private</span> <span class="n">String</span> <span class="n">modul</span><span class="o">;</span>
+       <span class="nd">@Enumerated</span><span class="o">(</span><span class="n">EnumType</span><span class="o">.</span><span class="na">STRING</span><span class="o">)</span>
+       <span class="nd">@Column</span><span class="o">(</span><span class="n">name</span> <span class="o">=</span> <span class="s">"OPERATION_TYPE"</span><span class="o">)</span>
+       <span class="kd">private</span> <span class="n">OperationType</span> <span class="n">operationtype</span><span class="o">;</span>
+       <span class="kd">private</span> <span class="n">String</span> <span class="n">operation</span><span class="o">;</span>
+       <span class="kd">private</span> <span class="n">String</span> <span class="n">arguments</span><span class="o">;</span>
+       <span class="kd">private</span> <span class="n">String</span> <span class="n">browser</span><span class="o">;</span>
+       <span class="nd">@Column</span><span class="o">(</span><span class="n">name</span> <span class="o">=</span> <span class="s">"CREATE_TIME"</span><span class="o">)</span>
+       <span class="kd">private</span> <span class="kt">long</span> <span class="n">createtime</span><span class="o">;</span>
+   <span class="o">}</span>
+</code></pre>
+    </div>
+  </li>
+  <li>
+    <p>引入AOP支持</p>
+  </li>
+</ol>
+
+<ul>
+  <li>
+    <p>导入pom文件。</p>
+
+    <div class="language-xml highlighter-rouge"><pre class="highlight"><code><span class="c">&lt;!--AOP统一处理操作日志--&gt;</span>
+<span class="nt">&lt;dependency&gt;</span>
+    <span class="nt">&lt;groupId&gt;</span>org.springframework.boot<span class="nt">&lt;/groupId&gt;</span>
+    <span class="nt">&lt;artifactId&gt;</span>spring-boot-starter-aop<span class="nt">&lt;/artifactId&gt;</span>
+<span class="nt">&lt;/dependency&gt;</span>
+
+</code></pre>
+    </div>
+  </li>
+  <li>
+    <p>修改配置文件</p>
+
+    <div class="highlighter-rouge"><pre class="highlight"><code>&lt;!-- 启动对@AspectJ注解的支持（spring-boot 好像是默认开启的） --&gt;  
+spring.aop.auto=true
+    
+&lt;!--通知spring使用cglib而不是jdk的来生成代理方法 AOP可以拦截到Controller-&gt;  
+spring.aop.proxy-target-class=false
+    
+</code></pre>
+    </div>
+  </li>
+</ul>
+
+<ol>
+  <li>
+    <p>定义日志AOP切面类</p>
+
+    <div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">com.vg.security.UserSecurity</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">com.vg.service.LogService</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">com.vg.utils.UUIDUtil</span><span class="o">;</span>
+    
+<span class="kn">import</span> <span class="nn">org.aspectj.lang.JoinPoint</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.aspectj.lang.annotation.Aspect</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.aspectj.lang.annotation.Before</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.aspectj.lang.annotation.Pointcut</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.slf4j.Logger</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.slf4j.LoggerFactory</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.stereotype.Component</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.web.context.request.RequestContextHolder</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.web.context.request.ServletRequestAttributes</span><span class="o">;</span>
+    
+<span class="kn">import</span> <span class="nn">java.lang.reflect.Method</span><span class="o">;</span>
+    
+<span class="kn">import</span> <span class="nn">javax.annotation.Resource</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">javax.servlet.http.HttpServletRequest</span><span class="o">;</span>
+    
+<span class="cm">/**
+ * Created by jiaohongwei on 2017/2/13.
+ */</span>
+<span class="nd">@Aspect</span>
+<span class="nd">@Component</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">SystemLogAspect</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="kd">static</span> <span class="n">Logger</span> <span class="n">logger</span> <span class="o">=</span> <span class="n">LoggerFactory</span><span class="o">.</span><span class="na">getLogger</span><span class="o">(</span><span class="n">SystemLogAspect</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+    <span class="c1">//注入Service用于把日志保存数据库</span>
+    <span class="nd">@Resource</span>
+    <span class="kd">private</span> <span class="n">LogService</span> <span class="n">logService</span><span class="o">;</span>
+    
+    <span class="c1">//Service层切点</span>
+    <span class="nd">@Pointcut</span><span class="o">(</span><span class="s">"@annotation(com.vg.aop.SystemServiceLog)"</span><span class="o">)</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">serviceAspect</span><span class="o">()</span> <span class="o">{</span>
+    <span class="o">}</span>
+    
+    <span class="cm">/**AspectJ支持5种类型的通知注解：
+          
+      -@Before 前置通知，在目标方法执行之前执行
+      -@After：后置通知：在目标方法执行之后执行，无论是否发生异常
+      -@AfterReturning:返回通知，在目标方法返回结果之后执行
+      -@AfterThrowing：异常通知，在目标方法抛出异常之后通知。
+      -@Around 环绕通知，围绕着目标方法执行。
+      
+    这里就不再一一介绍，我们只采用前置通知即可。
+    */</span>
+    
+    <span class="nd">@Before</span><span class="o">(</span><span class="s">"serviceAspect()"</span><span class="o">)</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">doBefore</span><span class="o">(</span><span class="n">JoinPoint</span> <span class="n">joinPoint</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">try</span> <span class="o">{</span>
+            <span class="n">logService</span><span class="o">.</span><span class="na">saveOperation</span><span class="o">(</span><span class="n">getMthodRemark</span><span class="o">(</span><span class="n">joinPoint</span><span class="o">));</span>
+        <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">Exception</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+            <span class="c1">//记录本地异常日志</span>
+            <span class="n">logger</span><span class="o">.</span><span class="na">error</span><span class="o">(</span><span class="s">"异常信息:{}"</span><span class="o">,</span> <span class="n">e</span><span class="o">.</span><span class="na">getMessage</span><span class="o">());</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+        
+    <span class="cm">/**
+     * 获取注解中对方法的描述信息 用于service层注解
+     *
+     * @param joinPoint 切点
+     * @return 方法描述
+     */</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="n">AspectEntity</span> <span class="nf">getMthodRemark</span><span class="o">(</span><span class="n">JoinPoint</span> <span class="n">joinPoint</span><span class="o">)</span>
+    
+            <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
+        <span class="n">HttpServletRequest</span> <span class="n">request</span> <span class="o">=</span> <span class="o">((</span><span class="n">ServletRequestAttributes</span><span class="o">)</span> <span class="n">RequestContextHolder</span><span class="o">.</span><span class="na">getRequestAttributes</span><span class="o">()).</span><span class="na">getRequest</span><span class="o">();</span>
+    
+        <span class="n">AspectEntity</span> <span class="n">aspectEntity</span> <span class="o">=</span> <span class="k">new</span> <span class="n">AspectEntity</span><span class="o">();</span>
+        <span class="n">aspectEntity</span><span class="o">.</span><span class="na">setId</span><span class="o">(</span><span class="n">UUIDUtil</span><span class="o">.</span><span class="na">creatUUID</span><span class="o">());</span>
+        <span class="n">aspectEntity</span><span class="o">.</span><span class="na">setUsername</span><span class="o">(</span><span class="n">UserSecurity</span><span class="o">.</span><span class="na">getCurrentUsername</span><span class="o">());</span><span class="c1">//登陆用户名</span>
+        <span class="n">aspectEntity</span><span class="o">.</span><span class="na">setIp</span><span class="o">(</span><span class="n">getIpAddress</span><span class="o">(</span><span class="n">request</span><span class="o">));</span><span class="c1">//ip地址</span>
+        <span class="n">aspectEntity</span><span class="o">.</span><span class="na">setBrowser</span><span class="o">(</span><span class="n">request</span><span class="o">.</span><span class="na">getHeader</span><span class="o">(</span><span class="s">"User-Agent"</span><span class="o">));</span><span class="c1">//浏览器</span>
+        <span class="n">aspectEntity</span><span class="o">.</span><span class="na">setCreatetime</span><span class="o">(</span><span class="n">System</span><span class="o">.</span><span class="na">currentTimeMillis</span><span class="o">());</span><span class="c1">//当前时间戳</span>
+        <span class="n">String</span> <span class="n">targetName</span> <span class="o">=</span> <span class="n">joinPoint</span><span class="o">.</span><span class="na">getTarget</span><span class="o">().</span><span class="na">getClass</span><span class="o">().</span><span class="na">getName</span><span class="o">();</span>
+        <span class="n">String</span> <span class="n">methodName</span> <span class="o">=</span> <span class="n">joinPoint</span><span class="o">.</span><span class="na">getSignature</span><span class="o">().</span><span class="na">getName</span><span class="o">();</span>
+        <span class="n">Object</span><span class="o">[]</span> <span class="n">arguments</span> <span class="o">=</span> <span class="n">joinPoint</span><span class="o">.</span><span class="na">getArgs</span><span class="o">();</span>   <span class="c1">//获得参数列表</span>
+        <span class="n">StringBuffer</span> <span class="n">parameters</span> <span class="o">=</span> <span class="k">new</span> <span class="n">StringBuffer</span><span class="o">();</span>
+        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">arguments</span><span class="o">.</span><span class="na">length</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+            <span class="n">parameters</span><span class="o">.</span><span class="na">append</span><span class="o">((</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="o">)</span> <span class="o">+</span> <span class="s">":"</span> <span class="o">+</span> <span class="o">(</span><span class="n">arguments</span><span class="o">[</span><span class="n">i</span><span class="o">])</span> <span class="o">+</span> <span class="s">" "</span><span class="o">);</span>
+        <span class="o">}</span>
+        <span class="n">aspectEntity</span><span class="o">.</span><span class="na">setMethodname</span><span class="o">(</span><span class="n">methodName</span><span class="o">);</span><span class="c1">//方法名</span>
+        <span class="n">aspectEntity</span><span class="o">.</span><span class="na">setArguments</span><span class="o">(</span><span class="n">parameters</span> <span class="o">==</span> <span class="kc">null</span> <span class="o">?</span> <span class="s">""</span> <span class="o">:</span> <span class="n">String</span><span class="o">.</span><span class="na">valueOf</span><span class="o">(</span><span class="n">parameters</span><span class="o">));</span><span class="c1">//参数列表</span>
+        <span class="n">Class</span> <span class="n">targetClass</span> <span class="o">=</span> <span class="n">Class</span><span class="o">.</span><span class="na">forName</span><span class="o">(</span><span class="n">targetName</span><span class="o">);</span>
+        <span class="n">Method</span><span class="o">[]</span> <span class="n">methods</span> <span class="o">=</span> <span class="n">targetClass</span><span class="o">.</span><span class="na">getMethods</span><span class="o">();</span>
+    
+        <span class="k">for</span> <span class="o">(</span><span class="n">Method</span> <span class="n">method</span> <span class="o">:</span> <span class="n">methods</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">method</span><span class="o">.</span><span class="na">getName</span><span class="o">().</span><span class="na">equals</span><span class="o">(</span><span class="n">methodName</span><span class="o">))</span> <span class="o">{</span>
+                <span class="n">Class</span><span class="o">[]</span> <span class="n">clazzs</span> <span class="o">=</span> <span class="n">method</span><span class="o">.</span><span class="na">getParameterTypes</span><span class="o">();</span>
+                <span class="k">if</span> <span class="o">(</span><span class="n">clazzs</span><span class="o">.</span><span class="na">length</span> <span class="o">==</span> <span class="n">arguments</span><span class="o">.</span><span class="na">length</span><span class="o">)</span> <span class="o">{</span>
+                    <span class="n">SystemServiceLog</span> <span class="n">methodCache</span> <span class="o">=</span> <span class="n">method</span><span class="o">.</span><span class="na">getAnnotation</span><span class="o">(</span><span class="n">SystemServiceLog</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+                    <span class="n">aspectEntity</span><span class="o">.</span><span class="na">setOperation</span><span class="o">(</span><span class="n">methodCache</span><span class="o">.</span><span class="na">operation</span><span class="o">());</span><span class="c1">//从注解上获取的操作内容</span>
+                    <span class="n">aspectEntity</span><span class="o">.</span><span class="na">setOperationtype</span><span class="o">(</span><span class="n">methodCache</span><span class="o">.</span><span class="na">operation_type</span><span class="o">());</span><span class="c1">//操作类型</span>
+                    <span class="n">aspectEntity</span><span class="o">.</span><span class="na">setModul</span><span class="o">(</span><span class="n">methodCache</span><span class="o">.</span><span class="na">moduleName</span><span class="o">());</span><span class="c1">//模块名</span>
+                    <span class="k">break</span><span class="o">;</span>
+                <span class="o">}</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="n">aspectEntity</span><span class="o">;</span>
+    <span class="o">}</span>
+    
+    <span class="kd">public</span> <span class="kd">static</span> <span class="n">String</span> <span class="nf">getIpAddress</span><span class="o">(</span><span class="n">HttpServletRequest</span> <span class="n">request</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">String</span> <span class="n">ip</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="na">getHeader</span><span class="o">(</span><span class="s">"x-forwarded-for"</span><span class="o">);</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">ip</span> <span class="o">==</span> <span class="kc">null</span> <span class="o">||</span> <span class="n">ip</span><span class="o">.</span><span class="na">length</span><span class="o">()</span> <span class="o">==</span> <span class="mi">0</span> <span class="o">||</span> <span class="s">"unknown"</span><span class="o">.</span><span class="na">equalsIgnoreCase</span><span class="o">(</span><span class="n">ip</span><span class="o">))</span> <span class="o">{</span>
+            <span class="n">ip</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="na">getHeader</span><span class="o">(</span><span class="s">"Proxy-Client-IP"</span><span class="o">);</span>
+        <span class="o">}</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">ip</span> <span class="o">==</span> <span class="kc">null</span> <span class="o">||</span> <span class="n">ip</span><span class="o">.</span><span class="na">length</span><span class="o">()</span> <span class="o">==</span> <span class="mi">0</span> <span class="o">||</span> <span class="s">"unknown"</span><span class="o">.</span><span class="na">equalsIgnoreCase</span><span class="o">(</span><span class="n">ip</span><span class="o">))</span> <span class="o">{</span>
+            <span class="n">ip</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="na">getHeader</span><span class="o">(</span><span class="s">"WL-Proxy-Client-IP"</span><span class="o">);</span>
+        <span class="o">}</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">ip</span> <span class="o">==</span> <span class="kc">null</span> <span class="o">||</span> <span class="n">ip</span><span class="o">.</span><span class="na">length</span><span class="o">()</span> <span class="o">==</span> <span class="mi">0</span> <span class="o">||</span> <span class="s">"unknown"</span><span class="o">.</span><span class="na">equalsIgnoreCase</span><span class="o">(</span><span class="n">ip</span><span class="o">))</span> <span class="o">{</span>
+            <span class="n">ip</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="na">getHeader</span><span class="o">(</span><span class="s">"HTTP_CLIENT_IP"</span><span class="o">);</span>
+        <span class="o">}</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">ip</span> <span class="o">==</span> <span class="kc">null</span> <span class="o">||</span> <span class="n">ip</span><span class="o">.</span><span class="na">length</span><span class="o">()</span> <span class="o">==</span> <span class="mi">0</span> <span class="o">||</span> <span class="s">"unknown"</span><span class="o">.</span><span class="na">equalsIgnoreCase</span><span class="o">(</span><span class="n">ip</span><span class="o">))</span> <span class="o">{</span>
+            <span class="n">ip</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="na">getHeader</span><span class="o">(</span><span class="s">"HTTP_X_FORWARDED_FOR"</span><span class="o">);</span>
+        <span class="o">}</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">ip</span> <span class="o">==</span> <span class="kc">null</span> <span class="o">||</span> <span class="n">ip</span><span class="o">.</span><span class="na">length</span><span class="o">()</span> <span class="o">==</span> <span class="mi">0</span> <span class="o">||</span> <span class="s">"unknown"</span><span class="o">.</span><span class="na">equalsIgnoreCase</span><span class="o">(</span><span class="n">ip</span><span class="o">))</span> <span class="o">{</span>
+            <span class="n">ip</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="na">getRemoteAddr</span><span class="o">();</span>
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="n">ip</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="s">"0:0:0:0:0:0:0:1"</span><span class="o">)</span> <span class="o">?</span> <span class="s">"127.0.0.1"</span> <span class="o">:</span> <span class="n">ip</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre>
+    </div>
+  </li>
+  <li>
+    <p>service层调用</p>
+
+    <div class="language-java highlighter-rouge"><pre class="highlight"><code>    <span class="nd">@Override</span>
+    <span class="nd">@SystemServiceLog</span><span class="o">(</span><span class="n">operation_type</span> <span class="o">=</span> <span class="n">OperationType</span><span class="o">.</span><span class="na">SELECT</span><span class="o">,</span> <span class="n">operation</span> <span class="o">=</span> <span class="s">"查询所有的考试场次"</span><span class="o">)</span>
+    <span class="kd">public</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">TCYYBResponse</span><span class="o">&gt;</span> <span class="nf">getAllYycc</span><span class="o">(</span><span class="n">String</span> <span class="n">username</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">String</span> <span class="n">pcdm</span> <span class="o">=</span> <span class="n">tcpcbRepository</span><span class="o">.</span><span class="na">findPcdmBySfkqyy</span><span class="o">(</span><span class="kc">true</span><span class="o">);</span>
+        <span class="n">List</span><span class="o">&lt;</span><span class="n">TCYYB</span><span class="o">&gt;</span> <span class="n">list</span> <span class="o">=</span> <span class="n">tcyybRepository</span><span class="o">.</span><span class="na">findByPcdm</span><span class="o">(</span><span class="n">pcdm</span><span class="o">);</span>
+        <span class="k">return</span> <span class="nf">getyyccResponse</span><span class="o">(</span><span class="n">username</span><span class="o">,</span> <span class="n">list</span><span class="o">);</span>
+    <span class="o">}</span> 
+</code></pre>
+    </div>
+  </li>
+  <li>
+    <p>前端</p>
+  </li>
+</ol>
+
+<ul>
+  <li>前端使用BootStrp-Table来展示日志信息，关于BootStrp-Table的学习可以参考我之前的 <a href="http://jiaohongwei.github.io/2016/12/22/Bootstrap-table%E5%88%86%E9%A1%B5%E6%9F%A5%E8%AF%A2/">文章</a></li>
+</ul>
+
+<ol>
+  <li>
+    <p>资料</p>
+
+    <p><a href="https://docs.spring.io/spring/docs/current/spring-framework-reference/html/aop.html">Spring AOP</a></p>
+  </li>
+</ol>
+
+  </div>
+
+</article>
+
+   <footer class="site-footer">
+
+  <div class="wrapper">
+
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li><a href="mailto:86478582@qq.com">email:86478582@qq.com</a></li>
+        </ul>
+      </div>
+
+
+      <div class="footer-col footer-col-2">
+        <ul class="social-media-list">
+          
+          <li>
+            <a href="https://github.com/drsin"><span class="icon icon--github"><svg viewBox="0 0 16 16"><path fill="#828282" d="M7.999,0.431c-4.285,0-7.76,3.474-7.76,7.761 c0,3.428,2.223,6.337,5.307,7.363c0.388,0.071,0.53-0.168,0.53-0.374c0-0.184-0.007-0.672-0.01-1.32 c-2.159,0.469-2.614-1.04-2.614-1.04c-0.353-0.896-0.862-1.135-0.862-1.135c-0.705-0.481,0.053-0.472,0.053-0.472 c0.779,0.055,1.189,0.8,1.189,0.8c0.692,1.186,1.816,0.843,2.258,0.645c0.071-0.502,0.271-0.843,0.493-1.037 C4.86,11.425,3.049,10.76,3.049,7.786c0-0.847,0.302-1.54,0.799-2.082C3.768,5.507,3.501,4.718,3.924,3.65 c0,0,0.652-0.209,2.134,0.796C6.677,4.273,7.34,4.187,8,4.184c0.659,0.003,1.323,0.089,1.943,0.261 c1.482-1.004,2.132-0.796,2.132-0.796c0.423,1.068,0.157,1.857,0.077,2.054c0.497,0.542,0.798,1.235,0.798,2.082 c0,2.981-1.814,3.637-3.543,3.829c0.279,0.24,0.527,0.713,0.527,1.437c0,1.037-0.01,1.874-0.01,2.129 c0,0.208,0.14,0.449,0.534,0.373c3.081-1.028,5.302-3.935,5.302-7.362C15.76,3.906,12.285,0.431,7.999,0.431z"/></svg>
+</span><span class="username">drsin</span></a>
+
+          </li>
+          
+<!--
+          
+          <li>
+            <a href="https://twitter.com/drisn"><span class="icon icon--twitter"><svg viewBox="0 0 16 16"><path fill="#828282" d="M15.969,3.058c-0.586,0.26-1.217,0.436-1.878,0.515c0.675-0.405,1.194-1.045,1.438-1.809c-0.632,0.375-1.332,0.647-2.076,0.793c-0.596-0.636-1.446-1.033-2.387-1.033c-1.806,0-3.27,1.464-3.27,3.27 c0,0.256,0.029,0.506,0.085,0.745C5.163,5.404,2.753,4.102,1.14,2.124C0.859,2.607,0.698,3.168,0.698,3.767 c0,1.134,0.577,2.135,1.455,2.722C1.616,6.472,1.112,6.325,0.671,6.08c0,0.014,0,0.027,0,0.041c0,1.584,1.127,2.906,2.623,3.206 C3.02,9.402,2.731,9.442,2.433,9.442c-0.211,0-0.416-0.021-0.615-0.059c0.416,1.299,1.624,2.245,3.055,2.271 c-1.119,0.877-2.529,1.4-4.061,1.4c-0.264,0-0.524-0.015-0.78-0.046c1.447,0.928,3.166,1.469,5.013,1.469 c6.015,0,9.304-4.983,9.304-9.304c0-0.142-0.003-0.283-0.009-0.423C14.976,4.29,15.531,3.714,15.969,3.058z"/></svg>
+</span><span class="username">drisn</span></a>
+
+          </li>
+          
+-->
+        </ul>
+      </div>
+      <div class="footer-col footer-col-3">
+        
+          <span class="site-footer-owner"><a href="http://github.com/drsin/drsin.github.io">drsin.github.io</a> is maintained by <a href="http://github.com/drsin">drsin</a>.</span>
+        
+            本站总访问量<span id="busuanzi_value_site_pv"></span>次，本站访客数<span id="busuanzi_value_site_uv"></span>人次，本文总阅读量<span id="busuanzi_value_page_pv"></span>次
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+
+
+    </section>
+
+    
+  </body>
+</html>
