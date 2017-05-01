@@ -5,9 +5,8 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <title>Archives</title>
-  <meta name="description" content="我不生产代码，只是github的搬用工   
-">
+  <title>Hadoop核心-HDFS简介</title>
+  <meta name="description" content="大数据-Hadoop">
 
   <meta name="description" content="我不生产代码，只是github的搬用工   
 "/>
@@ -16,7 +15,7 @@
   <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
   <link rel="stylesheet" href="/http://ninowon.com/assets/css/style.css?v=bd48fa1fbc21dfceb04fd452dfd2cecf9dfe544f">
   <link rel="stylesheet" href="http://ninowon.com/assets/css/main.css">
-  <link rel="canonical" href="http://ninowon.comhttp://ninowon.com/archives">
+  <link rel="canonical" href="http://ninowon.comhttp://ninowon.com/%E5%A4%A7%E6%95%B0%E6%8D%AE/2017/02/06/Hadoop%E6%A0%B8%E5%BF%83-HDFS%E7%AE%80%E4%BB%8B.html">
   <link rel="alternate" type="application/rss+xml" title="drsinBlog" href="http://ninowon.comhttp://ninowon.com/feed.xml">
 
     <script>
@@ -95,45 +94,138 @@
       <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
 
   <header class="post-header">
-    <h1 class="post-title" itemprop="name headline">Archives</h1>
-    <p class="post-meta"><time datetime="2017-05-01T20:00:00+08:00" itemprop="datePublished">May 1, 2017</time> • <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span itemprop="name">wugj</span></span></p>
+    <h1 class="post-title" itemprop="name headline">Hadoop核心-HDFS简介</h1>
+    <p class="post-meta"><time datetime="2017-02-06T20:24:02+08:00" itemprop="datePublished">Feb 6, 2017</time></p>
   </header>
 
   <div class="post-content" itemprop="articleBody">
-    <h2 id="local-site">local site</h2>
-
-<p>install ruby lang</p>
-
-<ul>
-  <li>apt-get install ruby-dev</li>
+    <ul id="markdown-toc">
+  <li><a href="#简要" id="markdown-toc-简要">简要</a></li>
+  <li><a href="#基本概念" id="markdown-toc-基本概念">基本概念</a></li>
+  <li><a href="#hdfs数据管理" id="markdown-toc-hdfs数据管理">HDFS数据管理</a></li>
+  <li><a href="#hdfs读写" id="markdown-toc-hdfs读写">HDFS读写</a></li>
+  <li><a href="#hdfs特点" id="markdown-toc-hdfs特点">HDFS特点</a></li>
+  <li><a href="#hdfs使用" id="markdown-toc-hdfs使用">HDFS使用</a></li>
 </ul>
 
-<p>create dir</p>
+<h2 id="简要">简要</h2>
 
 <ul>
-  <li>mkdir myblog</li>
-  <li>git clone https://github.com/drsin/drsin.github.io.git</li>
+  <li>继续学习Hadoop的重要组成部分-HDFS（文件系统）</li>
 </ul>
 
-<p>install env</p>
+<h2 id="基本概念">基本概念</h2>
 
 <ul>
-  <li>./script/bootstrap</li>
+  <li>
+    <p>块（Block）</p>
+
+    <p>1.HDFS的文件被分成块进行存储，HDFS块的默认大小64MB；</p>
+
+    <p>2.块是文件存储处理的逻辑单元；</p>
+
+    <p>注：默认大小是可以在hdfs-site.xml中手动配置的</p>
+
+    <div class="highlighter-rouge"><pre class="highlight"><code>&lt;property&gt;
+  &lt;name&gt;dfs.block.size&lt;/name&gt;
+  &lt;value&gt;67108864&lt;/value&gt;
+  &lt;description&gt;The default block size for new files.&lt;/description&gt;
+&lt;/property&gt;
+</code></pre>
+    </div>
+  </li>
+  <li>
+    <p>NameNode</p>
+
+    <p>1.NameNode是管理节点，存放文件元数据</p>
+
+    <div class="highlighter-rouge"><pre class="highlight"><code>①   文件与数据块的映射表
+    
+②   数据块与数据节点的映射表
+</code></pre>
+    </div>
+  </li>
+  <li>
+    <p>DataNode</p>
+
+    <p>1.DataNode是用来存放数据块</p>
+  </li>
 </ul>
 
-<p>create sit</p>
+<p><img src="http://jiaohongwei.github.io/images/2017-02/20170206124144.jpg" alt="Object" /></p>
+
+<h2 id="hdfs数据管理">HDFS数据管理</h2>
 
 <ul>
-  <li>./script/cbuild</li>
+  <li>
+    <p>数据可靠：每个数据存3个副本，分布在两个机架内的三个节点</p>
+  </li>
+  <li>
+    <p>心跳检测： DataNode定期向NameNode发送心跳信息</p>
+  </li>
+  <li>
+    <p>Secondary NameNode：二级NameNode定期同步元数据映像文件和修改日志，NameNode发生故障时，备胎转正。</p>
+  </li>
 </ul>
 
-<p>start server</p>
+<h2 id="hdfs读写">HDFS读写</h2>
 
 <ul>
-  <li>./script/server<br />
-Jekyll Document
-[download]http://ninowon.com/assets/pdf.Jekyll.pdf</li>
+  <li>读取文件</li>
 </ul>
+
+<p><img src="http://jiaohongwei.github.io/images/2017-02/20170206125109.jpg" alt="Object" /></p>
+
+<ul>
+  <li>
+    <p>写文件</p>
+
+    <div class="highlighter-rouge"><pre class="highlight"><code>1.客户端将文件拆分成块
+2.客户端通知NameNode,NameNode返回可用的DataNode节点地址
+3.客户端根据返回的DataNode将数据块写入到可用的DataNode中
+4.因为数据块要有三份，所以会通过一个复制管道将每个数据块复制出另外两份并保存
+5.更新元数据NameNode
+</code></pre>
+    </div>
+  </li>
+</ul>
+
+<p><img src="http://jiaohongwei.github.io/images/2017-02/20170206125405.jpg" alt="Object" /></p>
+
+<h2 id="hdfs特点">HDFS特点</h2>
+
+<ul>
+  <li>数据冗余，硬件容错</li>
+  <li>流式的数据访问（一次存储多次访问）</li>
+  <li>存储大文件</li>
+</ul>
+
+<p>适用性和局限性</p>
+
+<ul>
+  <li>适合数据批量读写，吞吐量高</li>
+  <li>
+    <p>不适合交互式应用，低延迟很难满足</p>
+  </li>
+  <li>适合一次写入多次读取，顺序读写</li>
+  <li>不支持对用户并发写相同的文件</li>
+</ul>
+
+<h2 id="hdfs使用">HDFS使用</h2>
+
+<ul>
+  <li>它提供了 shell 接口，可以进行命令行操作</li>
+</ul>
+
+<div class="language-shell highlighter-rouge"><pre class="highlight"><code>    hadoop namenode -format	<span class="c">#格式化namenode</span>
+    hadoop fs -ls / <span class="c">#打印 / 目录文件列表</span>
+    hadoop fs -mkdir input <span class="c">#创建目录 input</span>
+    hadoop fs -put hadoop-env.sh input/ <span class="c">#上传文件 hadoop-env.sh 到 input 目录下</span>
+    hadoop fs -get input/abc.sh hadoop-envcomp.sh <span class="c">#从 input 目录中下载文件</span>
+    hadoop fs -cat input/hadoop-env.sh <span class="c">#查看文件 input/hadoop-env.sh </span>
+    hadoop dfsadmin -report <span class="c">#dfs报告(所有DNFS信息)</span>
+</code></pre>
+</div>
 
   </div>
 

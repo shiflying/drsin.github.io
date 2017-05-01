@@ -5,9 +5,8 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <title>Archives</title>
-  <meta name="description" content="我不生产代码，只是github的搬用工   
-">
+  <title>Hadoop核心-MapReduce简介</title>
+  <meta name="description" content="大数据-Hadoop">
 
   <meta name="description" content="我不生产代码，只是github的搬用工   
 "/>
@@ -16,7 +15,7 @@
   <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
   <link rel="stylesheet" href="/http://ninowon.com/assets/css/style.css?v=bd48fa1fbc21dfceb04fd452dfd2cecf9dfe544f">
   <link rel="stylesheet" href="http://ninowon.com/assets/css/main.css">
-  <link rel="canonical" href="http://ninowon.comhttp://ninowon.com/archives">
+  <link rel="canonical" href="http://ninowon.comhttp://ninowon.com/%E5%A4%A7%E6%95%B0%E6%8D%AE/2017/02/06/Hadoop%E6%A0%B8%E5%BF%83-MapReduce%E7%AE%80%E4%BB%8B.html">
   <link rel="alternate" type="application/rss+xml" title="drsinBlog" href="http://ninowon.comhttp://ninowon.com/feed.xml">
 
     <script>
@@ -95,45 +94,67 @@
       <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
 
   <header class="post-header">
-    <h1 class="post-title" itemprop="name headline">Archives</h1>
-    <p class="post-meta"><time datetime="2017-05-01T20:00:00+08:00" itemprop="datePublished">May 1, 2017</time> • <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span itemprop="name">wugj</span></span></p>
+    <h1 class="post-title" itemprop="name headline">Hadoop核心-MapReduce简介</h1>
+    <p class="post-meta"><time datetime="2017-02-06T21:09:12+08:00" itemprop="datePublished">Feb 6, 2017</time></p>
   </header>
 
   <div class="post-content" itemprop="articleBody">
-    <h2 id="local-site">local site</h2>
-
-<p>install ruby lang</p>
-
-<ul>
-  <li>apt-get install ruby-dev</li>
+    <ul id="markdown-toc">
+  <li><a href="#简要" id="markdown-toc-简要">简要</a></li>
+  <li><a href="#基本概念" id="markdown-toc-基本概念">基本概念</a></li>
 </ul>
 
-<p>create dir</p>
+<h2 id="简要">简要</h2>
 
 <ul>
-  <li>mkdir myblog</li>
-  <li>git clone https://github.com/drsin/drsin.github.io.git</li>
+  <li>
+    <p>继续学习Hadoop的重要组成部分-MapReduce</p>
+  </li>
+  <li>
+    <p>分而治之，一个大任务分成多个小的子任务（map），并行执行后，合并结果（reduce）</p>
+  </li>
 </ul>
 
-<p>install env</p>
+<h2 id="基本概念">基本概念</h2>
 
 <ul>
-  <li>./script/bootstrap</li>
+  <li>
+    <p>Job &amp; Task</p>
+
+    <ol>
+      <li>
+        <p>Job就是一个要执行的任务 ==&gt; 提交Job</p>
+      </li>
+      <li>
+        <p>一个Job会被分为多个Task（MapTask和ReduceTask） ==&gt; 分片</p>
+      </li>
+    </ol>
+  </li>
+  <li>
+    <p>JobTracker：（讲一个Job拆分成多个Map和Reduce任务；分配Map和Reduce任务）</p>
+
+    <p>==&gt; 作业调度、分配任务、监控进度、监控TaskTracker状态</p>
+  </li>
+  <li>
+    <p>TaskTracker：（Map任务分发给下面的TaskTracker做实际 的任务；TaskTracker与DataNode保持对应关系）</p>
+
+    <p>==&gt; 执行任务、汇报任务状态</p>
+  </li>
 </ul>
 
-<p>create sit</p>
+<p><img src="http://jiaohongwei.github.io/images/2017-02/20170206131955.jpg" alt="Object" /></p>
 
 <ul>
-  <li>./script/cbuild</li>
+  <li>
+    <p>MapReduce的容错机制:</p>
+
+    <ol>
+      <li>重复执行 4次</li>
+      <li>推测执行</li>
+    </ol>
+  </li>
 </ul>
 
-<p>start server</p>
-
-<ul>
-  <li>./script/server<br />
-Jekyll Document
-[download]http://ninowon.com/assets/pdf.Jekyll.pdf</li>
-</ul>
 
   </div>
 

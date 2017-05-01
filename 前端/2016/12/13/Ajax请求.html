@@ -5,9 +5,8 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <title>Archives</title>
-  <meta name="description" content="我不生产代码，只是github的搬用工   
-">
+  <title>Ajax-请求</title>
+  <meta name="description" content="Ajax请求">
 
   <meta name="description" content="我不生产代码，只是github的搬用工   
 "/>
@@ -16,7 +15,7 @@
   <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
   <link rel="stylesheet" href="/http://ninowon.com/assets/css/style.css?v=bd48fa1fbc21dfceb04fd452dfd2cecf9dfe544f">
   <link rel="stylesheet" href="http://ninowon.com/assets/css/main.css">
-  <link rel="canonical" href="http://ninowon.comhttp://ninowon.com/archives">
+  <link rel="canonical" href="http://ninowon.comhttp://ninowon.com/%E5%89%8D%E7%AB%AF/2016/12/13/Ajax%E8%AF%B7%E6%B1%82.html">
   <link rel="alternate" type="application/rss+xml" title="drsinBlog" href="http://ninowon.comhttp://ninowon.com/feed.xml">
 
     <script>
@@ -95,44 +94,58 @@
       <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
 
   <header class="post-header">
-    <h1 class="post-title" itemprop="name headline">Archives</h1>
-    <p class="post-meta"><time datetime="2017-05-01T20:00:00+08:00" itemprop="datePublished">May 1, 2017</time> • <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span itemprop="name">wugj</span></span></p>
+    <h1 class="post-title" itemprop="name headline">Ajax-请求</h1>
+    <p class="post-meta"><time datetime="2016-12-13T00:30:18+08:00" itemprop="datePublished">Dec 13, 2016</time></p>
   </header>
 
   <div class="post-content" itemprop="articleBody">
-    <h2 id="local-site">local site</h2>
-
-<p>install ruby lang</p>
-
-<ul>
-  <li>apt-get install ruby-dev</li>
+    <ul id="markdown-toc">
+  <li><a href="#简要" id="markdown-toc-简要">简要</a></li>
+  <li><a href="#jquery-ajax" id="markdown-toc-jquery-ajax">jQuery Ajax</a></li>
+  <li><a href="#实例" id="markdown-toc-实例">实例</a></li>
+  <li><a href="#拓展" id="markdown-toc-拓展">拓展</a></li>
 </ul>
 
-<p>create dir</p>
+<h2 id="简要">简要</h2>
 
 <ul>
-  <li>mkdir myblog</li>
-  <li>git clone https://github.com/drsin/drsin.github.io.git</li>
+  <li>Ajax（Asynchronous Javascript + XML）异步刷新</li>
 </ul>
 
-<p>install env</p>
+<h2 id="jquery-ajax">jQuery Ajax</h2>
 
 <ul>
-  <li>./script/bootstrap</li>
+  <li>jQuery则是对js代码进行封装方便我们前台代码的编写，而且它还有一个非常大的优势就是解决了浏览器的兼容问题，这也是我们使用它非常重要的原因之一</li>
 </ul>
 
-<p>create sit</p>
+<h2 id="实例">实例</h2>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="err"> $</span><span class="o">.</span><span class="na">ajax</span><span class="o">({</span><span class="err">  </span>
+        
+        <span class="nl">async:</span> <span class="kc">true</span>   <span class="c1">//是否支持异步刷新，默认是true</span>
+<span class="err">        </span><span class="n">type</span><span class="err"> </span><span class="o">:</span><span class="err"> </span><span class="s">"POST"</span><span class="o">,</span><span class="err">  </span><span class="c1">//提交方式  </span>
+<span class="err">        </span><span class="n">url</span><span class="err"> </span> <span class="o">:</span><span class="err"> </span><span class="s">"${pageContext.request.contextPath}/org/doDelete.action"</span><span class="o">,</span><span class="c1">//路径  </span>
+<span class="err">        </span><span class="n">data</span><span class="err"> </span><span class="o">:</span><span class="err"> </span><span class="o">{</span><span class="err">  </span>
+<span class="err">                 </span><span class="s">"org.id"</span><span class="err"> </span><span class="o">:</span><span class="err"> </span><span class="s">"${org.id}"</span><span class="err">  </span>
+<span class="err">                </span><span class="o">},</span><span class="c1">//数据，这里使用的是Json格式进行传输  </span>
+<span class="err">        </span><span class="n">success</span><span class="err"> </span><span class="o">:</span><span class="err"> </span><span class="n">function</span><span class="o">(</span><span class="n">result</span><span class="o">)</span><span class="err"> </span><span class="o">{</span><span class="c1">//返回数据根据结果进行相应的处理  </span>
+<span class="err">        </span><span class="k">if</span><span class="err"> </span><span class="o">(</span><span class="err"> </span><span class="n">result</span><span class="o">.</span><span class="na">success</span><span class="err"> </span><span class="o">)</span><span class="err"> </span><span class="o">{</span><span class="err">  </span>
+<span class="err">              $</span><span class="o">(</span><span class="s">"#tipMsg"</span><span class="o">).</span><span class="na">text</span><span class="o">(</span><span class="s">"删除数据成功"</span><span class="o">);</span><span class="err">  </span>
+<span class="err">              </span><span class="n">tree</span><span class="o">.</span><span class="na">deleteItem</span><span class="o">(</span><span class="s">"${org.id}"</span><span class="o">,</span><span class="err"> </span><span class="kc">true</span><span class="o">);</span><span class="err">  </span>
+<span class="err">        </span><span class="o">}</span><span class="err"> </span><span class="k">else</span><span class="err"> </span><span class="o">{</span><span class="err">  </span>
+<span class="err">               $</span><span class="o">(</span><span class="s">"#tipMsg"</span><span class="o">).</span><span class="na">text</span><span class="o">(</span><span class="s">"删除数据失败"</span><span class="o">);</span><span class="err">  </span>
+<span class="err">               </span><span class="o">}</span><span class="err">  </span>
+<span class="err">           </span><span class="o">}</span><span class="err">  </span>
+<span class="err">        </span><span class="o">});</span><span class="err">  </span>
+
+</code></pre>
+</div>
+
+<h2 id="拓展">拓展</h2>
 
 <ul>
-  <li>./script/cbuild</li>
-</ul>
-
-<p>start server</p>
-
-<ul>
-  <li>./script/server<br />
-Jekyll Document
-[download]http://ninowon.com/assets/pdf.Jekyll.pdf</li>
+  <li>Ajax请求中的async:false/true的作用</li>
+  <li>设为false为 同步，就是ajax请求把浏览器锁死，只有执行完本次请求之后才会继续向下执行，就不会出现两个ajax请求不分先后顺序的情况了。</li>
 </ul>
 
   </div>

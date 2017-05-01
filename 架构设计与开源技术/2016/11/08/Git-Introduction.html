@@ -5,9 +5,8 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <title>Archives</title>
-  <meta name="description" content="我不生产代码，只是github的搬用工   
-">
+  <title>Git Introduction</title>
+  <meta name="description" content="Git 入门必备">
 
   <meta name="description" content="我不生产代码，只是github的搬用工   
 "/>
@@ -16,7 +15,7 @@
   <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
   <link rel="stylesheet" href="/http://ninowon.com/assets/css/style.css?v=bd48fa1fbc21dfceb04fd452dfd2cecf9dfe544f">
   <link rel="stylesheet" href="http://ninowon.com/assets/css/main.css">
-  <link rel="canonical" href="http://ninowon.comhttp://ninowon.com/archives">
+  <link rel="canonical" href="http://ninowon.comhttp://ninowon.com/%E6%9E%B6%E6%9E%84%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%BC%80%E6%BA%90%E6%8A%80%E6%9C%AF/2016/11/08/Git-Introduction.html">
   <link rel="alternate" type="application/rss+xml" title="drsinBlog" href="http://ninowon.comhttp://ninowon.com/feed.xml">
 
     <script>
@@ -95,45 +94,59 @@
       <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
 
   <header class="post-header">
-    <h1 class="post-title" itemprop="name headline">Archives</h1>
-    <p class="post-meta"><time datetime="2017-05-01T20:00:00+08:00" itemprop="datePublished">May 1, 2017</time> • <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span itemprop="name">wugj</span></span></p>
+    <h1 class="post-title" itemprop="name headline">Git Introduction</h1>
+    <p class="post-meta"><time datetime="2016-11-08T20:20:47+08:00" itemprop="datePublished">Nov 8, 2016</time></p>
   </header>
 
   <div class="post-content" itemprop="articleBody">
-    <h2 id="local-site">local site</h2>
-
-<p>install ruby lang</p>
-
-<ul>
-  <li>apt-get install ruby-dev</li>
+    <ul id="markdown-toc">
+  <li><a href="#git-简要" id="markdown-toc-git-简要"><strong>Git 简要</strong></a></li>
+  <li><a href="#核心特点" id="markdown-toc-核心特点"><strong>核心特点</strong></a></li>
+  <li><a href="#优缺点" id="markdown-toc-优缺点"><strong>优缺点</strong></a>    <ul>
+      <li><a href="#优点" id="markdown-toc-优点">优点：</a></li>
+      <li><a href="#缺点" id="markdown-toc-缺点">缺点：</a></li>
+    </ul>
+  </li>
+  <li><a href="#专用名词" id="markdown-toc-专用名词"><strong>专用名词</strong></a></li>
+  <li><a href="#操作逻辑" id="markdown-toc-操作逻辑"><strong>操作逻辑</strong></a></li>
 </ul>
 
-<p>create dir</p>
+<h3 id="git-简要"><strong>Git 简要</strong></h3>
+<p>GIT 是一款免费的、开源的、分布式的版本控制系统。每一个GIT克隆都是一个完整的文件库，含有全部历史记录和修订追踪能力。其最大特色就是“分支”及“合并”操作快速、简便。支持离线工作，GIT是整个项目范围的原子提交，而且GIT中的每个工作树都包含一个具有完整项目历史的仓库。</p>
 
+<h3 id="核心特点"><strong>核心特点</strong></h3>
+<ol>
+  <li>Git 底层自行维护的存储文件系统：存储的是文件快照，即整个文件内容，并保存指向快照的索引</li>
+  <li>去中心化的分布式控制</li>
+</ol>
+
+<h3 id="优缺点"><strong>优缺点</strong></h3>
+
+<h4 id="优点">优点：</h4>
 <ul>
-  <li>mkdir myblog</li>
-  <li>git clone https://github.com/drsin/drsin.github.io.git</li>
+  <li>适合分布式开发，强调个体。</li>
+  <li>公共服务器压力和数据量都不会太大， 速度快、灵活。</li>
+  <li>任意两个开发者之间可以很容易的解决冲突。</li>
+  <li>离线工作。</li>
 </ul>
 
-<p>install env</p>
-
+<h4 id="缺点">缺点：</h4>
 <ul>
-  <li>./script/bootstrap</li>
+  <li>学习周期相对而言比较长。</li>
+  <li>不符合常规思维。</li>
+  <li>代码保密性差，一旦开发者把整个库克隆下来就可以完全公开所有代码和版本信息。</li>
 </ul>
 
-<p>create sit</p>
-
+<h3 id="专用名词"><strong>专用名词</strong></h3>
 <ul>
-  <li>./script/cbuild</li>
+  <li>Workspace：工作区</li>
+  <li>Index / Stage：暂存区</li>
+  <li>Repository：仓库区（或本地仓库）</li>
+  <li>Remote：远程仓库</li>
 </ul>
 
-<p>start server</p>
-
-<ul>
-  <li>./script/server<br />
-Jekyll Document
-[download]http://ninowon.com/assets/pdf.Jekyll.pdf</li>
-</ul>
+<h3 id="操作逻辑"><strong>操作逻辑</strong></h3>
+<p><img src="http://jiaohongwei.github.io/images/2016-11/bg2015120901.png" alt="Object" /></p>
 
   </div>
 

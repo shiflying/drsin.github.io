@@ -5,9 +5,8 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <title>Archives</title>
-  <meta name="description" content="我不生产代码，只是github的搬用工   
-">
+  <title>Maven-手动安装Oracle驱动</title>
+  <meta name="description" content="Maven-手动安装Oracle驱动">
 
   <meta name="description" content="我不生产代码，只是github的搬用工   
 "/>
@@ -16,7 +15,7 @@
   <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
   <link rel="stylesheet" href="/http://ninowon.com/assets/css/style.css?v=bd48fa1fbc21dfceb04fd452dfd2cecf9dfe544f">
   <link rel="stylesheet" href="http://ninowon.com/assets/css/main.css">
-  <link rel="canonical" href="http://ninowon.comhttp://ninowon.com/archives">
+  <link rel="canonical" href="http://ninowon.comhttp://ninowon.com/%E5%90%8E%E7%AB%AF/2016/12/02/Maven-%E6%89%8B%E5%8A%A8%E6%B7%BB%E5%8A%A0Oracle%E9%A9%B1%E5%8A%A8.html">
   <link rel="alternate" type="application/rss+xml" title="drsinBlog" href="http://ninowon.comhttp://ninowon.com/feed.xml">
 
     <script>
@@ -95,45 +94,57 @@
       <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
 
   <header class="post-header">
-    <h1 class="post-title" itemprop="name headline">Archives</h1>
-    <p class="post-meta"><time datetime="2017-05-01T20:00:00+08:00" itemprop="datePublished">May 1, 2017</time> • <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span itemprop="name">wugj</span></span></p>
+    <h1 class="post-title" itemprop="name headline">Maven-手动安装Oracle驱动</h1>
+    <p class="post-meta"><time datetime="2016-12-02T05:34:11+08:00" itemprop="datePublished">Dec 2, 2016</time></p>
   </header>
 
   <div class="post-content" itemprop="articleBody">
-    <h2 id="local-site">local site</h2>
-
-<p>install ruby lang</p>
-
-<ul>
-  <li>apt-get install ruby-dev</li>
+    <ul id="markdown-toc">
+  <li><a href="#简要" id="markdown-toc-简要">简要</a></li>
+  <li><a href="#获取oracle-jdbc-driver" id="markdown-toc-获取oracle-jdbc-driver">获取Oracle JDBC Driver</a></li>
+  <li><a href="#安装" id="markdown-toc-安装">安装</a></li>
+  <li><a href="#添加引用" id="markdown-toc-添加引用">添加引用</a></li>
 </ul>
 
-<p>create dir</p>
+<h2 id="简要">简要</h2>
 
 <ul>
-  <li>mkdir myblog</li>
-  <li>git clone https://github.com/drsin/drsin.github.io.git</li>
+  <li>由于Oracle授权问题，Maven3不提供Oracle JDBC driver，为了在Maven项目中应用Oracle JDBC driver,必须手动添加到本地仓库。</li>
 </ul>
 
-<p>install env</p>
+<h2 id="获取oracle-jdbc-driver">获取Oracle JDBC Driver</h2>
 
 <ul>
-  <li>./script/bootstrap</li>
+  <li>通过Oracle官方网站下载相应版本：http://www.oracle.com/technetwork/database/features/jdbc/index-091264.html</li>
+  <li>通过Oracle的安装目录获得，位置在“{ORACLE_HOME}\jdbc\lib\ojdbc6.jar”</li>
 </ul>
 
-<p>create sit</p>
+<h2 id="安装">安装</h2>
 
 <ul>
-  <li>./script/cbuild</li>
+  <li>将ojdbc6.jar 文件放在主项目路径下</li>
 </ul>
 
-<p>start server</p>
+<div class="highlighter-rouge"><pre class="highlight"><code>
+    mvn install:install-file -DgroupId=com.oracle -DartifactId=ojdbc6 -Dversion=11.2.0.1.0 -Dpackaging=jar -Dfile=ojdbc6.jar
 
+</code></pre>
+</div>
 <ul>
-  <li>./script/server<br />
-Jekyll Document
-[download]http://ninowon.com/assets/pdf.Jekyll.pdf</li>
+  <li>安装成功截图</li>
 </ul>
+
+<p><img src="http://jiaohongwei.github.io/images/2016-12/20161206204445.png" alt="Object" /></p>
+
+<h2 id="添加引用">添加引用</h2>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code>    <span class="o">&lt;</span><span class="n">dependency</span><span class="o">&gt;</span>
+    <span class="o">&lt;</span><span class="n">groupId</span><span class="o">&gt;</span><span class="n">com</span><span class="o">.</span><span class="na">oracle</span><span class="o">&lt;/</span><span class="n">groupId</span><span class="o">&gt;</span>
+    <span class="o">&lt;</span><span class="n">artifactId</span><span class="o">&gt;</span><span class="n">ojdbc6</span><span class="o">&lt;/</span><span class="n">artifactId</span><span class="o">&gt;</span>
+    <span class="o">&lt;</span><span class="n">version</span><span class="o">&gt;</span><span class="mf">11.2</span><span class="o">.</span><span class="mf">0.1</span><span class="o">.</span><span class="mi">0</span><span class="o">&lt;/</span><span class="n">version</span><span class="o">&gt;</span>
+    <span class="o">&lt;/</span><span class="n">dependency</span><span class="o">&gt;</span>
+</code></pre>
+</div>
 
   </div>
 
