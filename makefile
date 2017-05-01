@@ -10,7 +10,7 @@ deploy:
 	git add -A
 	git commit -m "deploy blog"
 	git push origin master
-	git checkout source
+	git checkout src 
 	echo "deploy succeed"
 	git push origin src
 	echo "push src"
