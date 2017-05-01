@@ -14,7 +14,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#157878">
   <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
-  <link rel="stylesheet" href="/assets/css/style.css?v=554850ceab3f89b8d3b794a75afbe8998de7b426">
+  <link rel="stylesheet" href="/assets/css/style.css?v=98edcd42cc84ec3efb28d8c92e267110fa618169">
   <link rel="stylesheet" href="/assets/css/main.css">
   <link rel="canonical" href="http://ninowon.com/page4/">
   <link rel="alternate" type="application/rss+xml" title="drsinBlog" href="http://ninowon.com/feed.xml">
@@ -99,14 +99,6 @@
   <h1 class="page-heading">好记性不如烂笔头</h1>
 <!--
   <ul class="post-list">
-    
-      <li>
-        <span class="post-meta">Apr 16, 2017</span>
-
-        <h2>
-          <a class="post-link" href="/%E7%94%9F%E7%89%A9%E4%BF%A1%E6%81%AF%E5%AD%A6/2017/04/16/%E6%89%B9%E9%87%8F%E4%B8%8B%E8%BD%BDNCBI%E5%9F%BA%E5%9B%A0%E7%BB%84%E5%BA%8F%E5%88%97.html">批量下载NCBI所有物种的基因组序列</a>
-        </h2>
-      </li>
     
       <li>
         <span class="post-meta">Apr 1, 2017</span>
@@ -320,122 +312,6 @@
 -->
 
 <!-- This loops through the paginated posts -->
-
-  <h1><a href="/%E5%89%8D%E7%AB%AF/2017/01/03/Bootstrap-Tab%E6%A0%87%E7%AD%BE%E9%A1%B5.html">Bootstrap-Tab 标签页</a></h1>
-  <p class="author">
-    <span class="date">2017-01-03 18:34:16 +0800</span>
-  </p>
-<!--
-  <div class="content">
-    <ul id="markdown-toc">
-  <li><a href="#简要" id="markdown-toc-简要">简要</a></li>
-  <li><a href="#事件" id="markdown-toc-事件">事件</a></li>
-  <li><a href="#本地实测" id="markdown-toc-本地实测">本地实测</a></li>
-  <li><a href="#资料文档" id="markdown-toc-资料文档">资料文档</a></li>
-</ul>
-
-<h2 id="简要">简要</h2>
-
-<ul>
-  <li>具体的使用方法自己查看api文档就能搞定，很简单的，先在主要介绍一下关于tab的几个点击事件，在开发中常用到的</li>
-  <li>实际开发中可能会有多个tab页面，但是不可能一下子全部加载出来，否则速度太慢不说也不好更新内容，我们则可以通过触发tab时初始化tab中的数据</li>
-</ul>
-
-<h2 id="事件">事件</h2>
-
-<ol>
-  <li><code class="highlighter-rouge">show.bs.tab</code></li>
-</ol>
-
-<ul>
-  <li>
-    <p>介绍：</p>
-  </li>
-  <li>
-    <p>该事件在标签页显示时触发，但是必须在新标签页被显示之前。分别使用 event.target 和 event.relatedTarget 来定位到激活的标签页和前一个激活的标签页。</p>
-  </li>
-  <li>
-    <p>实例：</p>
-
-    <div class="highlighter-rouge"><pre class="highlight"><code>```js
-    
-$('a[data-toggle="tab"]').on('show.bs.tab', function (e) {
-  e.target // 激活的标签页
-  e.relatedTarget // 前一个激活的标签页
-})
-    
-```
-</code></pre>
-    </div>
-  </li>
-</ul>
-
-<ol>
-  <li><code class="highlighter-rouge">shown.bs.tab</code></li>
-</ol>
-
-<ul>
-  <li>
-    <p>介绍：</p>
-  </li>
-  <li>
-    <p>该事件在标签页显示时触发，但是必须在某个标签页已经显示之后。分别使用 event.target 和 event.relatedTarget 来定位到激活的标签页和前一个激活的标签页。</p>
-  </li>
-  <li>
-    <p>实例：</p>
-
-    <div class="highlighter-rouge"><pre class="highlight"><code>```js
-   
-$('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
-  e.target // 激活的标签页
-  e.relatedTarget // 前一个激活的标签页
-})
-   
-```
-</code></pre>
-    </div>
-  </li>
-</ul>
-
-<h2 id="本地实测">本地实测</h2>
-
-<ul>
-  <li>就是在激活标签页后 初始化tab中的表格及其数据</li>
-</ul>
-
-<div class="language-js highlighter-rouge"><pre class="highlight"><code>
-<span class="nx">$</span><span class="p">(</span><span class="s1">'a[data-toggle="tab"]'</span><span class="p">).</span><span class="nx">on</span><span class="p">(</span><span class="s1">'shown.bs.tab'</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
-    <span class="nx">e</span><span class="p">.</span><span class="nx">target</span> <span class="c1">// 激活的标签页</span>
-    <span class="nx">e</span><span class="p">.</span><span class="nx">relatedTarget</span> <span class="c1">// 前一个激活的标签页</span>
-    <span class="kd">var</span> <span class="nx">currentTab</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="nx">e</span><span class="p">.</span><span class="nx">target</span><span class="p">).</span><span class="nx">text</span><span class="p">();</span> <span class="c1">//获取当前标签页的标题</span>
-
-    <span class="k">if</span> <span class="p">(</span><span class="nx">currentTab</span> <span class="o">==</span> <span class="s1">'项目代码管理'</span><span class="p">){</span>
-        <span class="c1">//1.初始化Table</span>
-        <span class="kd">var</span> <span class="nx">oTable</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">TableInitj</span><span class="p">();</span>
-        <span class="nx">oTable</span><span class="p">.</span><span class="nx">Init</span><span class="p">(</span><span class="s2">"/admin/sel/getxmdmb"</span><span class="p">,</span> <span class="s2">"toolbar_xmdm"</span><span class="p">);</span>
-
-        <span class="c1">//2.初始化select的change事件</span>
-        <span class="nx">$</span><span class="p">(</span><span class="s2">"#sel_exportoption"</span><span class="p">).</span><span class="nx">change</span><span class="p">(</span><span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
-            <span class="nx">$</span><span class="p">(</span><span class="s1">'#table_xmdm'</span><span class="p">).</span><span class="nx">bootstrapTable</span><span class="p">(</span><span class="s1">'refreshOptions'</span><span class="p">,</span> <span class="p">{</span>
-                <span class="na">exportDataType</span><span class="p">:</span> <span class="nx">$</span><span class="p">(</span><span class="k">this</span><span class="p">).</span><span class="nx">val</span><span class="p">()</span>
-            <span class="p">});</span>
-
-        <span class="p">});</span>
-    <span class="p">}</span>
-
-<span class="p">})</span>
-
-</code></pre>
-</div>
-
-<h2 id="资料文档">资料文档</h2>
-
-<ul>
-  <li>Bootstrap-tab标签 官方api文档：http://www.tutorialspoint.com/bootstrap/bootstrap_tab_plugin.htm</li>
-</ul>
-
-  </div>
--->
 
   <h1><a href="/%E5%89%8D%E7%AB%AF/2017/01/03/Bootstrap-table%E5%AF%BC%E5%87%BAExcel.html">Bootstrap-Table 导出Excel</a></h1>
   <p class="author">
@@ -988,6 +864,64 @@ $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
   </div>
 -->
 
+  <h1><a href="/%E5%89%8D%E7%AB%AF/2016/12/13/Ajax%E8%AF%B7%E6%B1%82.html">Ajax-请求</a></h1>
+  <p class="author">
+    <span class="date">2016-12-13 00:30:18 +0800</span>
+  </p>
+<!--
+  <div class="content">
+    <ul id="markdown-toc">
+  <li><a href="#简要" id="markdown-toc-简要">简要</a></li>
+  <li><a href="#jquery-ajax" id="markdown-toc-jquery-ajax">jQuery Ajax</a></li>
+  <li><a href="#实例" id="markdown-toc-实例">实例</a></li>
+  <li><a href="#拓展" id="markdown-toc-拓展">拓展</a></li>
+</ul>
+
+<h2 id="简要">简要</h2>
+
+<ul>
+  <li>Ajax（Asynchronous Javascript + XML）异步刷新</li>
+</ul>
+
+<h2 id="jquery-ajax">jQuery Ajax</h2>
+
+<ul>
+  <li>jQuery则是对js代码进行封装方便我们前台代码的编写，而且它还有一个非常大的优势就是解决了浏览器的兼容问题，这也是我们使用它非常重要的原因之一</li>
+</ul>
+
+<h2 id="实例">实例</h2>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="err"> $</span><span class="o">.</span><span class="na">ajax</span><span class="o">({</span><span class="err">  </span>
+        
+        <span class="nl">async:</span> <span class="kc">true</span>   <span class="c1">//是否支持异步刷新，默认是true</span>
+<span class="err">        </span><span class="n">type</span><span class="err"> </span><span class="o">:</span><span class="err"> </span><span class="s">"POST"</span><span class="o">,</span><span class="err">  </span><span class="c1">//提交方式  </span>
+<span class="err">        </span><span class="n">url</span><span class="err"> </span> <span class="o">:</span><span class="err"> </span><span class="s">"${pageContext.request.contextPath}/org/doDelete.action"</span><span class="o">,</span><span class="c1">//路径  </span>
+<span class="err">        </span><span class="n">data</span><span class="err"> </span><span class="o">:</span><span class="err"> </span><span class="o">{</span><span class="err">  </span>
+<span class="err">                 </span><span class="s">"org.id"</span><span class="err"> </span><span class="o">:</span><span class="err"> </span><span class="s">"${org.id}"</span><span class="err">  </span>
+<span class="err">                </span><span class="o">},</span><span class="c1">//数据，这里使用的是Json格式进行传输  </span>
+<span class="err">        </span><span class="n">success</span><span class="err"> </span><span class="o">:</span><span class="err"> </span><span class="n">function</span><span class="o">(</span><span class="n">result</span><span class="o">)</span><span class="err"> </span><span class="o">{</span><span class="c1">//返回数据根据结果进行相应的处理  </span>
+<span class="err">        </span><span class="k">if</span><span class="err"> </span><span class="o">(</span><span class="err"> </span><span class="n">result</span><span class="o">.</span><span class="na">success</span><span class="err"> </span><span class="o">)</span><span class="err"> </span><span class="o">{</span><span class="err">  </span>
+<span class="err">              $</span><span class="o">(</span><span class="s">"#tipMsg"</span><span class="o">).</span><span class="na">text</span><span class="o">(</span><span class="s">"删除数据成功"</span><span class="o">);</span><span class="err">  </span>
+<span class="err">              </span><span class="n">tree</span><span class="o">.</span><span class="na">deleteItem</span><span class="o">(</span><span class="s">"${org.id}"</span><span class="o">,</span><span class="err"> </span><span class="kc">true</span><span class="o">);</span><span class="err">  </span>
+<span class="err">        </span><span class="o">}</span><span class="err"> </span><span class="k">else</span><span class="err"> </span><span class="o">{</span><span class="err">  </span>
+<span class="err">               $</span><span class="o">(</span><span class="s">"#tipMsg"</span><span class="o">).</span><span class="na">text</span><span class="o">(</span><span class="s">"删除数据失败"</span><span class="o">);</span><span class="err">  </span>
+<span class="err">               </span><span class="o">}</span><span class="err">  </span>
+<span class="err">           </span><span class="o">}</span><span class="err">  </span>
+<span class="err">        </span><span class="o">});</span><span class="err">  </span>
+
+</code></pre>
+</div>
+
+<h2 id="拓展">拓展</h2>
+
+<ul>
+  <li>Ajax请求中的async:false/true的作用</li>
+  <li>设为false为 同步，就是ajax请求把浏览器锁死，只有执行完本次请求之后才会继续向下执行，就不会出现两个ajax请求不分先后顺序的情况了。</li>
+</ul>
+
+  </div>
+-->
+
 
 <div class="pagination">
   
@@ -1025,7 +959,6 @@ $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
   
 </div> 
 
-  <p class="rss-subscribe">subscribe <a href="/feed.xml">via RSS</a></p>
 
 </div>
 
