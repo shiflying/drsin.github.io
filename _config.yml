@@ -20,9 +20,8 @@ markdown: kramdown
 kramdown:
 input: GFM
 syntax_highlighter: rouge
-category_archive:
-category_dir: 
-tag_dir: tags
+category_dir: category/ 
+tag_dir: tags/
 excerpt_separator: "\n\n\n\n"
 gems: [jekyll-paginate]
 paginate: 5 
