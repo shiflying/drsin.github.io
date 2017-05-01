@@ -14,7 +14,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#157878">
   <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
-  <link rel="stylesheet" href="/assets/css/style.css?v=d2e2c48e235577261e4e5ccc78e5753c922e05f3">
+  <link rel="stylesheet" href="/assets/css/style.css?v=7b822414afadd926cec126f35fcf319fa6dcae7f">
   <link rel="stylesheet" href="/assets/css/main.css">
   <link rel="canonical" href="http://ninowon.com/">
   <link rel="alternate" type="application/rss+xml" title="drsinBlog" href="http://ninowon.com/feed.xml">
@@ -71,6 +71,8 @@
         
           
         
+          
+        
       </div>
     </nav>
 
@@ -95,7 +97,7 @@
       <div class="home">
 
   <h1 class="page-heading">好记性不如烂笔头</h1>
-
+<!--
   <ul class="post-list">
     
       <li>
@@ -315,6 +317,753 @@
       </li>
     
   </ul>
+-->
+
+<!-- This loops through the paginated posts -->
+
+  <h1><a href="/%E7%94%9F%E7%89%A9%E4%BF%A1%E6%81%AF%E5%AD%A6/2017/04/16/%E6%89%B9%E9%87%8F%E4%B8%8B%E8%BD%BDNCBI%E5%9F%BA%E5%9B%A0%E7%BB%84%E5%BA%8F%E5%88%97.html">批量下载NCBI所有物种的基因组序列</a></h1>
+  <p class="author">
+    <span class="date">2017-04-16 03:34:55 +0800</span>
+  </p>
+  <div class="content">
+    <ul id="markdown-toc">
+  <li><a href="#简要" id="markdown-toc-简要">简要</a></li>
+  <li><a href="#摘要" id="markdown-toc-摘要">摘要</a></li>
+  <li><a href="#基因组的批量下载" id="markdown-toc-基因组的批量下载">基因组的批量下载</a></li>
+  <li><a href="#文件的合并" id="markdown-toc-文件的合并">文件的合并</a></li>
+  <li><a href="#格式化数据库" id="markdown-toc-格式化数据库">格式化数据库</a></li>
+  <li><a href="#blast" id="markdown-toc-blast">blast</a></li>
+  <li><a href="#源文档" id="markdown-toc-源文档">源文档</a></li>
+</ul>
+
+<h2 id="简要">简要</h2>
+
+<ul>
+  <li>
+    <p>最近一个月一直在忙活毕业论文的事情，对技术研究比较少，一直都在看关于生物信息方面的知识。</p>
+  </li>
+  <li>
+    <p>给大家分享一下我在做本地blast时遇到的大坑。</p>
+  </li>
+</ul>
+
+<h2 id="摘要">摘要</h2>
+
+<ul>
+  <li>
+    <p>一般情况下只需要按照正常套路在 NCBI 下载指定的物种即可，但是特殊情况下，需要下载整个真菌、植物、古生菌……的基因组，就需要用到下面的方法了。</p>
+  </li>
+  <li>
+    <p>这里以批量下载真菌下面的所有物种的基因组序列为例介绍，包括基因组的下载、基因组文件的合并、数据库的格式化等过程</p>
+  </li>
+</ul>
+
+<h2 id="基因组的批量下载">基因组的批量下载</h2>
+
+<blockquote>
+  <p>通过拼接获取所有物种的下载地址</p>
+</blockquote>
+
+<ul>
+  <li>打开cmd命令窗口输入以下内容</li>
+</ul>
+
+<div class="language-shell highlighter-rouge"><pre class="highlight"><code>curl <span class="s1">'ftp://ftp.ncbi.nlm.nih.gov/genomes/refseq/fungi/assembly_summary.txt'</span>|<span class="se">\ </span>
+awk <span class="s1">'{FS="\t"}!/^#/{print $20}'</span>|<span class="se">\ </span> 
+sed -r <span class="s1">'s|(ftp://ftp.ncbi.nlm.nih.gov/genomes/all/.+/)(GCF_.+)|\1\2/\2_genomic.fna.gz|'</span>&gt;genomic_file
+</code></pre>
+</div>
+
+<ul>
+  <li>运行完会得到一个包含所有下载地址的文件 ~genomic_file~</li>
+</ul>
+
+<blockquote>
+  <p>通过wget命令下载此文件中的所有ftp地址</p>
+</blockquote>
+
+<div class="language-shell highlighter-rouge"><pre class="highlight"><code>wget -i genomic_file.txt
+</code></pre>
+</div>
+
+<ul>
+  <li>
+    <p>下载速度取决于网速，下载完成后批量解压</p>
+  </li>
+  <li>
+    <p>打开ftp地址（ftp://ftp.ncbi.nlm.nih.gov/genomes/refseq/）</p>
+  </li>
+</ul>
+
+<p><img src="http://jiaohongwei.github.io/images/2017-04/20170426173125.png" alt="Object" /></p>
+
+<ul>
+  <li>如果要下载其他的分类，只需要把fungi 换成 plant 就可以了。</li>
+</ul>
+
+<h2 id="文件的合并">文件的合并</h2>
+
+<ul>
+  <li>
+    <p>合并所有的fasta文件 ，如果文件少的话可以通过~BioEdit~这款软件来做，导入导出就可以了，很简单。</p>
+  </li>
+  <li>
+    <p>但是如果文件数量比较多，就容易造成软件蹦四，因此我写了一段代码用来合并同一文件夹下的所有的fasta文件，因为不会perl语言，所有用java写得</p>
+  </li>
+</ul>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="kn">package</span> <span class="n">bio</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">java.io.*</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.util.ArrayList</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.util.Scanner</span><span class="o">;</span>
+
+<span class="cm">/**
+ * Created by jiaohongwei on 2017/4/13.
+ */</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Test2</span> <span class="o">{</span>
+    <span class="c1">// 将多个文件合成一个文件，其中fileNames是一个字符串数组，包括了所有参加合并操作的文件的全路径，TargetFileName指的是合成后的文件的全路径</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">merge</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">fileNames</span><span class="o">,</span> <span class="n">String</span> <span class="n">TargetFileName</span><span class="o">)</span>
+            <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
+
+
+        <span class="n">Scanner</span> <span class="n">sc</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+
+        <span class="n">BufferedWriter</span> <span class="n">output</span> <span class="o">=</span> <span class="k">new</span> <span class="n">BufferedWriter</span><span class="o">(</span><span class="k">new</span> <span class="n">FileWriter</span><span class="o">(</span><span class="n">TargetFileName</span><span class="o">));</span>
+        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">fileNames</span><span class="o">.</span><span class="na">length</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+            <span class="n">FileInputStream</span> <span class="n">inputStream</span> <span class="o">=</span>  <span class="k">new</span> <span class="n">FileInputStream</span><span class="o">(</span><span class="n">fileNames</span><span class="o">[</span><span class="n">i</span><span class="o">]);</span>
+            <span class="n">sc</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Scanner</span><span class="o">(</span><span class="n">inputStream</span><span class="o">,</span> <span class="s">"UTF-8"</span><span class="o">);</span>
+
+            <span class="kt">long</span> <span class="n">start_time</span> <span class="o">=</span> <span class="n">System</span><span class="o">.</span><span class="na">currentTimeMillis</span><span class="o">();</span>
+            <span class="k">while</span> <span class="o">(</span><span class="n">sc</span><span class="o">.</span><span class="na">hasNextLine</span><span class="o">())</span> <span class="o">{</span>
+                <span class="n">String</span> <span class="n">line</span> <span class="o">=</span> <span class="n">sc</span><span class="o">.</span><span class="na">nextLine</span><span class="o">();</span>
+                <span class="n">output</span><span class="o">.</span><span class="na">newLine</span><span class="o">();</span>
+                <span class="n">output</span><span class="o">.</span><span class="na">write</span><span class="o">(</span><span class="n">line</span><span class="o">);</span>
+            <span class="o">}</span>
+            <span class="kt">long</span> <span class="n">end</span> <span class="o">=</span> <span class="n">System</span><span class="o">.</span><span class="na">currentTimeMillis</span><span class="o">();</span>
+            <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"第"</span><span class="o">+(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="o">)+</span><span class="s">"个文件读取结束，共耗时："</span> <span class="o">+</span> <span class="o">(</span><span class="n">end</span> <span class="o">-</span> <span class="n">start_time</span><span class="o">)</span> <span class="o">/</span> <span class="mi">1000</span> <span class="o">+</span> <span class="s">"s"</span><span class="o">);</span>
+            <span class="c1">// note that Scanner suppresses exceptions</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">sc</span><span class="o">.</span><span class="na">ioException</span><span class="o">()</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+                <span class="k">throw</span> <span class="n">sc</span><span class="o">.</span><span class="na">ioException</span><span class="o">();</span>
+            <span class="o">}</span>
+            <span class="n">inputStream</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
+        <span class="o">}</span>
+        <span class="n">output</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
+        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"合并文件"</span> <span class="o">+</span> <span class="n">TargetFileName</span> <span class="o">+</span> <span class="s">"成功"</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">readFileMessage</span><span class="o">(</span><span class="n">String</span> <span class="n">fileName</span><span class="o">)</span> <span class="o">{</span><span class="c1">// 将合成的文件中的内容读出</span>
+        <span class="n">File</span> <span class="n">file</span> <span class="o">=</span> <span class="k">new</span> <span class="n">File</span><span class="o">(</span><span class="n">fileName</span><span class="o">);</span>
+        <span class="n">BufferedReader</span> <span class="n">reader</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+        <span class="k">try</span> <span class="o">{</span>
+            <span class="n">reader</span> <span class="o">=</span> <span class="k">new</span> <span class="n">BufferedReader</span><span class="o">(</span><span class="k">new</span> <span class="n">FileReader</span><span class="o">(</span><span class="n">file</span><span class="o">));</span>
+            <span class="n">String</span> <span class="n">string</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+            <span class="c1">// 按行读取内容，直到读入null则表示读取文件结束</span>
+            <span class="k">while</span> <span class="o">((</span><span class="n">string</span> <span class="o">=</span> <span class="n">reader</span><span class="o">.</span><span class="na">readLine</span><span class="o">())</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+                <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">string</span><span class="o">);</span>
+            <span class="o">}</span>
+            <span class="n">reader</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
+        <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">IOException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">e</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
+        <span class="o">}</span> <span class="k">finally</span> <span class="o">{</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">reader</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+                <span class="k">try</span> <span class="o">{</span>
+                    <span class="n">reader</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
+                <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">IOException</span> <span class="n">e1</span><span class="o">)</span> <span class="o">{</span>
+                <span class="o">}</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="kd">final</span> <span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
+
+        <span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">File</span><span class="o">&gt;</span> <span class="n">files</span> <span class="o">=</span> <span class="n">getListFiles</span><span class="o">(</span><span class="s">"E:\\Database\\指定物种"</span><span class="o">);</span>
+        <span class="c1">// 合并文件</span>
+
+        <span class="kt">int</span> <span class="n">len</span> <span class="o">=</span> <span class="n">files</span><span class="o">.</span><span class="na">size</span><span class="o">();</span>
+        <span class="n">String</span><span class="o">[]</span> <span class="n">fileNames</span> <span class="o">=</span> <span class="k">new</span> <span class="n">String</span><span class="o">[</span><span class="n">len</span><span class="o">];</span>
+        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">files</span><span class="o">.</span><span class="na">size</span><span class="o">();</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+            <span class="n">fileNames</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">=</span> <span class="n">String</span><span class="o">.</span><span class="na">valueOf</span><span class="o">(</span><span class="n">files</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">i</span><span class="o">));</span>
+        <span class="o">}</span>
+        <span class="n">String</span> <span class="n">newFileName</span> <span class="o">=</span> <span class="s">"H:\\blast-2.5.0\\db\\Temp\\temp_NCBI.fasta"</span><span class="o">;</span>
+
+        <span class="n">merge</span><span class="o">(</span><span class="n">fileNames</span><span class="o">,</span> <span class="n">newFileName</span><span class="o">);</span>
+
+
+    <span class="o">}</span>
+
+    <span class="cm">/***
+     * 获取指定目录下的所有的文件（不包括文件夹），采用了递归
+     *
+     * @param obj
+     * @return
+     */</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">File</span><span class="o">&gt;</span> <span class="nf">getListFiles</span><span class="o">(</span><span class="n">Object</span> <span class="n">obj</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">File</span> <span class="n">directory</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">obj</span> <span class="k">instanceof</span> <span class="n">File</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">directory</span> <span class="o">=</span> <span class="o">(</span><span class="n">File</span><span class="o">)</span> <span class="n">obj</span><span class="o">;</span>
+        <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+            <span class="n">directory</span> <span class="o">=</span> <span class="k">new</span> <span class="n">File</span><span class="o">(</span><span class="n">obj</span><span class="o">.</span><span class="na">toString</span><span class="o">());</span>
+        <span class="o">}</span>
+        <span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">File</span><span class="o">&gt;</span> <span class="n">files</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">File</span><span class="o">&gt;();</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">directory</span><span class="o">.</span><span class="na">isFile</span><span class="o">())</span> <span class="o">{</span>
+            <span class="n">files</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">directory</span><span class="o">);</span>
+            <span class="k">return</span> <span class="n">files</span><span class="o">;</span>
+        <span class="o">}</span> <span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="n">directory</span><span class="o">.</span><span class="na">isDirectory</span><span class="o">())</span> <span class="o">{</span>
+            <span class="n">File</span><span class="o">[]</span> <span class="n">fileArr</span> <span class="o">=</span> <span class="n">directory</span><span class="o">.</span><span class="na">listFiles</span><span class="o">();</span>
+            <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">fileArr</span><span class="o">.</span><span class="na">length</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+                <span class="n">File</span> <span class="n">fileOne</span> <span class="o">=</span> <span class="n">fileArr</span><span class="o">[</span><span class="n">i</span><span class="o">];</span>
+                <span class="n">files</span><span class="o">.</span><span class="na">addAll</span><span class="o">(</span><span class="n">getListFiles</span><span class="o">(</span><span class="n">fileOne</span><span class="o">));</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="n">files</span><span class="o">;</span>
+    <span class="o">}</span>
+
+<span class="o">}</span>
+
+
+</code></pre>
+</div>
+
+<h2 id="格式化数据库">格式化数据库</h2>
+
+<ul>
+  <li>fasta文件合并完成后需要格式化数据库才能用</li>
+</ul>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>makeblastdb -in Fungi.fasta -dbtype nucl -out FungiDB
+</code></pre>
+</div>
+
+<h2 id="blast">blast</h2>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>blastn -query seq.fasta -db FungiDB -out result.txt
+</code></pre>
+</div>
+
+<h2 id="源文档">源文档</h2>
+
+<ul>
+  <li>
+    <p>关于windows下本地blast，大家可以参考华大基因的ppt文档，在百度文库有</p>
+  </li>
+  <li>
+    <p>http://wenku.baidu.com/link?url=VFMJNCfStTzbAg3NOjFvwuLo2Yoc95-XnnAY2P2Pk3Zplc_eWAPoeREeuCcvJDNaLu3RuJawaflYxEnsJU3t8joknZwfhyzq2qEnimsiAyK</p>
+  </li>
+</ul>
+
+
+  </div>
+
+  <h1><a href="/%E5%89%8D%E7%AB%AF/2017/04/01/Bootstrap-table%E5%AE%9E%E7%8E%B0%E9%A1%B5%E9%9D%A2%E6%8C%89%E5%88%97%E6%90%9C%E7%B4%A2.html">Bootstrap-table实现按列搜索</a></h1>
+  <p class="author">
+    <span class="date">2017-04-01 03:34:55 +0800</span>
+  </p>
+  <div class="content">
+    <ul id="markdown-toc">
+  <li><a href="#简要" id="markdown-toc-简要">简要</a></li>
+  <li><a href="#下载使用" id="markdown-toc-下载使用">下载使用</a></li>
+  <li><a href="#ok" id="markdown-toc-ok">ok</a></li>
+</ul>
+
+<h2 id="简要">简要</h2>
+
+<ul>
+  <li>当客户端分页显示数据时就经常用的一个全局搜索框，他会在所有列内里面筛选我们需要的信息，而有些时候数据量太大或者相似度高就用起来不太方便，这时就诞生了按列搜索的高级工具栏</li>
+</ul>
+
+<h2 id="下载使用">下载使用</h2>
+
+<ul>
+  <li>需要引入 <a href="https://github.com/JiaoHongwei/persion_jar">bootstrap-table-toolbar.js</a> ，下载完成引入到原有的页面
+    <div class="language-html highlighter-rouge"><pre class="highlight"><code><span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"${ctxStatic}/plugins/bootstrap-table/bootstrap-table-toolbar.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
+</code></pre>
+    </div>
+  </li>
+  <li>
+    <p>在 <code class="highlighter-rouge">table</code> 中添加 属性</p>
+
+    <div class="highlighter-rouge"><pre class="highlight"><code> data-advanced-search="true"
+    
+data-id-table="advancedTable"
+</code></pre>
+    </div>
+
+    <div class="language-html highlighter-rouge"><pre class="highlight"><code>    <span class="nt">&lt;table</span> <span class="na">class=</span><span class="s">"table table-primary mb30"</span> <span class="na">id=</span><span class="s">"table-osver-tab2"</span> 
+        <span class="na">data-advanced-search=</span><span class="s">"true"</span>
+        <span class="na">data-id-table=</span><span class="s">"advancedTable"</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;tbody&gt;&lt;/tbody&gt;</span>
+    <span class="nt">&lt;/table&gt;</span>
+</code></pre>
+    </div>
+  </li>
+</ul>
+
+<h2 id="ok">ok</h2>
+
+<ul>
+  <li>实现以下效果</li>
+</ul>
+
+<p><img src="http://jiaohongwei.github.io/images/2017-03/20170331194730.png" alt="Object" /></p>
+
+<blockquote>
+  <p>官方demo  http://issues.wenzhixin.net.cn/bootstrap-table/#extensions/toolbar.html</p>
+</blockquote>
+
+  </div>
+
+  <h1><a href="/%E6%9E%B6%E6%9E%84%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%BC%80%E6%BA%90%E6%8A%80%E6%9C%AF/2017/03/27/Jekyll%E6%B7%BB%E5%8A%A0FancyBox%E6%8F%92%E4%BB%B6%E9%A2%84%E8%A7%88%E5%9B%BE%E7%89%87.html">Jekyll 添加 FancyBox 图片插件</a></h1>
+  <p class="author">
+    <span class="date">2017-03-27 00:49:50 +0800</span>
+  </p>
+  <div class="content">
+    <ul id="markdown-toc">
+  <li><a href="#简要" id="markdown-toc-简要">简要</a></li>
+  <li><a href="#下载使用" id="markdown-toc-下载使用">下载使用</a></li>
+  <li><a href="#ok" id="markdown-toc-ok">ok</a></li>
+</ul>
+
+<h2 id="简要">简要</h2>
+
+<ul>
+  <li>
+    <p>今天终于解决了我的博客中一个大问题，插入的图片由于过大无法完整展示，导致压缩不清晰现象，严重影响博客质量。</p>
+  </li>
+  <li>
+    <p>Markdown 语法中的图片我们一般是如此写法</p>
+  </li>
+</ul>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>    ![tag](url "name")
+</code></pre>
+</div>
+
+<ul>
+  <li>生成的 html 为</li>
+</ul>
+
+<div class="language-html highlighter-rouge"><pre class="highlight"><code>    <span class="nt">&lt;image</span> <span class="na">title=</span><span class="s">"name"</span> <span class="na">alt=</span><span class="s">"name"</span> <span class="na">src=</span><span class="s">"url"</span><span class="nt">&gt;</span>
+</code></pre>
+</div>
+
+<ul>
+  <li>我们如果要使用（譬如）FancyBox 的话，则需要如下的链接才可</li>
+</ul>
+
+<div class="language-html highlighter-rouge"><pre class="highlight"><code>   <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">"url"</span> <span class="na">id=</span><span class="s">"id"</span><span class="nt">&gt;</span>
+     <span class="nt">&lt;img</span> <span class="na">src=</span><span class="s">"url"</span><span class="nt">&gt;</span>
+   <span class="nt">&lt;/a&gt;</span>
+</code></pre>
+</div>
+
+<h2 id="下载使用">下载使用</h2>
+
+<ul>
+  <li>
+    <p>首先下载 <a href="https://github.com/fancyapps/fancyBox/zipball/v2.1.5">FancyBox</a> ，解压到你的主题文件夹，譬如我的是 <code class="highlighter-rouge">theme/fancybox</code> 下，</p>
+  </li>
+  <li>
+    <p>编辑<code class="highlighter-rouge">_includes</code>文件夹中模板文件，在<code class="highlighter-rouge">head.html</code>中添加</p>
+  </li>
+</ul>
+
+<div class="language-html highlighter-rouge"><pre class="highlight"><code>   <span class="nt">&lt;link</span> <span class="na">href=</span><span class="s">"/theme/fancybox/source/jquery.fancybox.css?v=2.1.5"</span> <span class="na">rel=</span><span class="s">"stylesheet"</span> <span class="na">media=</span><span class="s">"all"</span> <span class="nt">/&gt;</span>
+</code></pre>
+</div>
+
+<ul>
+  <li>在 <code class="highlighter-rouge">footer.html</code> 中添加</li>
+</ul>
+
+<div class="language-html highlighter-rouge"><pre class="highlight"><code>    <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"/theme/fancybox/lib/jquery-1.10.1.min.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
+    <span class="nt">&lt;script </span><span class="na">type=</span><span class="s">"text/javascript"</span> <span class="na">src=</span><span class="s">"/theme/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"</span><span class="nt">&gt;&lt;/script&gt;</span>
+    <span class="nt">&lt;script&gt;</span>
+        <span class="c1">// 给图片添加链接</span>
+        <span class="nx">$</span><span class="p">(</span><span class="nb">document</span><span class="p">).</span><span class="nx">ready</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+            <span class="nx">$</span><span class="p">(</span><span class="s2">"p img"</span><span class="p">).</span><span class="nx">each</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+                <span class="kd">var</span> <span class="nx">strA</span> <span class="o">=</span> <span class="s2">"&lt;a id='yourid' href='"</span> <span class="o">+</span> <span class="k">this</span><span class="p">.</span><span class="nx">src</span> <span class="o">+</span> <span class="s2">"'&gt;&lt;/a&gt;"</span><span class="p">;</span>
+                <span class="nx">$</span><span class="p">(</span><span class="k">this</span><span class="p">).</span><span class="nx">wrapAll</span><span class="p">(</span><span class="nx">strA</span><span class="p">);</span>
+            <span class="p">});</span>
+        <span class="p">});</span>
+    
+        <span class="c1">// fancybox</span>
+        <span class="nx">$</span><span class="p">(</span><span class="s2">"#yourid"</span><span class="p">).</span><span class="nx">fancybox</span><span class="p">({</span>
+                                  <span class="na">openEffect</span>    <span class="p">:</span> <span class="s1">'elastic'</span><span class="p">,</span>
+                                  <span class="na">closeEffect</span>   <span class="p">:</span> <span class="s1">'elastic'</span><span class="p">,</span>
+                              <span class="p">});</span>
+    <span class="nt">&lt;/script&gt;</span>
+</code></pre>
+</div>
+
+<h2 id="ok">ok</h2>
+
+<ul>
+  <li>将代码提交上去，重新打开你的博客，点击图片，就会出现以下效果</li>
+</ul>
+
+<p><img src="http://jiaohongwei.github.io/images/2017-03/20170326171028.png" alt="Object" /></p>
+
+<blockquote>
+  <p>简直6到没朋友了，再也不愁写博客时图片被压缩显示的现象了，给FancyBox一个大写的赞！</p>
+</blockquote>
+
+<blockquote>
+  <p><code class="highlighter-rouge">FancyBox</code> 具体用法 http://fancyapps.com/fancybox/</p>
+</blockquote>
+
+  </div>
+
+  <h1><a href="/%E6%9E%B6%E6%9E%84%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%BC%80%E6%BA%90%E6%8A%80%E6%9C%AF/2017/03/26/Gecco-java-%E7%88%AC%E8%99%AB.html">使用Gecco爬取博客（一）</a></h1>
+  <p class="author">
+    <span class="date">2017-03-26 23:12:50 +0800</span>
+  </p>
+  <div class="content">
+    <ul id="markdown-toc">
+  <li><a href="#简要" id="markdown-toc-简要">简要</a></li>
+  <li><a href="#开发" id="markdown-toc-开发">开发</a></li>
+  <li><a href="#运行" id="markdown-toc-运行">运行</a></li>
+  <li><a href="#源码下载" id="markdown-toc-源码下载">源码下载</a></li>
+</ul>
+
+<h2 id="简要">简要</h2>
+
+<ul>
+  <li>
+    <p>Gecco是一款用java语言开发的轻量化的易用的网络爬虫，不同于Nutch这样的面向搜索引擎的通用爬虫，Gecco是面向主题的爬虫。</p>
+  </li>
+  <li>
+    <p>官网：     http://www.geccocrawler.com/</p>
+  </li>
+</ul>
+
+<h2 id="开发">开发</h2>
+
+<ul>
+  <li>新建一个实体<code class="highlighter-rouge">MyGitHubArticle.java</code>类来存储所要爬取的文章列表</li>
+</ul>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code>   <span class="kn">package</span> <span class="n">com</span><span class="o">.</span><span class="na">jiaohongwei</span><span class="o">.</span><span class="na">demo</span><span class="o">.</span><span class="na">myGitHub</span><span class="o">;</span>
+   
+   <span class="kn">import</span> <span class="nn">com.geccocrawler.gecco.GeccoEngine</span><span class="o">;</span>
+   <span class="kn">import</span> <span class="nn">com.geccocrawler.gecco.annotation.Gecco</span><span class="o">;</span>
+   <span class="kn">import</span> <span class="nn">com.geccocrawler.gecco.annotation.HtmlField</span><span class="o">;</span>
+   <span class="kn">import</span> <span class="nn">com.geccocrawler.gecco.annotation.Text</span><span class="o">;</span>
+   <span class="kn">import</span> <span class="nn">com.geccocrawler.gecco.spider.HtmlBean</span><span class="o">;</span>
+   
+   <span class="kn">import</span> <span class="nn">java.util.List</span><span class="o">;</span>
+   
+   <span class="kn">import</span> <span class="nn">lombok.AllArgsConstructor</span><span class="o">;</span>
+   <span class="kn">import</span> <span class="nn">lombok.Data</span><span class="o">;</span>
+   <span class="kn">import</span> <span class="nn">lombok.NoArgsConstructor</span><span class="o">;</span>
+   
+   <span class="cm">/**
+    * Created by jiaohongwei on 2017/3/22.
+    */</span>
+<span class="nd">@Data</span>       <span class="c1">// 使用lombok 消除 Java 代码的冗长。</span>
+<span class="nd">@lombok</span><span class="o">.</span><span class="na">Setter</span>  <span class="c1">//==所有属性的的get方法</span>
+<span class="nd">@lombok</span><span class="o">.</span><span class="na">Getter</span>  <span class="c1">//== set方法</span>
+<span class="nd">@NoArgsConstructor</span>  <span class="c1">//==无参构造</span>
+<span class="nd">@AllArgsConstructor</span>     <span class="c1">//==全参构造</span>
+   <span class="nd">@Gecco</span><span class="o">(</span><span class="n">matchUrl</span> <span class="o">=</span> <span class="s">"http://blog.jiaohongwei.cn/archive/"</span><span class="o">,</span> <span class="n">pipelines</span> <span class="o">=</span> <span class="s">"myGitHubPipeline"</span><span class="o">)</span>
+   <span class="kd">public</span> <span class="kd">class</span> <span class="nc">MyGitHubArticle</span> <span class="kd">implements</span> <span class="n">HtmlBean</span> <span class="o">{</span>
+   
+       <span class="cm">/**
+        * 此demo 用来爬取我的GitHub博客列表，地址： http://blog.jiaohongwei.cn/archive/
+        */</span>
+       <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="kt">long</span> <span class="n">serialVersionUID</span> <span class="o">=</span> <span class="o">-</span><span class="mi">7127412585200687225L</span><span class="o">;</span>
+   
+       <span class="c1">//文章集合</span>
+       <span class="nd">@Text</span>
+       <span class="nd">@HtmlField</span><span class="o">(</span><span class="n">cssPath</span> <span class="o">=</span> <span class="s">"body &gt; div.page.clearfix &gt; div.left &gt; ul &gt; li"</span><span class="o">)</span>
+       <span class="kd">private</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">Blog</span><span class="o">&gt;</span> <span class="n">blogs</span><span class="o">;</span>
+   
+       <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+           <span class="n">GeccoEngine</span><span class="o">.</span><span class="na">create</span><span class="o">()</span>
+                   <span class="o">.</span><span class="na">classpath</span><span class="o">(</span><span class="s">"com.jiaohongwei.demo.myGitHub"</span><span class="o">)</span>
+                   <span class="o">.</span><span class="na">start</span><span class="o">(</span><span class="s">"http://blog.jiaohongwei.cn/archive/"</span><span class="o">)</span>
+                   <span class="o">.</span><span class="na">thread</span><span class="o">(</span><span class="mi">1</span><span class="o">)</span>
+                   <span class="o">.</span><span class="na">interval</span><span class="o">(</span><span class="mi">2000</span><span class="o">)</span>
+                   <span class="o">.</span><span class="na">debug</span><span class="o">(</span><span class="kc">false</span><span class="o">)</span>
+                   <span class="o">.</span><span class="na">start</span><span class="o">();</span>
+       <span class="o">}</span>
+   <span class="o">}</span>
+
+</code></pre>
+</div>
+
+<ul>
+  <li>存储博客信息的实体类<code class="highlighter-rouge">Blog.java</code></li>
+</ul>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code>  <span class="kn">package</span> <span class="n">com</span><span class="o">.</span><span class="na">jiaohongwei</span><span class="o">.</span><span class="na">demo</span><span class="o">.</span><span class="na">myGitHub</span><span class="o">;</span>
+  
+  <span class="kn">import</span> <span class="nn">com.geccocrawler.gecco.annotation.HtmlField</span><span class="o">;</span>
+  <span class="kn">import</span> <span class="nn">com.geccocrawler.gecco.annotation.Text</span><span class="o">;</span>
+  <span class="kn">import</span> <span class="nn">com.geccocrawler.gecco.spider.HtmlBean</span><span class="o">;</span>
+  
+  <span class="kn">import</span> <span class="nn">java.util.List</span><span class="o">;</span>
+  
+  <span class="kn">import</span> <span class="nn">lombok.AllArgsConstructor</span><span class="o">;</span>
+  <span class="kn">import</span> <span class="nn">lombok.Data</span><span class="o">;</span>
+  <span class="kn">import</span> <span class="nn">lombok.NoArgsConstructor</span><span class="o">;</span>
+  
+  <span class="cm">/**
+   * Created by jiaohongwei on 2017/3/22.
+   */</span>
+  <span class="nd">@Data</span>
+  <span class="nd">@lombok</span><span class="o">.</span><span class="na">Setter</span>
+  <span class="nd">@lombok</span><span class="o">.</span><span class="na">Getter</span>
+  <span class="nd">@NoArgsConstructor</span>
+  <span class="nd">@AllArgsConstructor</span>
+  <span class="kd">public</span> <span class="kd">class</span> <span class="nc">Blog</span> <span class="kd">implements</span> <span class="n">HtmlBean</span> <span class="o">{</span>
+  
+      <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="kt">long</span> <span class="n">serialVersionUID</span> <span class="o">=</span> <span class="o">-</span><span class="mi">7127412585200687225L</span><span class="o">;</span>
+  
+  
+      <span class="c1">//时间</span>
+      <span class="nd">@Text</span>
+      <span class="nd">@HtmlField</span><span class="o">(</span><span class="n">cssPath</span> <span class="o">=</span> <span class="s">"li &gt; time"</span><span class="o">)</span>
+      <span class="kd">private</span> <span class="n">String</span> <span class="n">time</span><span class="o">;</span>
+  
+      <span class="c1">//标题</span>
+      <span class="nd">@Text</span>
+      <span class="nd">@HtmlField</span><span class="o">(</span><span class="n">cssPath</span> <span class="o">=</span> <span class="s">"li &gt; a"</span><span class="o">)</span>
+      <span class="kd">private</span> <span class="n">String</span> <span class="n">title</span><span class="o">;</span>
+  
+      <span class="c1">//分类</span>
+      <span class="nd">@Text</span>
+      <span class="nd">@HtmlField</span><span class="o">(</span><span class="n">cssPath</span> <span class="o">=</span> <span class="s">"li &gt; span.categories &gt; a"</span><span class="o">)</span>
+      <span class="kd">private</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">categories</span><span class="o">;</span>
+  
+      <span class="c1">//标签</span>
+      <span class="nd">@Text</span>
+      <span class="nd">@HtmlField</span><span class="o">(</span><span class="n">cssPath</span> <span class="o">=</span> <span class="s">"li&gt; span.pageTag &gt; a"</span><span class="o">)</span>
+      <span class="kd">private</span>  <span class="n">List</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">tags</span><span class="o">;</span>
+  
+      <span class="nd">@Override</span>
+      <span class="kd">public</span> <span class="n">String</span> <span class="nf">toString</span><span class="o">()</span> <span class="o">{</span>
+          <span class="k">return</span> <span class="s">"Blog{"</span> <span class="o">+</span>
+                  <span class="s">"time='"</span> <span class="o">+</span> <span class="n">time</span> <span class="o">+</span> <span class="sc">'\''</span> <span class="o">+</span>
+                  <span class="s">", title='"</span> <span class="o">+</span> <span class="n">title</span> <span class="o">+</span> <span class="sc">'\''</span> <span class="o">+</span>
+                  <span class="s">", categories="</span> <span class="o">+</span> <span class="n">categories</span> <span class="o">+</span>
+                  <span class="s">", tags="</span> <span class="o">+</span> <span class="n">tags</span> <span class="o">+</span>
+                  <span class="sc">'}'</span><span class="o">;</span>
+      <span class="o">}</span>
+  
+  <span class="o">}</span>
+
+</code></pre>
+</div>
+
+<blockquote>
+  <p>接口HtmlBean说明该爬虫是一个解析html页面的爬虫（gecco还支持json格式的解析）</p>
+</blockquote>
+
+<blockquote>
+  <p>注解@Gecco告知该爬虫匹配的url格式(matchUrl)和内容抽取后的bean处理类（pipelines处理类采用管道过滤器模式，可以定义多个处理类）。</p>
+</blockquote>
+
+<blockquote>
+  <p>注解@RequestParameter可以注入url中的请求参数，如@RequestParameter(“user”)表示匹配url中的{user}</p>
+</blockquote>
+
+<blockquote>
+  <p>注解@HtmlField表示抽取html中的元素，cssPath采用类似jquery的css selector选取元素</p>
+</blockquote>
+
+<blockquote>
+  <p>注解@Text表示获取@HtmlField抽取出来的元素的text内容</p>
+</blockquote>
+
+<blockquote>
+  <p>注解@Html表示获取@HtmlField抽取出来的元素的html内容（如果不指定默认为@Html）</p>
+</blockquote>
+
+<blockquote>
+  <p>GeccoEngine表示爬虫引擎，通过create()初始化，通过start()/run()运行。可以配置一些启动参数如：扫描@Gecco注解的包名classpath；开始抓取的url地址star；抓取线程数thread；抓取完一个页面后的间隔时间interval(ms)等
+    gecco</p>
+</blockquote>
+
+<ul>
+  <li>业务逻辑处理类<code class="highlighter-rouge">MyGitHubPipeline.java</code></li>
+</ul>
+
+<blockquote>
+  <p>gecco采用管道过滤器模式灵活的实现业务逻辑处理，首先实现一个特定的管道过滤器，</p>
+</blockquote>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code>    <span class="kn">package</span> <span class="n">com</span><span class="o">.</span><span class="na">jiaohongwei</span><span class="o">.</span><span class="na">demo</span><span class="o">.</span><span class="na">myGitHub</span><span class="o">;</span>
+    
+    <span class="kn">import</span> <span class="nn">com.geccocrawler.gecco.annotation.PipelineName</span><span class="o">;</span>
+    <span class="kn">import</span> <span class="nn">com.geccocrawler.gecco.pipeline.Pipeline</span><span class="o">;</span>
+    
+    <span class="kn">import</span> <span class="nn">java.util.List</span><span class="o">;</span>
+    
+    <span class="cm">/**
+     * Created by jiaohongwei on 2017/3/22.
+     */</span>
+    <span class="nd">@PipelineName</span><span class="o">(</span><span class="s">"myGitHubPipeline"</span><span class="o">)</span>
+    <span class="kd">public</span> <span class="kd">class</span> <span class="nc">MyGitHubPipeline</span> <span class="kd">implements</span> <span class="n">Pipeline</span><span class="o">&lt;</span><span class="n">MyGitHubArticle</span><span class="o">&gt;</span> <span class="o">{</span>
+    
+        <span class="cm">/**
+         * gecco采用管道过滤器模式灵活的实现业务逻辑处理，首先实现一个特定的管道过滤器，
+         * @param myGitHubArticle
+         */</span>
+        <span class="nd">@Override</span>
+        <span class="kd">public</span> <span class="kt">void</span> <span class="nf">process</span><span class="o">(</span><span class="n">MyGitHubArticle</span> <span class="n">myGitHubArticle</span><span class="o">)</span> <span class="o">{</span>
+            <span class="c1">//TODO  可以持久化到数据库或文件</span>
+            <span class="n">List</span><span class="o">&lt;</span><span class="n">Blog</span><span class="o">&gt;</span> <span class="n">list</span> <span class="o">=</span> <span class="n">myGitHubArticle</span><span class="o">.</span><span class="na">getBlogs</span><span class="o">();</span>
+            <span class="k">for</span> <span class="o">(</span><span class="n">Blog</span> <span class="n">blog</span> <span class="o">:</span> <span class="n">list</span><span class="o">)</span> <span class="o">{</span>
+                <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">blog</span><span class="o">.</span><span class="na">toString</span><span class="o">());</span>
+            <span class="o">}</span>
+    
+        <span class="o">}</span>
+    <span class="o">}</span>
+
+</code></pre>
+</div>
+
+<h2 id="运行">运行</h2>
+
+<ul>
+  <li>运行<code class="highlighter-rouge">MyGitHubArticle.java</code>类中的main方法</li>
+</ul>
+
+<p><img src="http://jiaohongwei.github.io/images/2017-03/20170326153732.png" alt="Object" /></p>
+
+<blockquote>
+  <p>这只是一个最简单的小demo，后续有时间会继续把和spring 结合业务的demo放上来</p>
+</blockquote>
+
+<h2 id="源码下载">源码下载</h2>
+
+<blockquote>
+  <p>https://github.com/JiaoHongwei/Gecco-demo</p>
+</blockquote>
+
+
+  </div>
+
+  <h1><a href="/%E5%90%8E%E7%AB%AF/2017/03/21/Spring-Boot-%E7%83%AD%E9%83%A8%E7%BD%B2.html">Spring-Boot 实现热部署</a></h1>
+  <p class="author">
+    <span class="date">2017-03-21 19:33:42 +0800</span>
+  </p>
+  <div class="content">
+    <ul id="markdown-toc">
+  <li><a href="#简要" id="markdown-toc-简要">简要</a></li>
+  <li><a href="#pom文件" id="markdown-toc-pom文件">POM文件</a></li>
+  <li><a href="#properties文件" id="markdown-toc-properties文件">properties文件</a></li>
+  <li><a href="#参考文档" id="markdown-toc-参考文档">参考文档</a></li>
+</ul>
+
+<h2 id="简要">简要</h2>
+
+<ul>
+  <li>Spring Boot在web开发中非常常用，但是有个很大的问题就是每次在修改完文件之后都需要重新启动来查看效果，因此需要实现Spring Boot的热部署(hot swapping)。本文主要介绍如何实现Spring Boot的热部署。</li>
+</ul>
+
+<h2 id="pom文件">POM文件</h2>
+
+<ul>
+  <li>Spring Boot本身提供了实现热部署的设置，首先要在Maven的POM文件中添加以下内容(在官方文档中有)：</li>
+</ul>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code>    <span class="o">&lt;!--</span><span class="err">热部署</span> <span class="o">--&gt;</span>
+    <span class="o">&lt;</span><span class="n">dependency</span><span class="o">&gt;</span>
+        <span class="o">&lt;</span><span class="n">groupId</span><span class="o">&gt;</span><span class="n">org</span><span class="o">.</span><span class="na">springframework</span><span class="o">.</span><span class="na">boot</span><span class="o">&lt;/</span><span class="n">groupId</span><span class="o">&gt;</span>
+        <span class="o">&lt;</span><span class="n">artifactId</span><span class="o">&gt;</span><span class="n">spring</span><span class="o">-</span><span class="n">boot</span><span class="o">-</span><span class="n">devtools</span><span class="o">&lt;/</span><span class="n">artifactId</span><span class="o">&gt;</span>
+        <span class="o">&lt;</span><span class="n">optional</span><span class="o">&gt;</span><span class="kc">true</span><span class="o">&lt;/</span><span class="n">optional</span><span class="o">&gt;</span>   
+    <span class="o">&lt;/</span><span class="n">dependency</span><span class="o">&gt;</span>
+</code></pre>
+</div>
+
+<p><img src="http://jiaohongwei.github.io/images/2017-03/20170322172936.png" alt="Object" /></p>
+
+<ul>
+  <li>maven插件配置</li>
+</ul>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code>    <span class="o">&lt;!--</span> <span class="n">Package</span> <span class="n">as</span> <span class="n">an</span> <span class="n">executable</span> <span class="n">jar</span> <span class="o">--&gt;</span>
+    <span class="o">&lt;</span><span class="n">build</span><span class="o">&gt;</span>
+        <span class="o">&lt;</span><span class="n">plugins</span><span class="o">&gt;</span>
+            <span class="o">&lt;</span><span class="n">plugin</span><span class="o">&gt;</span>
+                <span class="o">&lt;</span><span class="n">groupId</span><span class="o">&gt;</span><span class="n">org</span><span class="o">.</span><span class="na">springframework</span><span class="o">.</span><span class="na">boot</span><span class="o">&lt;/</span><span class="n">groupId</span><span class="o">&gt;</span>
+                <span class="o">&lt;</span><span class="n">artifactId</span><span class="o">&gt;</span><span class="n">spring</span><span class="o">-</span><span class="n">boot</span><span class="o">-</span><span class="n">maven</span><span class="o">-</span><span class="n">plugin</span><span class="o">&lt;/</span><span class="n">artifactId</span><span class="o">&gt;</span>
+                <span class="o">&lt;</span><span class="n">configuration</span><span class="o">&gt;</span>
+                    <span class="o">&lt;</span><span class="n">mainClass</span><span class="o">&gt;</span><span class="n">com</span><span class="o">.</span><span class="na">jiaohongwei</span><span class="o">.</span><span class="na">Application</span><span class="o">&lt;/</span><span class="n">mainClass</span><span class="o">&gt;</span>
+                <span class="o">&lt;/</span><span class="n">configuration</span><span class="o">&gt;</span>
+            <span class="o">&lt;/</span><span class="n">plugin</span><span class="o">&gt;</span>
+        <span class="o">&lt;/</span><span class="n">plugins</span><span class="o">&gt;</span>
+    <span class="o">&lt;/</span><span class="n">build</span><span class="o">&gt;</span>
+</code></pre>
+</div>
+
+<ul>
+  <li>Eclipse注意：</li>
+</ul>
+
+<blockquote>
+  <p>针对eclipse的，eclipse –&gt; Project –&gt; Build Automatically要选中，不选中的话不起作用。</p>
+</blockquote>
+
+<h2 id="properties文件">properties文件</h2>
+
+<ul>
+  <li>在application.properties文件中要加上下面的代码：</li>
+</ul>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>    #Spring Boot Maven项目中的resource文件夹下的资源不进行缓存处理，即每次都需要去加载。
+    #注：这只是开发的时候使用，项目实际运行时必须设为true，这样加载页面速度更快。
+    spring.resources.chain.cache=false
+</code></pre>
+</div>
+
+<h2 id="参考文档">参考文档</h2>
+
+<blockquote>
+  <p>http://docs.spring.io/spring-boot/docs/1.5.2.RELEASE/reference/htmlsingle/#using-boot-hot-swapping</p>
+</blockquote>
+
+
+  </div>
+
+
+<div class="pagination">
+  
+    <span>&laquo; Prev</span>
+  
+
+  
+    
+      <em>1</em>
+    
+  
+    
+      <a href="/page2">2</a>
+    
+  
+    
+      <a href="/page3">3</a>
+    
+  
+    
+      <a href="/page4">4</a>
+    
+  
+    
+      <a href="/page5">5</a>
+    
+  
+    
+      <a href="/page6">6</a>
+    
+  
+
+  
+    <a href="/page2">Next &raquo;</a>
+  
+</div>
 
   <p class="rss-subscribe">subscribe <a href="/feed.xml">via RSS</a></p>
 

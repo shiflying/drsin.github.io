@@ -24,7 +24,8 @@ category_dir: category
 tag_dir: tag/
 excerpt_separator: "\n\n\n\n"
 gems: [jekyll-paginate]
-paginate: 6
+paginate: 5 
+paginate_path: "/page:num"
 baidu_tongji_id: 9509c46947d444c42bdfd33deeaff852
 theme: jekyll-theme-cayman
 gems: [jekyll-test-plugin, jekyll-jsonify, jekyll-assets]
