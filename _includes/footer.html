@@ -2,15 +2,14 @@
 
   <div class="wrapper">
 
-    <h2 class="footer-heading">{{ site.title }}</h2>
 
     <div class="footer-col-wrapper">
       <div class="footer-col footer-col-1">
         <ul class="contact-list">
-          <li>{{ site.title }}</li>
-          <li><a href="mailto:{{ site.email }}">{{ site.email }}</a></li>
+          <li><a href="mailto:{{ site.email }}">email:{{ site.email }}</a></li>
         </ul>
       </div>
+
 
       <div class="footer-col footer-col-2">
         <ul class="social-media-list">
@@ -19,17 +18,20 @@
             {% include icon-github.html username=site.github_username %}
           </li>
           {% endif %}
-
+<!--
           {% if site.twitter_username %}
           <li>
             {% include icon-twitter.html username=site.twitter_username %}
           </li>
           {% endif %}
+-->
         </ul>
       </div>
-
       <div class="footer-col footer-col-3">
-        <p>{{ site.description }}</p>
+        {% if site.github.is_project_page %}
+          <span class="site-footer-owner"><a href="{{ site.github.repository_url }}">{{ site.github.repository_name }}</a> is maintained by <a href="{{ site.github.owner_url }}">{{ site.github.owner_name }}</a>.</span>
+        {% endif %}
+            本站总访问量<span id="busuanzi_value_site_pv"></span>次，本站访客数<span id="busuanzi_value_site_uv"></span>人次，本文总阅读量<span id="busuanzi_value_page_pv"></span>次
       </div>
     </div>
 
