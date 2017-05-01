@@ -3,7 +3,7 @@
 
 install ruby lang
 
-  * apt-get install ruby-dev
+   * apt-get install ruby-dev
  
 create dir 
 
