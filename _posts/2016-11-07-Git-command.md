@@ -2,7 +2,7 @@
 layout: post
 title:  "Git Command"
 date:   2016-11-7 22:03:34
-categories: 架构设计与开源技术
+category: 架构设计与开源技术
 tags: Git
 excerpt: 常见的git命令。
 ---

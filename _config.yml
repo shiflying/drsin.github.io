@@ -28,5 +28,6 @@ paginate: 5
 paginate_path: "/page:num"
 baidu_tongji_id: 9509c46947d444c42bdfd33deeaff852
 theme: jekyll-theme-cayman
-gems: [jekyll-test-plugin, jekyll-jsonify, jekyll-assets]
+#gems: [jekyll-test-plugin, jekyll-jsonify, jekyll-assets]
+plugins_dir: _plugins/ 
 #this wile require each of these gems automatically
