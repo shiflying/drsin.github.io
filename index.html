@@ -25,9 +25,11 @@ layout: default
   <p class="author">
     <span class="date">{{ post.date }}</span>
   </p>
+<!--
   <div class="content">
     {{ post.content }}
   </div>
+-->
 {% endfor %}
 {% if paginator.total_pages > 1 %}
 <div class="pagination">
@@ -52,7 +54,7 @@ layout: default
   {% else %}
     <span>Next &raquo;</span>
   {% endif %}
-</div>
+</div> 
 {% endif %}
   <p class="rss-subscribe">subscribe <a href="{{ "/feed.xml" | prepend: site.baseurl }}">via RSS</a></p>
 
