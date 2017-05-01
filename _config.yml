@@ -11,7 +11,7 @@ email: 86478582@qq.com
 description: > # this means to ignore newlines until "baseurl:"
   我不生产代码，只是github的搬用工   
 show_downloads: true
-baseurl: "" # the subpath of your site, e.g. /blog
+baseurl: "http://ninowon.com" # the subpath of your site, e.g. /blog
 url: "http://ninowon.com" # the base hostname & protocol for your site
 github_username: drsin 
 

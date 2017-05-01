@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Bootstrap-Table 导出Excel</title>
+  <meta name="description" content="Bootstrap-Table导出Excel">
+
+  <meta name="description" content="我不生产代码，只是github的搬用工   
+"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#157878">
+  <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="/http://ninowon.com/assets/css/style.css?v=bd48fa1fbc21dfceb04fd452dfd2cecf9dfe544f">
+  <link rel="stylesheet" href="http://ninowon.com/assets/css/main.css">
+  <link rel="canonical" href="http://ninowon.comhttp://ninowon.com/%E5%89%8D%E7%AB%AF/2017/01/03/Bootstrap-table%E5%AF%BC%E5%87%BAExcel.html">
+  <link rel="alternate" type="application/rss+xml" title="drsinBlog" href="http://ninowon.comhttp://ninowon.com/feed.xml">
+
+    <script>
+    // 百度统计代码
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?9509c46947d444c42bdfd33deeaff852";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+    </script>
+
+
+</head>
+
+  <body>
+  <header class="site-header">
+
+  <div class="wrapper">
+
+    <a class="site-title" href="http://ninowon.com/">drsinBlog</a>
+
+    <nav class="site-nav">
+      <a href="#" class="menu-icon">
+        <svg viewBox="0 0 18 15">
+          <path fill="#424242" d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.031C17.335,0,18,0.665,18,1.484L18,1.484z"/>
+          <path fill="#424242" d="M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0c0-0.82,0.665-1.484,1.484-1.484 h15.031C17.335,6.031,18,6.696,18,7.516L18,7.516z"/>
+          <path fill="#424242" d="M18,13.516C18,14.335,17.335,15,16.516,15H1.484C0.665,15,0,14.335,0,13.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.031C17.335,12.031,18,12.696,18,13.516L18,13.516z"/>
+        </svg>
+      </a>
+
+      <div class="trigger">
+        
+          
+          <a class="page-link" href="http://ninowon.com/archives">Archives</a>
+          
+        
+          
+          <a class="page-link" href="http://ninowon.com/about/">About</a>
+          
+        
+          
+        
+          
+        
+          
+          <a class="page-link" href="http://ninowon.com/archives">Archives</a>
+          
+        
+          
+        
+          
+        
+      </div>
+    </nav>
+
+  </div>
+
+</header>
+
+    <section class="page-header">
+      <h1 class="project-name">drsinBlog</h1>
+      <h2 class="project-tagline">我不生产代码，只是github的搬用工   
+</h2>
+      
+        <a href="http://github.com/drsin/drsin.github.io" class="btn">View on GitHub</a>
+      
+      
+        <a href="http://github.com/drsin/drsin.github.io/zipball/gh-pages" class="btn">Download .zip</a>
+        <a href="http://github.com/drsin/drsin.github.io/tarball/gh-pages" class="btn">Download .tar.gz</a>
+      
+    </section>
+
+    <section class="main-content">
+      <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title" itemprop="name headline">Bootstrap-Table 导出Excel</h1>
+    <p class="post-meta"><time datetime="2017-01-03T18:03:37+08:00" itemprop="datePublished">Jan 3, 2017</time></p>
+  </header>
+
+  <div class="post-content" itemprop="articleBody">
+    <ul id="markdown-toc">
+  <li><a href="#简要" id="markdown-toc-简要">简要</a></li>
+  <li><a href="#概述" id="markdown-toc-概述">概述</a></li>
+  <li><a href="#初始化" id="markdown-toc-初始化">初始化</a></li>
+  <li><a href="#页面设置" id="markdown-toc-页面设置">页面设置</a></li>
+  <li><a href="#页面展现" id="markdown-toc-页面展现">页面展现</a></li>
+  <li><a href="#注意" id="markdown-toc-注意">注意</a></li>
+</ul>
+
+<h2 id="简要">简要</h2>
+
+<ul>
+  <li>简要介绍一下bootatrap-table的导出功能（纯前端操作）</li>
+</ul>
+
+<h2 id="概述">概述</h2>
+
+<ul>
+  <li>bootstrap-table中可以设置导出表格内容，需要引入相关的export.js文件</li>
+</ul>
+
+<div class="language-html highlighter-rouge"><pre class="highlight"><code>
+<span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"${basePath}/static/js/bootstrap-table/bootstrap-table-export.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
+<span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"${basePath}/static/js/bootstrap-table/tableExport/tableExport.js"</span><span class="nt">&gt;&lt;/script&gt;</span>    
+
+</code></pre>
+</div>
+
+<h2 id="初始化">初始化</h2>
+
+<div class="language-js highlighter-rouge"><pre class="highlight"><code><span class="nx">$</span><span class="p">(</span><span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+
+    <span class="c1">//1.初始化Table</span>
+    <span class="kd">var</span> <span class="nx">oTable</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">TableInitj</span><span class="p">();</span>
+    <span class="nx">oTable</span><span class="p">.</span><span class="nx">Init</span><span class="p">(</span><span class="s2">"/admin/sel/getxmdmb"</span><span class="p">,</span> <span class="s2">"toolbar_xmdm"</span><span class="p">);</span>
+
+    <span class="c1">//2.初始化Button的点击事件</span>
+    <span class="kd">var</span> <span class="nx">oButtonInit</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">ButtonInit</span><span class="p">();</span>
+    <span class="nx">oButtonInit</span><span class="p">.</span><span class="nx">Init</span><span class="p">();</span>
+
+    <span class="c1">//2.初始化select的change事件</span>
+    <span class="nx">$</span><span class="p">(</span><span class="s2">"#sel_exportoption"</span><span class="p">).</span><span class="nx">change</span><span class="p">(</span><span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+        <span class="nx">$</span><span class="p">(</span><span class="s1">'#table_xmdm'</span><span class="p">).</span><span class="nx">bootstrapTable</span><span class="p">(</span><span class="s1">'refreshOptions'</span><span class="p">,</span> <span class="p">{</span>
+            <span class="na">exportDataType</span><span class="p">:</span> <span class="nx">$</span><span class="p">(</span><span class="k">this</span><span class="p">).</span><span class="nx">val</span><span class="p">()</span>
+        <span class="p">});</span>
+
+    <span class="p">});</span>
+
+
+<span class="p">});</span>
+
+<span class="kd">var</span> <span class="nx">TableInitj</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">oTableInit</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Object</span><span class="p">();</span>
+    <span class="c1">//初始化Table</span>
+    <span class="nx">oTableInit</span><span class="p">.</span><span class="nx">Init</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">uploadUrl</span><span class="p">,</span> <span class="nx">toolbar</span><span class="p">)</span> <span class="p">{</span>
+        <span class="kd">var</span> <span class="nx">toolbar</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="s1">'#'</span> <span class="o">+</span> <span class="nx">toolbar</span><span class="p">);</span>
+
+        <span class="nx">$</span><span class="p">(</span><span class="s2">"#table_xmdm"</span><span class="p">).</span><span class="nx">bootstrapTable</span><span class="p">({</span>
+                                            <span class="na">responsive</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+                                            <span class="na">url</span><span class="p">:</span> <span class="nx">uploadUrl</span><span class="p">,</span>         <span class="c1">//请求后台的URL（*）</span>
+                                            <span class="na">method</span><span class="p">:</span> <span class="s1">'get'</span><span class="p">,</span>                      <span class="c1">//请求方式（*）</span>
+                                            <span class="na">toolbar</span><span class="p">:</span> <span class="nx">toolbar</span><span class="p">,</span>                <span class="c1">//工具按钮用哪个容器</span>
+                                            <span class="na">striped</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>                      <span class="c1">//是否显示行间隔色</span>
+                                            <span class="na">cache</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>                       <span class="c1">//是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）</span>
+                                            <span class="na">pagination</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>                   <span class="c1">//是否显示分页（*）</span>
+                                            <span class="na">sortable</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>                     <span class="c1">//是否启用排序</span>
+                                            <span class="c1">// sortStable:true,                     //设置为 true</span>
+                                            <span class="c1">// 将获得稳定的排序，我们会添加_position属性到 row 数据中。 sortOrder: "asc",</span>
+                                            <span class="c1">//           //定义排序方式 'asc' 或者 'desc'</span>
+                                            <span class="na">queryParams</span><span class="p">:</span> <span class="nx">oTableInit</span><span class="p">.</span><span class="nx">queryParams</span><span class="p">,</span><span class="c1">//传递参数（*）</span>
+                                            <span class="na">sidePagination</span><span class="p">:</span> <span class="s2">"client"</span><span class="p">,</span>           <span class="c1">//分页方式：client客户端分页，server服务端分页（*）</span>
+                                            <span class="na">pageNumber</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>                       <span class="c1">//初始化加载第一页，默认第一页</span>
+                                            <span class="na">pageSize</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>                       <span class="c1">//每页的记录行数（*）</span>
+                                            <span class="na">pageList</span><span class="p">:</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">25</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">100</span><span class="p">],</span>        <span class="c1">//可供选择的每页的行数（*）</span>
+                                            <span class="na">search</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>                       <span class="c1">//是否显示表格搜索，此搜索是客户端搜索，不会进服务端，所以，个人感觉意义不大</span>
+                                            <span class="na">strictSearch</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>                 <span class="c1">// 	设置为 true启用</span>
+                                                                                 <span class="c1">// 全匹配搜索，否则为模糊搜索</span>
+                                            <span class="na">showColumns</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>                  <span class="c1">//是否显示所有的列</span>
+                                            <span class="na">showRefresh</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>                  <span class="c1">//是否显示刷新按钮</span>
+                                            <span class="na">minimumCountColumns</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>             <span class="c1">//最少允许的列数</span>
+                                            <span class="na">clickToSelect</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>                <span class="c1">//是否启用点击选中行</span>
+                                            <span class="c1">// height: window.innerHeight - 300,</span>
+                                            <span class="c1">// //行高，如果没有设置height属性，表格自动根据记录条数觉得表格高度</span>
+                                            <span class="na">uniqueId</span><span class="p">:</span> <span class="s2">"ID"</span><span class="p">,</span>                     <span class="c1">//每一行的唯一标识，一般为主键列</span>
+                                            <span class="na">showToggle</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>                  <span class="c1">//是否显示详细视图和列表视图的切换按钮</span>
+                                            <span class="na">cardView</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>                    <span class="c1">//是否显示详细视图</span>
+                                            <span class="na">detailView</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>                   <span class="c1">//是否显示父子表</span>
+                                            <span class="na">showExport</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>                     <span class="c1">//是否显示导出</span>
+                                            <span class="na">exportDataType</span><span class="p">:</span> <span class="s2">"basic"</span><span class="p">,</span>              <span class="c1">//basic', 'all', 'selected'.</span>
+                                            <span class="na">columns</span><span class="p">:</span> <span class="p">[{</span>
+                                                <span class="na">checkbox</span><span class="p">:</span> <span class="kc">true</span>
+                                            <span class="p">},</span>
+                                                <span class="p">{</span>
+                                                    <span class="na">align</span><span class="p">:</span> <span class="s1">'center'</span><span class="p">,</span>
+                                                    <span class="na">field</span><span class="p">:</span> <span class="s1">'xmdm'</span><span class="p">,</span>
+                                                    <span class="na">title</span><span class="p">:</span> <span class="s1">'项目代码'</span>
+
+                                                <span class="p">},</span> <span class="p">{</span>
+                                                    <span class="na">field</span><span class="p">:</span> <span class="s1">'xmmc'</span><span class="p">,</span>
+                                                    <span class="na">title</span><span class="p">:</span> <span class="s1">'项目名称'</span>
+                                                <span class="p">},</span> <span class="p">{</span>
+                                                    <span class="na">field</span><span class="p">:</span> <span class="s1">'jldw'</span><span class="p">,</span>
+                                                    <span class="na">title</span><span class="p">:</span> <span class="s1">'计量单位'</span>
+                                                <span class="p">}</span>
+                                                <span class="p">,</span> <span class="p">{</span>
+                                                    <span class="na">field</span><span class="p">:</span> <span class="s1">'action'</span><span class="p">,</span>
+                                                    <span class="na">title</span><span class="p">:</span> <span class="s1">'操作'</span>
+                                                <span class="p">}</span>
+                                            <span class="p">]</span>
+                                        <span class="p">});</span>
+    <span class="p">};</span>
+
+    <span class="c1">//得到查询的参数</span>
+    <span class="nx">oTableInit</span><span class="p">.</span><span class="nx">queryParams</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">params</span><span class="p">)</span> <span class="p">{</span>
+        <span class="kd">var</span> <span class="nx">temp</span> <span class="o">=</span> <span class="p">{</span>   <span class="c1">//这里的键的名字和控制器的变量名必须一直，这边改动，控制器也需要改成一样的</span>
+            <span class="na">limit</span><span class="p">:</span> <span class="nx">params</span><span class="p">.</span><span class="nx">limit</span><span class="p">,</span>   <span class="c1">//页面大小</span>
+            <span class="na">offset</span><span class="p">:</span> <span class="nx">params</span><span class="p">.</span><span class="nx">offset</span><span class="p">,</span>  <span class="c1">//页码</span>
+        <span class="p">};</span>
+        <span class="k">return</span> <span class="nx">temp</span><span class="p">;</span>
+    <span class="p">};</span>
+    <span class="k">return</span> <span class="nx">oTableInit</span><span class="p">;</span>
+<span class="p">};</span>
+
+<span class="kd">var</span> <span class="nx">ButtonInit</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">oInit</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Object</span><span class="p">();</span>
+    <span class="kd">var</span> <span class="nx">postdata</span> <span class="o">=</span> <span class="p">{};</span>
+
+    <span class="nx">oInit</span><span class="p">.</span><span class="nx">Init</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+        <span class="c1">//初始化页面上面的按钮事件</span>
+    <span class="p">};</span>
+
+    <span class="k">return</span> <span class="nx">oInit</span><span class="p">;</span>
+<span class="p">};</span>
+
+</code></pre>
+</div>
+
+<h2 id="页面设置">页面设置</h2>
+
+<div class="language-html highlighter-rouge"><pre class="highlight"><code><span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"table-responsive"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">"toolbar_xmdm"</span> <span class="na">class=</span><span class="s">"btn-group"</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;select</span> <span class="na">id=</span><span class="s">"sel_exportoption"</span> <span class="na">class=</span><span class="s">"form-control"</span><span class="nt">&gt;</span>
+            <span class="nt">&lt;option</span> <span class="na">value=</span><span class="s">""</span><span class="nt">&gt;</span>导出当前页面数据<span class="nt">&lt;/option&gt;</span>
+            <span class="nt">&lt;option</span> <span class="na">value=</span><span class="s">"all"</span><span class="nt">&gt;</span>导出全部数据<span class="nt">&lt;/option&gt;</span>
+            <span class="nt">&lt;option</span> <span class="na">value=</span><span class="s">"selected"</span><span class="nt">&gt;</span>导出选中数据<span class="nt">&lt;/option&gt;</span>
+        <span class="nt">&lt;/select&gt;</span>
+    <span class="nt">&lt;/div&gt;</span>
+    <span class="nt">&lt;table</span> <span class="na">class=</span><span class="s">"table table-primary mb30"</span> <span class="na">id=</span><span class="s">"table_xmdm"</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;tbody&gt;</span>
+
+
+        <span class="nt">&lt;/tbody&gt;</span>
+    <span class="nt">&lt;/table&gt;</span>
+
+<span class="nt">&lt;/div&gt;</span><span class="c">&lt;!-- table-responsive --&gt;</span>
+
+</code></pre>
+</div>
+<h2 id="页面展现">页面展现</h2>
+
+<p><img src="http://jiaohongwei.github.io/images/2017-01/20170103095333.png" alt="Object" /></p>
+
+<p><img src="http://jiaohongwei.github.io/images/2017-01/20170103095556.png" alt="Object" /></p>
+
+<h2 id="注意">注意</h2>
+
+<ul>
+  <li>
+    <p>看初始化select按钮时的动作，是刷新bootstrap-table的Options，而不是直接导出，查了查好多文档都没有写这个导出是哪一个函数，官方文档也是这样定义了一个select选择类型，然后在选择导出。</p>
+  </li>
+  <li>Bootstrap-table-export demo 实例：http://issues.wenzhixin.net.cn/bootstrap-table/#extensions/export.html</li>
+  <li>Bootstrap-table 官方api文档：http://bootstrap-table.wenzhixin.net.cn/zh-cn/documentation/</li>
+</ul>
+
+  </div>
+
+</article>
+
+   <footer class="site-footer">
+
+  <div class="wrapper">
+
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li><a href="mailto:86478582@qq.com">email:86478582@qq.com</a></li>
+        </ul>
+      </div>
+
+
+      <div class="footer-col footer-col-2">
+        <ul class="social-media-list">
+          
+          <li>
+            <a href="https://github.com/drsin"><span class="icon icon--github"><svg viewBox="0 0 16 16"><path fill="#828282" d="M7.999,0.431c-4.285,0-7.76,3.474-7.76,7.761 c0,3.428,2.223,6.337,5.307,7.363c0.388,0.071,0.53-0.168,0.53-0.374c0-0.184-0.007-0.672-0.01-1.32 c-2.159,0.469-2.614-1.04-2.614-1.04c-0.353-0.896-0.862-1.135-0.862-1.135c-0.705-0.481,0.053-0.472,0.053-0.472 c0.779,0.055,1.189,0.8,1.189,0.8c0.692,1.186,1.816,0.843,2.258,0.645c0.071-0.502,0.271-0.843,0.493-1.037 C4.86,11.425,3.049,10.76,3.049,7.786c0-0.847,0.302-1.54,0.799-2.082C3.768,5.507,3.501,4.718,3.924,3.65 c0,0,0.652-0.209,2.134,0.796C6.677,4.273,7.34,4.187,8,4.184c0.659,0.003,1.323,0.089,1.943,0.261 c1.482-1.004,2.132-0.796,2.132-0.796c0.423,1.068,0.157,1.857,0.077,2.054c0.497,0.542,0.798,1.235,0.798,2.082 c0,2.981-1.814,3.637-3.543,3.829c0.279,0.24,0.527,0.713,0.527,1.437c0,1.037-0.01,1.874-0.01,2.129 c0,0.208,0.14,0.449,0.534,0.373c3.081-1.028,5.302-3.935,5.302-7.362C15.76,3.906,12.285,0.431,7.999,0.431z"/></svg>
+</span><span class="username">drsin</span></a>
+
+          </li>
+          
+<!--
+          
+-->
+        </ul>
+      </div>
+      <div class="footer-col footer-col-3">
+        
+          <span class="site-footer-owner"><a href="http://github.com/drsin/drsin.github.io">drsin.github.io</a> is maintained by <a href="http://github.com/drsin">drsin</a>.</span>
+        
+            本站总访问量<span id="busuanzi_value_site_pv"></span>次，本站访客数<span id="busuanzi_value_site_uv"></span>人次，本文总阅读量<span id="busuanzi_value_page_pv"></span>次
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+
+
+    </section>
+
+    
+  </body>
+</html>

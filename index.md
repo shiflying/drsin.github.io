@@ -30,3 +30,5 @@ create sit
 start server
 
  * ./script/server  
+Jekyll Document
+[download]{{ site.url }}/assets/pdf.Jekyll.pdf
