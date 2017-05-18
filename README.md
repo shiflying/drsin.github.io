@@ -1,6 +1,7 @@
 install ruby lang
 
- * apt-get install ruby-dev
+ * sudo apt-get install ruby-dev
+ * sudo apt-get install zlib1g-dev
 
 create dir 
 
