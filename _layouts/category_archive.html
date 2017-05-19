@@ -2,12 +2,13 @@
 layout: default
 ---
 <div class="category-archive">
-  <div>
-    <span class="title">Category archive for {{ page.category }}</span>
-  </div>
-  <div>
-    <ul>
-{{ content }}
-    </ul>
-  </div>
+{% for category in site.categories %}
+<h2>{{ category | first }}</h2>
+</span>{{ category | last | size }}</span>
+<ul class="arc-list">
+    {% for post in category.last %}
+        <li>{{ post.date | date:"%d/%m/%Y"}}<a href="{{ post.url }}">{{ post.title }}</a></li>
+    {% endfor %}
+</ul>
+{% endfor %}
 </div>
