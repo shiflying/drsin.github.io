@@ -2,7 +2,7 @@ install ruby lang
 
  * sudo apt-get install ruby-dev
  * sudo apt-get install zlib1g-dev
- * sudo gem sources -a https://ruby.taobao.org/bu
+ * sudo gem sources -a https://ruby.taobao.org/
  * gem install bundler
 
 create dir 
