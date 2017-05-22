@@ -6,9 +6,43 @@
 </description>
     <link>http://ninowon.com/</link>
     <atom:link href="http://ninowon.com/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Fri, 19 May 2017 14:51:41 +0800</pubDate>
-    <lastBuildDate>Fri, 19 May 2017 14:51:41 +0800</lastBuildDate>
+    <pubDate>Mon, 22 May 2017 10:06:35 +0800</pubDate>
+    <lastBuildDate>Mon, 22 May 2017 10:06:35 +0800</lastBuildDate>
     <generator>Jekyll v3.4.3</generator>
+    
+      <item>
+        <title>Hibernate Faq</title>
+        <description>
+&lt;hr /&gt;
+&lt;p&gt;layout: post
+title:  “ HFConsole收单系统问题”
+date:   2017-05-22 
+categories: FAQ
+tags: FAQ
+excerpt: HFConsole收单系统问题
+—-&lt;/p&gt;
+
+&lt;p&gt;1.生成的*.hbm.xml无法被SaxReader解析解析&lt;/p&gt;
+
+&lt;p&gt;在确保配置文件中属性名和POJO的类属性名一致和配置文件中的字段属性名与数据库字段一致的前提下&lt;/p&gt;
+
+&lt;p&gt;检查Hirbernate的头文件中的dtd文件是否能访问（点击左键即可访问),如果无法访问，可以有两种原因：&lt;/p&gt;
+
+&lt;p&gt;(1)  配置的xml 的key键不存在，可以自己添加。&lt;/p&gt;
+
+&lt;p&gt;具体步骤：Window-&amp;gt;Preferences-&amp;gt;MyEclipse-&amp;gt; Files and Editors -&amp;gt; XML-&amp;gt;XML Catolog-&amp;gt;user specified entries -&amp;gt;add 
+location:本地下载的DTmD文件&lt;/p&gt;
+
+&lt;p&gt;key:值为你*.hbm.xml 制定本地key。
+如：“-//Hibernate/Hibernate Mapping DTD 3.0//EN”
+(2) 无法访问外网&lt;/p&gt;
+</description>
+        <pubDate>Mon, 22 May 2017 00:00:00 +0800</pubDate>
+        <link>http://ninowon.com/2017/05/22/Hibernate-FAQ.html</link>
+        <guid isPermaLink="true">http://ninowon.com/2017/05/22/Hibernate-FAQ.html</guid>
+        
+        
+      </item>
     
       <item>
         <title>Bootstrap-table实现按列搜索</title>
@@ -2051,74 +2085,6 @@ spring.aop.proxy-target-class=false
         
         
         <category>后端</category>
-        
-      </item>
-    
-      <item>
-        <title>算法-汉诺（Hanoi）塔问题</title>
-        <description>&lt;ul id=&quot;markdown-toc&quot;&gt;
-  &lt;li&gt;&lt;a href=&quot;#问题&quot; id=&quot;markdown-toc-问题&quot;&gt;问题&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;#解题思路&quot; id=&quot;markdown-toc-解题思路&quot;&gt;解题思路&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;#代码&quot; id=&quot;markdown-toc-代码&quot;&gt;代码&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&quot;问题&quot;&gt;问题&lt;/h2&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;汉诺（Hanoi）塔问题：&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;古代有一个梵塔，塔内有三个座A、B、C，A座上有64个盘子，盘子大小不等，大的在下，小的在上（如图）。有一个和尚想把这64个盘子从A座移到B座，但每次只能允许移动一个盘子，并且在移动过程中，3个座上的盘子始终保持大盘在下，小盘在上。在移动过程中可以利用B座，要求打印移动的步骤。如果只有一个盘子，则不需要利用B座，直接将盘子从A移动到C。&lt;/p&gt;
-
-&lt;h2 id=&quot;解题思路&quot;&gt;解题思路&lt;/h2&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;1. 先将前63个盘子移动到Y上,确保大盘在小盘下面;
-2. 再将X最底下的第64个盘子移动到Z上;
-3. 最后将Y上面的63个盘子移动到Z上。
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;h2 id=&quot;代码&quot;&gt;代码&lt;/h2&gt;
-
-&lt;div class=&quot;language-c++ highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;cp&quot;&gt;#include &amp;lt;stdio.h&amp;gt;
-&lt;/span&gt;&lt;span class=&quot;c1&quot;&gt;//经典递归问题
-//汉诺塔
-&lt;/span&gt;
-&lt;span class=&quot;c1&quot;&gt;//将n个盘子从x借助y移动到z
-&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;move&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;n&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;char&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;char&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;y&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;char&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;z&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;){&lt;/span&gt;
-	&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;==&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;n&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;){&lt;/span&gt;
-		&lt;span class=&quot;n&quot;&gt;printf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;%c--&amp;gt;%c&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;z&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-	&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-	&lt;span class=&quot;k&quot;&gt;else&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-		&lt;span class=&quot;n&quot;&gt;move&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;n&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;z&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;y&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;		&lt;span class=&quot;c1&quot;&gt;//将n-1个盘子从X借助z移动到y
-&lt;/span&gt;
-		&lt;span class=&quot;n&quot;&gt;printf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;%c--&amp;gt;%c&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;z&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;&lt;span class=&quot;c1&quot;&gt;//将第n个盘子从x移动刀z上
-&lt;/span&gt;		
-		&lt;span class=&quot;n&quot;&gt;move&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;n&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;y&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;z&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;		&lt;span class=&quot;c1&quot;&gt;//将n-1个盘子从y借助x移动到Z上;
-&lt;/span&gt;	&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-
-&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;main&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-	&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;n&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-	&lt;span class=&quot;n&quot;&gt;printf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;请输入汉诺塔的层数：&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-	&lt;span class=&quot;n&quot;&gt;scanf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;%d&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;n&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-	&lt;span class=&quot;n&quot;&gt;printf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;移动的部署如下：&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-	&lt;span class=&quot;n&quot;&gt;move&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;n&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;sc&quot;&gt;'x'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;sc&quot;&gt;'y'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;sc&quot;&gt;'z'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-	&lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-</description>
-        <pubDate>Wed, 08 Feb 2017 22:54:28 +0800</pubDate>
-        <link>http://ninowon.com/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%92%8C%E7%AE%97%E6%B3%95/2017/02/08/%E9%80%92%E5%BD%92%E5%92%8C%E5%88%86%E6%B2%BB-%E6%B1%89%E8%AF%BA%E5%A1%94%E9%97%AE%E9%A2%98.html</link>
-        <guid isPermaLink="true">http://ninowon.com/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%92%8C%E7%AE%97%E6%B3%95/2017/02/08/%E9%80%92%E5%BD%92%E5%92%8C%E5%88%86%E6%B2%BB-%E6%B1%89%E8%AF%BA%E5%A1%94%E9%97%AE%E9%A2%98.html</guid>
-        
-        <category>算法</category>
-        
-        
-        <category>数据结构和算法</category>
         
       </item>
     
