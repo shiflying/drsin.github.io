@@ -5,8 +5,8 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <title>JPA使用联合主键</title>
-  <meta name="description" content="Spring-Data-Jpa使用Oracle联合主键">
+  <title>crete blog page</title>
+  <meta name="description" content="系统环境:ubuntu16.04 _X86_64所需的应用程序: git,nodejs,ruby-dev,zliblg-dev基础的环境可以参考jekyll 的官方网站 [jekyll] (http://jekyllrb.com/docs/)downloadjekyll pluginsJekyll Documen...">
 
   <meta name="description" content="我不生产代码，只是github的搬用工   
 "/>
@@ -15,7 +15,7 @@
   <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
   <link rel="stylesheet" href="/assets/css/style.css?v=83d8760c61ea08a3a1c52564f23bd360f9038d9b">
   <link rel="stylesheet" href="/assets/css/main.css">
-  <link rel="canonical" href="http://ninowon.com/%E5%90%8E%E7%AB%AF/2017/01/03/JPA%E4%BD%BF%E7%94%A8%E8%81%94%E5%90%88%E4%B8%BB%E9%94%AE.html">
+  <link rel="canonical" href="http://ninowon.com/%E5%B7%A5%E5%85%B7/2017/05/01/create-blog-site.html">
   <link rel="alternate" type="application/rss+xml" title="drsinBlog" href="http://ninowon.com/feed.xml">
 
     <script>
@@ -100,109 +100,54 @@
    <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
 
   <header class="post-header">
-    <h1 class="post-title" itemprop="name headline">JPA使用联合主键</h1>
-    <p class="post-meta"><time datetime="2017-01-03T18:34:16+08:00" itemprop="datePublished">Jan 3, 2017</time></p>
+    <h1 class="post-title" itemprop="name headline">crete blog page</h1>
+    <p class="post-meta"><time datetime="2017-05-01T00:00:00+08:00" itemprop="datePublished">May 1, 2017</time></p>
   </header>
 
   <div class="post-content" itemprop="articleBody">
-    <ul id="markdown-toc">
-  <li><a href="#简要" id="markdown-toc-简要">简要</a></li>
-  <li><a href="#jpa实体类" id="markdown-toc-jpa实体类">JPA实体类</a>    <ul>
-      <li><a href="#讲一下-spring-date-jpa-如何映射实体类" id="markdown-toc-讲一下-spring-date-jpa-如何映射实体类">讲一下 Spring-Date-JPA 如何映射实体类：</a></li>
-    </ul>
-  </li>
-  <li><a href="#资料文档" id="markdown-toc-资料文档">资料文档</a></li>
-</ul>
+    <hr />
+<p>系统环境:ubuntu16.04 _X86_64
+所需的应用程序: git,nodejs,ruby-dev,zliblg-dev</p>
 
-<h2 id="简要">简要</h2>
+<p>基础的环境可以参考jekyll 的官方网站 [jekyll] (http://jekyllrb.com/docs/)</p>
 
-<ul>
-  <li>介绍一下今天在开发时遇到的数据存储问题。</li>
-  <li>
-    <p>具体情况是建立一张表存储学生的成绩，但要求每个学生一年只能有一条成绩（即一条数据），这个时候仅仅用id这一列来标识的话很难做到数据不重复的问题，这就用到了Oracle的联合主键，让年份（nf）和学号（xh）组合成联合主键。</p>
+<p><a href="http://ninowon.com/assets/pdf.Jekyll.pdf">download</a>
+<a href="http://jekyllrb.com/docs/plugins">jekyll plugins</a></p>
 
-    <p>数据格式如下</p>
+<p>Jekyll Document</p>
 
-    <div class="highlighter-rouge"><pre class="highlight"><code>    nf      xh              score
-    2017    20131812227     98
-    2017    20131812228     99
-    2016    20131812227     99
-    2016    20131812228     99
-    都是正确的，而
-    2017    20131812227     99
-    这条数据的联合主键已经存在所以存不进去，从而实现学生每年的成绩存储不重复的问题
-        
-</code></pre>
-    </div>
-  </li>
-</ul>
-
-<h2 id="jpa实体类">JPA实体类</h2>
-
-<h4 id="讲一下-spring-date-jpa-如何映射实体类">讲一下 Spring-Date-JPA 如何映射实体类：</h4>
-
-<ol>
-  <li>
-    <p>先建一个联合主键的Java类，用来存你的联合主键。要求如下：</p>
-
-    <div class="highlighter-rouge"><pre class="highlight"><code> 1.必须要实现serializable接口
- 2.需要有无参的构造函数
- 3.@Embeddable注释,表示此类可以被插入某个entity中
-</code></pre>
-    </div>
-  </li>
-</ol>
-
-<div class="language-java highlighter-rouge"><pre class="highlight"><code>
-<span class="nd">@Embeddable</span>
-<span class="kd">public</span> <span class="kd">class</span> <span class="nc">CJBKey</span> <span class="kd">implements</span> <span class="n">Serializable</span> <span class="o">{</span>
-    <span class="kd">private</span> <span class="kt">int</span> <span class="n">nf</span><span class="o">;</span>
-    <span class="kd">private</span> <span class="n">String</span> <span class="n">xh</span><span class="o">;</span>
-<span class="o">}</span>
-
-</code></pre>
-</div>
-
-<ol>
-  <li>
-    <p>新建用于持久化的实体类（CJB）。要求如下：</p>
-
-    <div class="highlighter-rouge"><pre class="highlight"><code>1.必须要实现serializable接口
-2.需要有无参的构造函数
-3.不使用@Id了而是使用@EmbeddedId，加了这个注解就说明这里的主键是联合主键
-</code></pre>
-    </div>
-  </li>
-</ol>
-
-<div class="language-java highlighter-rouge"><pre class="highlight"><code>
-<span class="nd">@Entity</span>
-<span class="nd">@Table</span><span class="o">(</span><span class="n">name</span> <span class="o">=</span> <span class="s">"CJB"</span><span class="o">)</span>
-<span class="kd">public</span> <span class="kd">class</span> <span class="nc">CJB</span> <span class="kd">implements</span> <span class="n">Serializable</span> <span class="o">{</span>
-
-    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="kt">long</span> <span class="n">serialVersionUID</span> <span class="o">=</span> <span class="mi">1L</span><span class="o">;</span>
-
-    <span class="nd">@EmbeddedId</span>
-    <span class="kd">private</span> <span class="n">CJBKey</span> <span class="n">key</span><span class="o">;</span>
-    <span class="kd">private</span> <span class="n">String</span> <span class="n">score</span><span class="o">;</span>
-<span class="o">}</span>
-
-</code></pre>
-</div>
-
-<ol>
-  <li>
-    <p>数据库中对应的表结构</p>
-
-    <p><img src="http://jiaohongwei.github.io/images/2017-01/20170110162025.png" alt="Object" /></p>
-  </li>
-</ol>
-
-<h2 id="资料文档">资料文档</h2>
+<p>install application</p>
 
 <ul>
-  <li>Spring-Data-JPA api文档：http://docs.spring.io/spring-data/jpa/docs/2.0.0.M1/reference/html/</li>
-  <li>因为JPA底层还是Hibernate实现的，另附一份Hibernate文档： http://docs.jboss.org/hibernate/orm/5.2/userguide/html_single/Hibernate_User_Guide.html#identifiers-generators@</li>
+  <li>apt-get install nodejs</li>
+  <li>apt-get install ruby-dev</li>
+  <li>apt-get install zliblg-dev</li>
+</ul>
+
+<p>create dir</p>
+
+<ul>
+  <li>mkdir myblog</li>
+  <li>cd myblog</li>
+  <li>git clone https://github.com/drsin/drsin.github.io.git</li>
+</ul>
+
+<p>install env</p>
+
+<ul>
+  <li>./script/bootstrap</li>
+</ul>
+
+<p>create sit</p>
+
+<ul>
+  <li>./script/cbuild</li>
+</ul>
+
+<p>start server</p>
+
+<ul>
+  <li>./script/server</li>
 </ul>
 
   </div>
