@@ -1,8 +1,9 @@
 ---
 layout: post
-title: HFConsole收单系统问题
-date: 2017-05-22 
-categories: FAQ
+title: "Hibernate FAQ"
+date: 2017-05-22
+categories: 后端
+tags: jekyll
 ---
 * content
 {:toc}
