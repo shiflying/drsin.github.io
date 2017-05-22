@@ -6,14 +6,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <title>Hibernate Faq</title>
-  <meta name="description" content="layout: posttitle:  “ HFConsole收单系统问题”date:   2017-05-22 categories: FAQtags: FAQexcerpt: HFConsole收单系统问题—-1.生成的*.hbm.xml无法被SaxReader解析解析在确保配置文件中属性名和POJO的类属性...">
+  <meta name="description" content="layout: posttitle:  “HFConsole收单系统问题”date:   2017-05-22 categories: FAQ—-1.生成的*.hbm.xml无法被SaxReader解析解析在确保配置文件中属性名和POJO的类属性名一致和配置文件中的字段属性名与数据库字段一致的前提下检查Hirbe...">
 
   <meta name="description" content="我不生产代码，只是github的搬用工   
 "/>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#157878">
   <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
-  <link rel="stylesheet" href="/assets/css/style.css?v=b4e236861fbaf2f52e80241950768049a875a07e">
+  <link rel="stylesheet" href="/assets/css/style.css?v=83d8760c61ea08a3a1c52564f23bd360f9038d9b">
   <link rel="stylesheet" href="/assets/css/main.css">
   <link rel="canonical" href="http://ninowon.com/2017/05/22/Hibernate-FAQ.html">
   <link rel="alternate" type="application/rss+xml" title="drsinBlog" href="http://ninowon.com/feed.xml">
@@ -105,30 +105,34 @@
   </header>
 
   <div class="post-content" itemprop="articleBody">
-    
-<hr />
+    <hr />
 <p>layout: post
-title:  “ HFConsole收单系统问题”
+title:  “HFConsole收单系统问题”
 date:   2017-05-22 
 categories: FAQ
-tags: FAQ
-excerpt: HFConsole收单系统问题
 —-</p>
 
 <p>1.生成的*.hbm.xml无法被SaxReader解析解析</p>
 
-<p>在确保配置文件中属性名和POJO的类属性名一致和配置文件中的字段属性名与数据库字段一致的前提下</p>
+<div class="highlighter-rouge"><pre class="highlight"><code>在确保配置文件中属性名和POJO的类属性名一致和配置文件中的字段属性名与数据库字段一致的前提下
 
-<p>检查Hirbernate的头文件中的dtd文件是否能访问（点击左键即可访问),如果无法访问，可以有两种原因：</p>
+检查Hirbernate的头文件中的dtd文件是否能访问（点击左键即可访问),如果无法访问，可以有两种原因：
+</code></pre>
+</div>
 
-<p>(1)  配置的xml 的key键不存在，可以自己添加。</p>
+<p>(1)配置的xml 的key键不存在，可以自己添加。</p>
 
-<p>具体步骤：Window-&gt;Preferences-&gt;MyEclipse-&gt; Files and Editors -&gt; XML-&gt;XML Catolog-&gt;user specified entries -&gt;add 
-location:本地下载的DTmD文件</p>
+<div class="highlighter-rouge"><pre class="highlight"><code>具体步骤：Window&gt;&gt;Preferencesl&gt;&gt;MyEclipse&gt;&gt;FilesandEditors&gt;&gt;XML&gt;&gt;XML_Catolog&gt;&gt;uses_specified_entries&gt; add 
 
-<p>key:值为你*.hbm.xml 制定本地key。
-如：“-//Hibernate/Hibernate Mapping DTD 3.0//EN”
-(2) 无法访问外网</p>
+location:本地下载的DTmD文件
+
+key:值为你*.hbm.xml 制定本地key。
+
+如："-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+</code></pre>
+</div>
+
+<p>(2) 无法访问外网</p>
 
   </div>
 
