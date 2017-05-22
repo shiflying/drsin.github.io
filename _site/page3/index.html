@@ -14,7 +14,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#157878">
   <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
-  <link rel="stylesheet" href="/assets/css/style.css?v=d9d9299597579f4d071951560bf7966c5c4c68d3">
+  <link rel="stylesheet" href="/assets/css/style.css?v=b4e236861fbaf2f52e80241950768049a875a07e">
   <link rel="stylesheet" href="/assets/css/main.css">
   <link rel="canonical" href="http://ninowon.com/page3/">
   <link rel="alternate" type="application/rss+xml" title="drsinBlog" href="http://ninowon.com/feed.xml">
@@ -103,6 +103,14 @@
   <h1 class="page-heading">好记性不如烂笔头</h1>
 <!--
   <ul class="post-list">
+    
+      <li>
+        <span class="post-meta">May 22, 2017</span>
+
+        <h2>
+          <a class="post-link" href="/2017/05/22/Hibernate-FAQ.html">Hibernate Faq</a>
+        </h2>
+      </li>
     
       <li>
         <span class="post-meta">Apr 1, 2017</span>
@@ -316,6 +324,70 @@
 -->
 
 <!-- This loops through the paginated posts -->
+
+  <h1><a href="/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%92%8C%E7%AE%97%E6%B3%95/2017/02/08/%E9%80%92%E5%BD%92%E5%92%8C%E5%88%86%E6%B2%BB-%E6%B1%89%E8%AF%BA%E5%A1%94%E9%97%AE%E9%A2%98.html">算法-汉诺（Hanoi）塔问题</a></h1>
+  <p class="author">
+    <span class="date">2017-02-08 22:54:28 +0800</span>
+  </p>
+<!--
+  <div class="content">
+    <ul id="markdown-toc">
+  <li><a href="#问题" id="markdown-toc-问题">问题</a></li>
+  <li><a href="#解题思路" id="markdown-toc-解题思路">解题思路</a></li>
+  <li><a href="#代码" id="markdown-toc-代码">代码</a></li>
+</ul>
+
+<h2 id="问题">问题</h2>
+
+<ul>
+  <li>汉诺（Hanoi）塔问题：</li>
+</ul>
+
+<p>古代有一个梵塔，塔内有三个座A、B、C，A座上有64个盘子，盘子大小不等，大的在下，小的在上（如图）。有一个和尚想把这64个盘子从A座移到B座，但每次只能允许移动一个盘子，并且在移动过程中，3个座上的盘子始终保持大盘在下，小盘在上。在移动过程中可以利用B座，要求打印移动的步骤。如果只有一个盘子，则不需要利用B座，直接将盘子从A移动到C。</p>
+
+<h2 id="解题思路">解题思路</h2>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>1. 先将前63个盘子移动到Y上,确保大盘在小盘下面;
+2. 再将X最底下的第64个盘子移动到Z上;
+3. 最后将Y上面的63个盘子移动到Z上。
+</code></pre>
+</div>
+
+<h2 id="代码">代码</h2>
+
+<div class="language-c++ highlighter-rouge"><pre class="highlight"><code><span class="cp">#include &lt;stdio.h&gt;
+</span><span class="c1">//经典递归问题
+//汉诺塔
+</span>
+<span class="c1">//将n个盘子从x借助y移动到z
+</span><span class="kt">void</span> <span class="n">move</span><span class="p">(</span><span class="kt">int</span> <span class="n">n</span><span class="p">,</span><span class="kt">char</span> <span class="n">x</span><span class="p">,</span><span class="kt">char</span> <span class="n">y</span><span class="p">,</span><span class="kt">char</span> <span class="n">z</span><span class="p">){</span>
+	<span class="k">if</span><span class="p">(</span><span class="mi">1</span><span class="o">==</span><span class="n">n</span><span class="p">){</span>
+		<span class="n">printf</span><span class="p">(</span><span class="s">"%c--&gt;%c</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span><span class="n">x</span><span class="p">,</span><span class="n">z</span><span class="p">);</span>
+	<span class="p">}</span>
+	<span class="k">else</span><span class="p">{</span>
+		<span class="n">move</span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="n">x</span><span class="p">,</span><span class="n">z</span><span class="p">,</span><span class="n">y</span><span class="p">);</span>		<span class="c1">//将n-1个盘子从X借助z移动到y
+</span>
+		<span class="n">printf</span><span class="p">(</span><span class="s">"%c--&gt;%c</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span><span class="n">x</span><span class="p">,</span><span class="n">z</span><span class="p">);</span><span class="c1">//将第n个盘子从x移动刀z上
+</span>		
+		<span class="n">move</span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">x</span><span class="p">,</span><span class="n">z</span><span class="p">);</span>		<span class="c1">//将n-1个盘子从y借助x移动到Z上;
+</span>	<span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kt">int</span> <span class="n">main</span><span class="p">()</span>
+<span class="p">{</span>
+	<span class="kt">int</span> <span class="n">n</span><span class="p">;</span>
+	<span class="n">printf</span><span class="p">(</span><span class="s">"请输入汉诺塔的层数："</span><span class="p">);</span>
+	<span class="n">scanf</span><span class="p">(</span><span class="s">"%d"</span><span class="p">,</span><span class="o">&amp;</span><span class="n">n</span><span class="p">);</span>
+	<span class="n">printf</span><span class="p">(</span><span class="s">"移动的部署如下：</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+	<span class="n">move</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="sc">'x'</span><span class="p">,</span><span class="sc">'y'</span><span class="p">,</span><span class="sc">'z'</span><span class="p">);</span>
+	<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+
+</code></pre>
+</div>
+
+  </div>
+-->
 
   <h1><a href="/%E5%A4%A7%E6%95%B0%E6%8D%AE/2017/02/06/Hadoop%E6%A0%B8%E5%BF%83-MapReduce%E7%AE%80%E4%BB%8B.html">Hadoop核心-MapReduce简介</a></h1>
   <p class="author">
@@ -821,122 +893,6 @@ fs.default.name是缺省文件url标识
 <ul>
   <li>Spring-Data-JPA api文档：http://docs.spring.io/spring-data/jpa/docs/2.0.0.M1/reference/html/</li>
   <li>因为JPA底层还是Hibernate实现的，另附一份Hibernate文档： http://docs.jboss.org/hibernate/orm/5.2/userguide/html_single/Hibernate_User_Guide.html#identifiers-generators@</li>
-</ul>
-
-  </div>
--->
-
-  <h1><a href="/%E5%89%8D%E7%AB%AF/2017/01/03/Bootstrap-Tab%E6%A0%87%E7%AD%BE%E9%A1%B5.html">Bootstrap-Tab 标签页</a></h1>
-  <p class="author">
-    <span class="date">2017-01-03 18:34:16 +0800</span>
-  </p>
-<!--
-  <div class="content">
-    <ul id="markdown-toc">
-  <li><a href="#简要" id="markdown-toc-简要">简要</a></li>
-  <li><a href="#事件" id="markdown-toc-事件">事件</a></li>
-  <li><a href="#本地实测" id="markdown-toc-本地实测">本地实测</a></li>
-  <li><a href="#资料文档" id="markdown-toc-资料文档">资料文档</a></li>
-</ul>
-
-<h2 id="简要">简要</h2>
-
-<ul>
-  <li>具体的使用方法自己查看api文档就能搞定，很简单的，先在主要介绍一下关于tab的几个点击事件，在开发中常用到的</li>
-  <li>实际开发中可能会有多个tab页面，但是不可能一下子全部加载出来，否则速度太慢不说也不好更新内容，我们则可以通过触发tab时初始化tab中的数据</li>
-</ul>
-
-<h2 id="事件">事件</h2>
-
-<ol>
-  <li><code class="highlighter-rouge">show.bs.tab</code></li>
-</ol>
-
-<ul>
-  <li>
-    <p>介绍：</p>
-  </li>
-  <li>
-    <p>该事件在标签页显示时触发，但是必须在新标签页被显示之前。分别使用 event.target 和 event.relatedTarget 来定位到激活的标签页和前一个激活的标签页。</p>
-  </li>
-  <li>
-    <p>实例：</p>
-
-    <div class="highlighter-rouge"><pre class="highlight"><code>```js
-    
-$('a[data-toggle="tab"]').on('show.bs.tab', function (e) {
-  e.target // 激活的标签页
-  e.relatedTarget // 前一个激活的标签页
-})
-    
-```
-</code></pre>
-    </div>
-  </li>
-</ul>
-
-<ol>
-  <li><code class="highlighter-rouge">shown.bs.tab</code></li>
-</ol>
-
-<ul>
-  <li>
-    <p>介绍：</p>
-  </li>
-  <li>
-    <p>该事件在标签页显示时触发，但是必须在某个标签页已经显示之后。分别使用 event.target 和 event.relatedTarget 来定位到激活的标签页和前一个激活的标签页。</p>
-  </li>
-  <li>
-    <p>实例：</p>
-
-    <div class="highlighter-rouge"><pre class="highlight"><code>```js
-   
-$('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
-  e.target // 激活的标签页
-  e.relatedTarget // 前一个激活的标签页
-})
-   
-```
-</code></pre>
-    </div>
-  </li>
-</ul>
-
-<h2 id="本地实测">本地实测</h2>
-
-<ul>
-  <li>就是在激活标签页后 初始化tab中的表格及其数据</li>
-</ul>
-
-<div class="language-js highlighter-rouge"><pre class="highlight"><code>
-<span class="nx">$</span><span class="p">(</span><span class="s1">'a[data-toggle="tab"]'</span><span class="p">).</span><span class="nx">on</span><span class="p">(</span><span class="s1">'shown.bs.tab'</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
-    <span class="nx">e</span><span class="p">.</span><span class="nx">target</span> <span class="c1">// 激活的标签页</span>
-    <span class="nx">e</span><span class="p">.</span><span class="nx">relatedTarget</span> <span class="c1">// 前一个激活的标签页</span>
-    <span class="kd">var</span> <span class="nx">currentTab</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="nx">e</span><span class="p">.</span><span class="nx">target</span><span class="p">).</span><span class="nx">text</span><span class="p">();</span> <span class="c1">//获取当前标签页的标题</span>
-
-    <span class="k">if</span> <span class="p">(</span><span class="nx">currentTab</span> <span class="o">==</span> <span class="s1">'项目代码管理'</span><span class="p">){</span>
-        <span class="c1">//1.初始化Table</span>
-        <span class="kd">var</span> <span class="nx">oTable</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">TableInitj</span><span class="p">();</span>
-        <span class="nx">oTable</span><span class="p">.</span><span class="nx">Init</span><span class="p">(</span><span class="s2">"/admin/sel/getxmdmb"</span><span class="p">,</span> <span class="s2">"toolbar_xmdm"</span><span class="p">);</span>
-
-        <span class="c1">//2.初始化select的change事件</span>
-        <span class="nx">$</span><span class="p">(</span><span class="s2">"#sel_exportoption"</span><span class="p">).</span><span class="nx">change</span><span class="p">(</span><span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
-            <span class="nx">$</span><span class="p">(</span><span class="s1">'#table_xmdm'</span><span class="p">).</span><span class="nx">bootstrapTable</span><span class="p">(</span><span class="s1">'refreshOptions'</span><span class="p">,</span> <span class="p">{</span>
-                <span class="na">exportDataType</span><span class="p">:</span> <span class="nx">$</span><span class="p">(</span><span class="k">this</span><span class="p">).</span><span class="nx">val</span><span class="p">()</span>
-            <span class="p">});</span>
-
-        <span class="p">});</span>
-    <span class="p">}</span>
-
-<span class="p">})</span>
-
-</code></pre>
-</div>
-
-<h2 id="资料文档">资料文档</h2>
-
-<ul>
-  <li>Bootstrap-tab标签 官方api文档：http://www.tutorialspoint.com/bootstrap/bootstrap_tab_plugin.htm</li>
 </ul>
 
   </div>
