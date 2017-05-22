@@ -1,9 +1,9 @@
-----
+---
 layout: post
-title:  "HFConsole收单系统问题"
-date:   2017-05-22 
+title: HFConsole收单系统问题
+date: 2017-05-22 
 categories: FAQ
-----
+---
 * content
 {:toc}
 
