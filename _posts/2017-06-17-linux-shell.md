@@ -1,5 +1,4 @@
-Liunx shell
-== 
+
 ---
 layout: post
 title:  "linux"
