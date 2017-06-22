@@ -14,7 +14,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#157878">
   <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
-  <link rel="stylesheet" href="/assets/css/style.css?v=ea10e8ebf8a9c6b10cd6f2f4c5ddea68f5d54250">
+  <link rel="stylesheet" href="/assets/css/style.css?v=6215a2849678db39332432a733632219d4f4a945">
   <link rel="stylesheet" href="/assets/css/main.css">
   <link rel="canonical" href="http://ninowon.com/page5/">
   <link rel="alternate" type="application/rss+xml" title="drsinBlog" href="http://ninowon.com/feed.xml">
@@ -77,6 +77,8 @@
         
           
         
+          
+        
       </div>
     </nav>
 
@@ -103,6 +105,46 @@
   <h1 class="page-heading">好记性不如烂笔头</h1>
 <!--
   <ul class="post-list">
+    
+      <li>
+        <span class="post-meta">Jun 16, 2017</span>
+
+        <h2>
+          <a class="post-link" href="/liunx/2017/06/16/linux-shell.html">linux</a>
+        </h2>
+      </li>
+    
+      <li>
+        <span class="post-meta">Jun 16, 2017</span>
+
+        <h2>
+          <a class="post-link" href="/c%E8%AF%AD%E8%A8%80/2017/06/16/C%E8%AF%AD%E8%A8%80%E7%B3%BB%E7%BB%9F%E8%B0%83%E7%94%A8.html">C语言系统调用</a>
+        </h2>
+      </li>
+    
+      <li>
+        <span class="post-meta">Jun 16, 2017</span>
+
+        <h2>
+          <a class="post-link" href="/c%E8%AF%AD%E8%A8%80/2017/06/16/C%E8%AF%AD%E8%A8%80%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B.html">C语言数据类型</a>
+        </h2>
+      </li>
+    
+      <li>
+        <span class="post-meta">Jun 16, 2017</span>
+
+        <h2>
+          <a class="post-link" href="/c%E8%AF%AD%E8%A8%80/2017/06/16/C%E8%AF%AD%E8%A8%80%E5%9F%BA%E7%A1%80%E7%BB%83%E4%B9%A0.html">C语言基础练习</a>
+        </h2>
+      </li>
+    
+      <li>
+        <span class="post-meta">Jun 8, 2017</span>
+
+        <h2>
+          <a class="post-link" href="/%E6%94%AF%E4%BB%98%E4%B8%9A%E5%8A%A1/2017/06/08/%E9%93%B6%E8%81%94%E5%89%8D%E7%BD%AE%E7%B3%BB%E7%BB%9F.html">银联前置系统</a>
+        </h2>
+      </li>
     
       <li>
         <span class="post-meta">May 22, 2017</span>
@@ -333,9 +375,578 @@
 
 <!-- This loops through the paginated posts -->
 
-  <h1><a href="/%E5%90%8E%E7%AB%AF/2016/12/20/Spring-Data-Jpa%E6%9F%A5%E8%AF%A2%E8%A7%86%E5%9B%BE.html">Spring-Data-Jpa 查询视图</a></h1>
+  <h1><a href="/%E5%90%8E%E7%AB%AF/2017/01/03/JPA%E4%BD%BF%E7%94%A8%E8%81%94%E5%90%88%E4%B8%BB%E9%94%AE.html">JPA使用联合主键</a></h1>
   <p class="author">
-    <span class="date">2016-12-20 04:00:50 +0800</span>
+    <span class="date">2017-01-03 18:34:16 +0800</span>
+  </p>
+<!--
+  <div class="content">
+    <ul id="markdown-toc">
+  <li><a href="#简要" id="markdown-toc-简要">简要</a></li>
+  <li><a href="#jpa实体类" id="markdown-toc-jpa实体类">JPA实体类</a>    <ul>
+      <li><a href="#讲一下-spring-date-jpa-如何映射实体类" id="markdown-toc-讲一下-spring-date-jpa-如何映射实体类">讲一下 Spring-Date-JPA 如何映射实体类：</a></li>
+    </ul>
+  </li>
+  <li><a href="#资料文档" id="markdown-toc-资料文档">资料文档</a></li>
+</ul>
+
+<h2 id="简要">简要</h2>
+
+<ul>
+  <li>介绍一下今天在开发时遇到的数据存储问题。</li>
+  <li>
+    <p>具体情况是建立一张表存储学生的成绩，但要求每个学生一年只能有一条成绩（即一条数据），这个时候仅仅用id这一列来标识的话很难做到数据不重复的问题，这就用到了Oracle的联合主键，让年份（nf）和学号（xh）组合成联合主键。</p>
+
+    <p>数据格式如下</p>
+
+    <div class="highlighter-rouge"><pre class="highlight"><code>    nf      xh              score
+    2017    20131812227     98
+    2017    20131812228     99
+    2016    20131812227     99
+    2016    20131812228     99
+    都是正确的，而
+    2017    20131812227     99
+    这条数据的联合主键已经存在所以存不进去，从而实现学生每年的成绩存储不重复的问题
+        
+</code></pre>
+    </div>
+  </li>
+</ul>
+
+<h2 id="jpa实体类">JPA实体类</h2>
+
+<h4 id="讲一下-spring-date-jpa-如何映射实体类">讲一下 Spring-Date-JPA 如何映射实体类：</h4>
+
+<ol>
+  <li>
+    <p>先建一个联合主键的Java类，用来存你的联合主键。要求如下：</p>
+
+    <div class="highlighter-rouge"><pre class="highlight"><code> 1.必须要实现serializable接口
+ 2.需要有无参的构造函数
+ 3.@Embeddable注释,表示此类可以被插入某个entity中
+</code></pre>
+    </div>
+  </li>
+</ol>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code>
+<span class="nd">@Embeddable</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">CJBKey</span> <span class="kd">implements</span> <span class="n">Serializable</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="kt">int</span> <span class="n">nf</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="n">String</span> <span class="n">xh</span><span class="o">;</span>
+<span class="o">}</span>
+
+</code></pre>
+</div>
+
+<ol>
+  <li>
+    <p>新建用于持久化的实体类（CJB）。要求如下：</p>
+
+    <div class="highlighter-rouge"><pre class="highlight"><code>1.必须要实现serializable接口
+2.需要有无参的构造函数
+3.不使用@Id了而是使用@EmbeddedId，加了这个注解就说明这里的主键是联合主键
+</code></pre>
+    </div>
+  </li>
+</ol>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code>
+<span class="nd">@Entity</span>
+<span class="nd">@Table</span><span class="o">(</span><span class="n">name</span> <span class="o">=</span> <span class="s">"CJB"</span><span class="o">)</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">CJB</span> <span class="kd">implements</span> <span class="n">Serializable</span> <span class="o">{</span>
+
+    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="kt">long</span> <span class="n">serialVersionUID</span> <span class="o">=</span> <span class="mi">1L</span><span class="o">;</span>
+
+    <span class="nd">@EmbeddedId</span>
+    <span class="kd">private</span> <span class="n">CJBKey</span> <span class="n">key</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="n">String</span> <span class="n">score</span><span class="o">;</span>
+<span class="o">}</span>
+
+</code></pre>
+</div>
+
+<ol>
+  <li>
+    <p>数据库中对应的表结构</p>
+
+    <p><img src="http://jiaohongwei.github.io/images/2017-01/20170110162025.png" alt="Object" /></p>
+  </li>
+</ol>
+
+<h2 id="资料文档">资料文档</h2>
+
+<ul>
+  <li>Spring-Data-JPA api文档：http://docs.spring.io/spring-data/jpa/docs/2.0.0.M1/reference/html/</li>
+  <li>因为JPA底层还是Hibernate实现的，另附一份Hibernate文档： http://docs.jboss.org/hibernate/orm/5.2/userguide/html_single/Hibernate_User_Guide.html#identifiers-generators@</li>
+</ul>
+
+  </div>
+-->
+
+  <h1><a href="/%E5%89%8D%E7%AB%AF/2017/01/03/Bootstrap-Tab%E6%A0%87%E7%AD%BE%E9%A1%B5.html">Bootstrap-Tab 标签页</a></h1>
+  <p class="author">
+    <span class="date">2017-01-03 18:34:16 +0800</span>
+  </p>
+<!--
+  <div class="content">
+    <ul id="markdown-toc">
+  <li><a href="#简要" id="markdown-toc-简要">简要</a></li>
+  <li><a href="#事件" id="markdown-toc-事件">事件</a></li>
+  <li><a href="#本地实测" id="markdown-toc-本地实测">本地实测</a></li>
+  <li><a href="#资料文档" id="markdown-toc-资料文档">资料文档</a></li>
+</ul>
+
+<h2 id="简要">简要</h2>
+
+<ul>
+  <li>具体的使用方法自己查看api文档就能搞定，很简单的，先在主要介绍一下关于tab的几个点击事件，在开发中常用到的</li>
+  <li>实际开发中可能会有多个tab页面，但是不可能一下子全部加载出来，否则速度太慢不说也不好更新内容，我们则可以通过触发tab时初始化tab中的数据</li>
+</ul>
+
+<h2 id="事件">事件</h2>
+
+<ol>
+  <li><code class="highlighter-rouge">show.bs.tab</code></li>
+</ol>
+
+<ul>
+  <li>
+    <p>介绍：</p>
+  </li>
+  <li>
+    <p>该事件在标签页显示时触发，但是必须在新标签页被显示之前。分别使用 event.target 和 event.relatedTarget 来定位到激活的标签页和前一个激活的标签页。</p>
+  </li>
+  <li>
+    <p>实例：</p>
+
+    <div class="highlighter-rouge"><pre class="highlight"><code>```js
+    
+$('a[data-toggle="tab"]').on('show.bs.tab', function (e) {
+  e.target // 激活的标签页
+  e.relatedTarget // 前一个激活的标签页
+})
+    
+```
+</code></pre>
+    </div>
+  </li>
+</ul>
+
+<ol>
+  <li><code class="highlighter-rouge">shown.bs.tab</code></li>
+</ol>
+
+<ul>
+  <li>
+    <p>介绍：</p>
+  </li>
+  <li>
+    <p>该事件在标签页显示时触发，但是必须在某个标签页已经显示之后。分别使用 event.target 和 event.relatedTarget 来定位到激活的标签页和前一个激活的标签页。</p>
+  </li>
+  <li>
+    <p>实例：</p>
+
+    <div class="highlighter-rouge"><pre class="highlight"><code>```js
+   
+$('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+  e.target // 激活的标签页
+  e.relatedTarget // 前一个激活的标签页
+})
+   
+```
+</code></pre>
+    </div>
+  </li>
+</ul>
+
+<h2 id="本地实测">本地实测</h2>
+
+<ul>
+  <li>就是在激活标签页后 初始化tab中的表格及其数据</li>
+</ul>
+
+<div class="language-js highlighter-rouge"><pre class="highlight"><code>
+<span class="nx">$</span><span class="p">(</span><span class="s1">'a[data-toggle="tab"]'</span><span class="p">).</span><span class="nx">on</span><span class="p">(</span><span class="s1">'shown.bs.tab'</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">e</span><span class="p">.</span><span class="nx">target</span> <span class="c1">// 激活的标签页</span>
+    <span class="nx">e</span><span class="p">.</span><span class="nx">relatedTarget</span> <span class="c1">// 前一个激活的标签页</span>
+    <span class="kd">var</span> <span class="nx">currentTab</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="nx">e</span><span class="p">.</span><span class="nx">target</span><span class="p">).</span><span class="nx">text</span><span class="p">();</span> <span class="c1">//获取当前标签页的标题</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="nx">currentTab</span> <span class="o">==</span> <span class="s1">'项目代码管理'</span><span class="p">){</span>
+        <span class="c1">//1.初始化Table</span>
+        <span class="kd">var</span> <span class="nx">oTable</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">TableInitj</span><span class="p">();</span>
+        <span class="nx">oTable</span><span class="p">.</span><span class="nx">Init</span><span class="p">(</span><span class="s2">"/admin/sel/getxmdmb"</span><span class="p">,</span> <span class="s2">"toolbar_xmdm"</span><span class="p">);</span>
+
+        <span class="c1">//2.初始化select的change事件</span>
+        <span class="nx">$</span><span class="p">(</span><span class="s2">"#sel_exportoption"</span><span class="p">).</span><span class="nx">change</span><span class="p">(</span><span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+            <span class="nx">$</span><span class="p">(</span><span class="s1">'#table_xmdm'</span><span class="p">).</span><span class="nx">bootstrapTable</span><span class="p">(</span><span class="s1">'refreshOptions'</span><span class="p">,</span> <span class="p">{</span>
+                <span class="na">exportDataType</span><span class="p">:</span> <span class="nx">$</span><span class="p">(</span><span class="k">this</span><span class="p">).</span><span class="nx">val</span><span class="p">()</span>
+            <span class="p">});</span>
+
+        <span class="p">});</span>
+    <span class="p">}</span>
+
+<span class="p">})</span>
+
+</code></pre>
+</div>
+
+<h2 id="资料文档">资料文档</h2>
+
+<ul>
+  <li>Bootstrap-tab标签 官方api文档：http://www.tutorialspoint.com/bootstrap/bootstrap_tab_plugin.htm</li>
+</ul>
+
+  </div>
+-->
+
+  <h1><a href="/%E5%89%8D%E7%AB%AF/2017/01/03/Bootstrap-table%E5%AF%BC%E5%87%BAExcel.html">Bootstrap-Table 导出Excel</a></h1>
+  <p class="author">
+    <span class="date">2017-01-03 18:03:37 +0800</span>
+  </p>
+<!--
+  <div class="content">
+    <ul id="markdown-toc">
+  <li><a href="#简要" id="markdown-toc-简要">简要</a></li>
+  <li><a href="#概述" id="markdown-toc-概述">概述</a></li>
+  <li><a href="#初始化" id="markdown-toc-初始化">初始化</a></li>
+  <li><a href="#页面设置" id="markdown-toc-页面设置">页面设置</a></li>
+  <li><a href="#页面展现" id="markdown-toc-页面展现">页面展现</a></li>
+  <li><a href="#注意" id="markdown-toc-注意">注意</a></li>
+</ul>
+
+<h2 id="简要">简要</h2>
+
+<ul>
+  <li>简要介绍一下bootatrap-table的导出功能（纯前端操作）</li>
+</ul>
+
+<h2 id="概述">概述</h2>
+
+<ul>
+  <li>bootstrap-table中可以设置导出表格内容，需要引入相关的export.js文件</li>
+</ul>
+
+<div class="language-html highlighter-rouge"><pre class="highlight"><code>
+<span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"${basePath}/static/js/bootstrap-table/bootstrap-table-export.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
+<span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"${basePath}/static/js/bootstrap-table/tableExport/tableExport.js"</span><span class="nt">&gt;&lt;/script&gt;</span>    
+
+</code></pre>
+</div>
+
+<h2 id="初始化">初始化</h2>
+
+<div class="language-js highlighter-rouge"><pre class="highlight"><code><span class="nx">$</span><span class="p">(</span><span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+
+    <span class="c1">//1.初始化Table</span>
+    <span class="kd">var</span> <span class="nx">oTable</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">TableInitj</span><span class="p">();</span>
+    <span class="nx">oTable</span><span class="p">.</span><span class="nx">Init</span><span class="p">(</span><span class="s2">"/admin/sel/getxmdmb"</span><span class="p">,</span> <span class="s2">"toolbar_xmdm"</span><span class="p">);</span>
+
+    <span class="c1">//2.初始化Button的点击事件</span>
+    <span class="kd">var</span> <span class="nx">oButtonInit</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">ButtonInit</span><span class="p">();</span>
+    <span class="nx">oButtonInit</span><span class="p">.</span><span class="nx">Init</span><span class="p">();</span>
+
+    <span class="c1">//2.初始化select的change事件</span>
+    <span class="nx">$</span><span class="p">(</span><span class="s2">"#sel_exportoption"</span><span class="p">).</span><span class="nx">change</span><span class="p">(</span><span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+        <span class="nx">$</span><span class="p">(</span><span class="s1">'#table_xmdm'</span><span class="p">).</span><span class="nx">bootstrapTable</span><span class="p">(</span><span class="s1">'refreshOptions'</span><span class="p">,</span> <span class="p">{</span>
+            <span class="na">exportDataType</span><span class="p">:</span> <span class="nx">$</span><span class="p">(</span><span class="k">this</span><span class="p">).</span><span class="nx">val</span><span class="p">()</span>
+        <span class="p">});</span>
+
+    <span class="p">});</span>
+
+
+<span class="p">});</span>
+
+<span class="kd">var</span> <span class="nx">TableInitj</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">oTableInit</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Object</span><span class="p">();</span>
+    <span class="c1">//初始化Table</span>
+    <span class="nx">oTableInit</span><span class="p">.</span><span class="nx">Init</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">uploadUrl</span><span class="p">,</span> <span class="nx">toolbar</span><span class="p">)</span> <span class="p">{</span>
+        <span class="kd">var</span> <span class="nx">toolbar</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="s1">'#'</span> <span class="o">+</span> <span class="nx">toolbar</span><span class="p">);</span>
+
+        <span class="nx">$</span><span class="p">(</span><span class="s2">"#table_xmdm"</span><span class="p">).</span><span class="nx">bootstrapTable</span><span class="p">({</span>
+                                            <span class="na">responsive</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+                                            <span class="na">url</span><span class="p">:</span> <span class="nx">uploadUrl</span><span class="p">,</span>         <span class="c1">//请求后台的URL（*）</span>
+                                            <span class="na">method</span><span class="p">:</span> <span class="s1">'get'</span><span class="p">,</span>                      <span class="c1">//请求方式（*）</span>
+                                            <span class="na">toolbar</span><span class="p">:</span> <span class="nx">toolbar</span><span class="p">,</span>                <span class="c1">//工具按钮用哪个容器</span>
+                                            <span class="na">striped</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>                      <span class="c1">//是否显示行间隔色</span>
+                                            <span class="na">cache</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>                       <span class="c1">//是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）</span>
+                                            <span class="na">pagination</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>                   <span class="c1">//是否显示分页（*）</span>
+                                            <span class="na">sortable</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>                     <span class="c1">//是否启用排序</span>
+                                            <span class="c1">// sortStable:true,                     //设置为 true</span>
+                                            <span class="c1">// 将获得稳定的排序，我们会添加_position属性到 row 数据中。 sortOrder: "asc",</span>
+                                            <span class="c1">//           //定义排序方式 'asc' 或者 'desc'</span>
+                                            <span class="na">queryParams</span><span class="p">:</span> <span class="nx">oTableInit</span><span class="p">.</span><span class="nx">queryParams</span><span class="p">,</span><span class="c1">//传递参数（*）</span>
+                                            <span class="na">sidePagination</span><span class="p">:</span> <span class="s2">"client"</span><span class="p">,</span>           <span class="c1">//分页方式：client客户端分页，server服务端分页（*）</span>
+                                            <span class="na">pageNumber</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>                       <span class="c1">//初始化加载第一页，默认第一页</span>
+                                            <span class="na">pageSize</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>                       <span class="c1">//每页的记录行数（*）</span>
+                                            <span class="na">pageList</span><span class="p">:</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">25</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">100</span><span class="p">],</span>        <span class="c1">//可供选择的每页的行数（*）</span>
+                                            <span class="na">search</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>                       <span class="c1">//是否显示表格搜索，此搜索是客户端搜索，不会进服务端，所以，个人感觉意义不大</span>
+                                            <span class="na">strictSearch</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>                 <span class="c1">// 	设置为 true启用</span>
+                                                                                 <span class="c1">// 全匹配搜索，否则为模糊搜索</span>
+                                            <span class="na">showColumns</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>                  <span class="c1">//是否显示所有的列</span>
+                                            <span class="na">showRefresh</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>                  <span class="c1">//是否显示刷新按钮</span>
+                                            <span class="na">minimumCountColumns</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>             <span class="c1">//最少允许的列数</span>
+                                            <span class="na">clickToSelect</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>                <span class="c1">//是否启用点击选中行</span>
+                                            <span class="c1">// height: window.innerHeight - 300,</span>
+                                            <span class="c1">// //行高，如果没有设置height属性，表格自动根据记录条数觉得表格高度</span>
+                                            <span class="na">uniqueId</span><span class="p">:</span> <span class="s2">"ID"</span><span class="p">,</span>                     <span class="c1">//每一行的唯一标识，一般为主键列</span>
+                                            <span class="na">showToggle</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>                  <span class="c1">//是否显示详细视图和列表视图的切换按钮</span>
+                                            <span class="na">cardView</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>                    <span class="c1">//是否显示详细视图</span>
+                                            <span class="na">detailView</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>                   <span class="c1">//是否显示父子表</span>
+                                            <span class="na">showExport</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>                     <span class="c1">//是否显示导出</span>
+                                            <span class="na">exportDataType</span><span class="p">:</span> <span class="s2">"basic"</span><span class="p">,</span>              <span class="c1">//basic', 'all', 'selected'.</span>
+                                            <span class="na">columns</span><span class="p">:</span> <span class="p">[{</span>
+                                                <span class="na">checkbox</span><span class="p">:</span> <span class="kc">true</span>
+                                            <span class="p">},</span>
+                                                <span class="p">{</span>
+                                                    <span class="na">align</span><span class="p">:</span> <span class="s1">'center'</span><span class="p">,</span>
+                                                    <span class="na">field</span><span class="p">:</span> <span class="s1">'xmdm'</span><span class="p">,</span>
+                                                    <span class="na">title</span><span class="p">:</span> <span class="s1">'项目代码'</span>
+
+                                                <span class="p">},</span> <span class="p">{</span>
+                                                    <span class="na">field</span><span class="p">:</span> <span class="s1">'xmmc'</span><span class="p">,</span>
+                                                    <span class="na">title</span><span class="p">:</span> <span class="s1">'项目名称'</span>
+                                                <span class="p">},</span> <span class="p">{</span>
+                                                    <span class="na">field</span><span class="p">:</span> <span class="s1">'jldw'</span><span class="p">,</span>
+                                                    <span class="na">title</span><span class="p">:</span> <span class="s1">'计量单位'</span>
+                                                <span class="p">}</span>
+                                                <span class="p">,</span> <span class="p">{</span>
+                                                    <span class="na">field</span><span class="p">:</span> <span class="s1">'action'</span><span class="p">,</span>
+                                                    <span class="na">title</span><span class="p">:</span> <span class="s1">'操作'</span>
+                                                <span class="p">}</span>
+                                            <span class="p">]</span>
+                                        <span class="p">});</span>
+    <span class="p">};</span>
+
+    <span class="c1">//得到查询的参数</span>
+    <span class="nx">oTableInit</span><span class="p">.</span><span class="nx">queryParams</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">params</span><span class="p">)</span> <span class="p">{</span>
+        <span class="kd">var</span> <span class="nx">temp</span> <span class="o">=</span> <span class="p">{</span>   <span class="c1">//这里的键的名字和控制器的变量名必须一直，这边改动，控制器也需要改成一样的</span>
+            <span class="na">limit</span><span class="p">:</span> <span class="nx">params</span><span class="p">.</span><span class="nx">limit</span><span class="p">,</span>   <span class="c1">//页面大小</span>
+            <span class="na">offset</span><span class="p">:</span> <span class="nx">params</span><span class="p">.</span><span class="nx">offset</span><span class="p">,</span>  <span class="c1">//页码</span>
+        <span class="p">};</span>
+        <span class="k">return</span> <span class="nx">temp</span><span class="p">;</span>
+    <span class="p">};</span>
+    <span class="k">return</span> <span class="nx">oTableInit</span><span class="p">;</span>
+<span class="p">};</span>
+
+<span class="kd">var</span> <span class="nx">ButtonInit</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">oInit</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Object</span><span class="p">();</span>
+    <span class="kd">var</span> <span class="nx">postdata</span> <span class="o">=</span> <span class="p">{};</span>
+
+    <span class="nx">oInit</span><span class="p">.</span><span class="nx">Init</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+        <span class="c1">//初始化页面上面的按钮事件</span>
+    <span class="p">};</span>
+
+    <span class="k">return</span> <span class="nx">oInit</span><span class="p">;</span>
+<span class="p">};</span>
+
+</code></pre>
+</div>
+
+<h2 id="页面设置">页面设置</h2>
+
+<div class="language-html highlighter-rouge"><pre class="highlight"><code><span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"table-responsive"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">"toolbar_xmdm"</span> <span class="na">class=</span><span class="s">"btn-group"</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;select</span> <span class="na">id=</span><span class="s">"sel_exportoption"</span> <span class="na">class=</span><span class="s">"form-control"</span><span class="nt">&gt;</span>
+            <span class="nt">&lt;option</span> <span class="na">value=</span><span class="s">""</span><span class="nt">&gt;</span>导出当前页面数据<span class="nt">&lt;/option&gt;</span>
+            <span class="nt">&lt;option</span> <span class="na">value=</span><span class="s">"all"</span><span class="nt">&gt;</span>导出全部数据<span class="nt">&lt;/option&gt;</span>
+            <span class="nt">&lt;option</span> <span class="na">value=</span><span class="s">"selected"</span><span class="nt">&gt;</span>导出选中数据<span class="nt">&lt;/option&gt;</span>
+        <span class="nt">&lt;/select&gt;</span>
+    <span class="nt">&lt;/div&gt;</span>
+    <span class="nt">&lt;table</span> <span class="na">class=</span><span class="s">"table table-primary mb30"</span> <span class="na">id=</span><span class="s">"table_xmdm"</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;tbody&gt;</span>
+
+
+        <span class="nt">&lt;/tbody&gt;</span>
+    <span class="nt">&lt;/table&gt;</span>
+
+<span class="nt">&lt;/div&gt;</span><span class="c">&lt;!-- table-responsive --&gt;</span>
+
+</code></pre>
+</div>
+<h2 id="页面展现">页面展现</h2>
+
+<p><img src="http://jiaohongwei.github.io/images/2017-01/20170103095333.png" alt="Object" /></p>
+
+<p><img src="http://jiaohongwei.github.io/images/2017-01/20170103095556.png" alt="Object" /></p>
+
+<h2 id="注意">注意</h2>
+
+<ul>
+  <li>
+    <p>看初始化select按钮时的动作，是刷新bootstrap-table的Options，而不是直接导出，查了查好多文档都没有写这个导出是哪一个函数，官方文档也是这样定义了一个select选择类型，然后在选择导出。</p>
+  </li>
+  <li>Bootstrap-table-export demo 实例：http://issues.wenzhixin.net.cn/bootstrap-table/#extensions/export.html</li>
+  <li>Bootstrap-table 官方api文档：http://bootstrap-table.wenzhixin.net.cn/zh-cn/documentation/</li>
+</ul>
+
+  </div>
+-->
+
+  <h1><a href="/%E5%89%8D%E7%AB%AF/2016/12/23/Bootstrap-table%E5%88%86%E9%A1%B5%E6%9F%A5%E8%AF%A2.html">Bootstrap-Table 分页查询</a></h1>
+  <p class="author">
+    <span class="date">2016-12-23 00:20:53 +0800</span>
+  </p>
+<!--
+  <div class="content">
+    <ul id="markdown-toc">
+  <li><a href="#简要" id="markdown-toc-简要">简要</a></li>
+  <li><a href="#概述" id="markdown-toc-概述">概述</a></li>
+  <li><a href="#实例" id="markdown-toc-实例">实例</a></li>
+</ul>
+
+<h2 id="简要">简要</h2>
+
+<ul>
+  <li>本篇主要介绍在项目中用到的Bootstrap-Table插件的两种分页方式，即服务器端分页和客户端分页。</li>
+</ul>
+
+<h2 id="概述">概述</h2>
+
+<h2 id="实例">实例</h2>
+
+<p>一、  服务端分页</p>
+
+<ul>
+  <li>设置如下属性
+    <div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="nl">sidePagination:</span> <span class="s">"server"</span><span class="o">,</span>   <span class="c1">//服务端分页</span>
+</code></pre>
+    </div>
+  </li>
+  <li>
+    <p>必须包含：total节点（总记录数），rows节点（分页后数据）</p>
+
+    <p>即返回json数据格式为：</p>
+  </li>
+</ul>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="err">“total”:24</span><span class="w">  </span><span class="err">,</span><span class="w"> </span><span class="err">”rows”:[…]</span><span class="p">}</span><span class="w">
+</span></code></pre>
+</div>
+
+<div class="language-js highlighter-rouge"><pre class="highlight"><code><span class="s1">'#stu-table'</span><span class="p">).</span><span class="nx">bootstrapTable</span><span class="p">({</span>
+                                           <span class="na">responsive</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+                                           <span class="na">url</span><span class="p">:</span> <span class="s1">'/admin/getStu/'</span><span class="o">+</span><span class="nx">nj</span><span class="o">+</span><span class="s2">"/"</span><span class="o">+</span><span class="nx">xy</span><span class="p">,</span>         <span class="c1">//请求后台的URL（*）</span>
+                                           <span class="na">method</span><span class="p">:</span> <span class="s1">'get'</span><span class="p">,</span>                      <span class="c1">//请求方式（*）</span>
+                                           <span class="na">toolbar</span><span class="p">:</span> <span class="s1">'#toolbar'</span><span class="p">,</span>                <span class="c1">//工具按钮用哪个容器</span>
+                                           <span class="na">striped</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>                      <span class="c1">//是否显示行间隔色</span>
+                                           <span class="na">cache</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>                       <span class="c1">//是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）</span>
+                                           <span class="na">pagination</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>                   <span class="c1">//是否显示分页（*）</span>
+                                           <span class="na">sortable</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>                     <span class="c1">//是否启用排序</span>
+                                           <span class="na">sortStable</span><span class="p">:</span><span class="kc">true</span><span class="p">,</span>                     <span class="c1">//设置为 true 将获得稳定的排序，我们会添加_position属性到 row 数据中。</span>
+                                           <span class="na">sortOrder</span><span class="p">:</span> <span class="s2">"asc"</span><span class="p">,</span>                   <span class="c1">//定义排序方式 'asc' 或者 'desc'</span>
+                                           <span class="na">queryParams</span><span class="p">:</span> <span class="nx">oTableInit</span><span class="p">.</span><span class="nx">queryParams</span><span class="p">,</span><span class="c1">//传递参数（*）</span>
+                                           <span class="na">sidePagination</span><span class="p">:</span> <span class="s2">"server"</span><span class="p">,</span>           <span class="c1">//分页方式：client客户端分页，server服务端分页（*）</span>
+                                           <span class="na">pageNumber</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>                       <span class="c1">//初始化加载第一页，默认第一页</span>
+                                           <span class="na">pageSize</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>                       <span class="c1">//每页的记录行数（*）</span>
+                                           <span class="na">pageList</span><span class="p">:</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">25</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">100</span><span class="p">],</span>        <span class="c1">//可供选择的每页的行数（*）</span>
+                                           <span class="na">search</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>                       <span class="c1">//是否显示表格搜索，此搜索是客户端搜索，不会进服务端，所以，个人感觉意义不大</span>
+                                           <span class="na">strictSearch</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>                 <span class="c1">// 	设置为 true启用 全匹配搜索，否则为模糊搜索</span>
+                                           <span class="na">showColumns</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>                  <span class="c1">//是否显示所有的列</span>
+                                           <span class="na">showRefresh</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>                  <span class="c1">//是否显示刷新按钮</span>
+                                           <span class="na">minimumCountColumns</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>             <span class="c1">//最少允许的列数</span>
+                                           <span class="na">clickToSelect</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>                <span class="c1">//是否启用点击选中行</span>
+                                           <span class="na">singleSelect</span><span class="p">:</span><span class="kc">true</span><span class="p">,</span>
+                                           <span class="na">checkboxHeader</span><span class="p">:</span><span class="kc">true</span><span class="p">,</span>
+                                           <span class="na">height</span><span class="p">:</span> <span class="nb">window</span><span class="p">.</span><span class="nx">innerHeight</span><span class="o">-</span><span class="mi">300</span><span class="p">,</span>
+                                           <span class="c1">// //行高，如果没有设置height属性，表格自动根据记录条数觉得表格高度</span>
+                                           <span class="na">uniqueId</span><span class="p">:</span> <span class="s2">"ID"</span><span class="p">,</span>                     <span class="c1">//每一行的唯一标识，一般为主键列</span>
+                                           <span class="na">showToggle</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>                  <span class="c1">//是否显示详细视图和列表视图的切换按钮</span>
+                                           <span class="na">cardView</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>                    <span class="c1">//是否显示详细视图</span>
+                                           <span class="na">detailView</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>                   <span class="c1">//是否显示父子表</span>
+                                           <span class="na">showExport</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>                     <span class="c1">//是否显示导出</span>
+                                           <span class="na">exportDataType</span><span class="p">:</span> <span class="s2">"all"</span><span class="p">,</span>   <span class="c1">//basic', 'all',</span>
+                                           <span class="c1">// 'selected'.</span>
+                                           <span class="na">rowStyle</span><span class="p">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">row</span><span class="p">,</span> <span class="nx">index</span><span class="p">)</span> <span class="p">{</span>
+                                               <span class="c1">//这里有5个取值代表5中颜色['active', 'success', 'info',</span>
+                                               <span class="c1">// 'warning', 'danger'];</span>
+                                               <span class="kd">var</span> <span class="nx">strclass</span> <span class="o">=</span> <span class="s2">""</span><span class="p">;</span>
+                                               <span class="k">if</span> <span class="p">(</span><span class="nx">row</span><span class="p">.</span><span class="nx">pcStatus</span> <span class="o">==</span> <span class="s2">"RUNNING"</span><span class="p">)</span> <span class="p">{</span>
+                                                   <span class="nx">strclass</span> <span class="o">=</span> <span class="s1">'success'</span><span class="p">;</span><span class="c1">//还有一个active</span>
+                                               <span class="p">}</span>
+                                               <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nx">row</span><span class="p">.</span><span class="nx">pcStatus</span> <span class="o">==</span> <span class="s2">"FINISH"</span><span class="p">)</span> <span class="p">{</span>
+                                                   <span class="nx">strclass</span> <span class="o">=</span> <span class="s1">'danger'</span><span class="p">;</span>
+                                               <span class="p">}</span>
+                                               <span class="k">else</span> <span class="p">{</span>
+                                                   <span class="k">return</span> <span class="p">{};</span>
+                                               <span class="p">}</span>
+                                               <span class="k">return</span> <span class="p">{</span><span class="na">classes</span><span class="p">:</span> <span class="nx">strclass</span><span class="p">}</span>
+                                           <span class="p">},</span>
+                                           <span class="na">columns</span><span class="p">:</span> <span class="p">[{</span>
+                                               <span class="na">checkbox</span><span class="p">:</span> <span class="kc">true</span>
+                                           <span class="p">}</span>
+                                           <span class="p">,</span> <span class="p">{</span>
+                                               <span class="na">field</span><span class="p">:</span> <span class="s1">'NJDM'</span><span class="p">,</span>
+                                               <span class="na">title</span><span class="p">:</span> <span class="s1">'年级编号'</span>
+                                           <span class="p">},</span>
+                                               <span class="p">{</span>
+                                                   <span class="na">field</span><span class="p">:</span> <span class="s1">'BJH'</span><span class="p">,</span>
+                                                   <span class="na">title</span><span class="p">:</span> <span class="s1">'班号'</span>
+                                               <span class="p">},</span> <span class="p">{</span>
+                                                   <span class="na">field</span><span class="p">:</span> <span class="s1">'BM'</span><span class="p">,</span>
+                                                   <span class="na">title</span><span class="p">:</span> <span class="s1">'班级'</span>
+                                               <span class="p">},</span> <span class="p">{</span>
+                                                   <span class="na">field</span><span class="p">:</span> <span class="s1">'XH'</span><span class="p">,</span>
+                                                   <span class="na">title</span><span class="p">:</span> <span class="s1">'学籍号'</span>
+                                               <span class="p">},</span>
+                                               <span class="p">{</span>
+                                                   <span class="na">field</span><span class="p">:</span> <span class="s1">'MZDM'</span><span class="p">,</span>
+                                                   <span class="na">title</span><span class="p">:</span> <span class="s1">'民族代码'</span>
+                                               <span class="p">},</span>
+                                               <span class="p">{</span>
+                                                   <span class="na">field</span><span class="p">:</span> <span class="s1">'XM'</span><span class="p">,</span>
+                                                   <span class="na">title</span><span class="p">:</span> <span class="s1">'姓名'</span>
+                                               <span class="p">},</span>
+                                               <span class="p">{</span>
+                                                   <span class="na">field</span><span class="p">:</span> <span class="s1">'XB'</span><span class="p">,</span>
+                                                   <span class="na">title</span><span class="p">:</span> <span class="s1">'性别'</span>
+                                               <span class="p">},</span>
+                                               <span class="p">{</span>
+                                                   <span class="na">field</span><span class="p">:</span> <span class="s1">'CSRQ'</span><span class="p">,</span>
+                                                   <span class="na">title</span><span class="p">:</span> <span class="s1">'出生日期'</span>
+                                               <span class="p">},</span>
+                                               <span class="p">{</span>
+                                                   <span class="na">field</span><span class="p">:</span> <span class="s1">'KQH'</span><span class="p">,</span>
+                                                   <span class="na">title</span><span class="p">:</span> <span class="s1">'学生来源'</span>
+                                               <span class="p">},</span>
+                                               <span class="p">{</span>
+                                                   <span class="na">field</span><span class="p">:</span> <span class="s1">'SFZH'</span><span class="p">,</span>
+                                                   <span class="na">title</span><span class="p">:</span> <span class="s1">'身份证号'</span>
+                                               <span class="p">},</span>
+                                               <span class="p">{</span>
+                                                   <span class="na">field</span><span class="p">:</span> <span class="s1">'TXDZ'</span><span class="p">,</span>
+                                                   <span class="na">title</span><span class="p">:</span> <span class="s1">'家庭住址'</span>
+                                               <span class="p">}</span>
+                                           <span class="p">]</span>
+                                       <span class="p">});</span>
+    <span class="p">};</span>
+</code></pre>
+</div>
+
+<p>二、客户端分页</p>
+<ul>
+  <li>设置如下属性
+    <div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="nl">sidePagination:</span> <span class="s">"client"</span><span class="o">,</span>   <span class="c1">//客户端分页</span>
+</code></pre>
+    </div>
+  </li>
+  <li>当数据量较少，只有上千条数据时，一次性将所有数据返回给客户端，无论点下一页，或搜索条件时，不向服务端发请求，实现全文检索。</li>
+  <li>
+    <p>服务器返回json数据必须包含data节点（展示数据）</p>
+  </li>
+  <li>即返回的数据格式：</li>
+</ul>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>    [{'key'：value,},{'key':'value'}]
+</code></pre>
+</div>
+
+  </div>
+-->
+
+  <h1><a href="/%E5%90%8E%E7%AB%AF/2016/12/21/SQL_Error_911_SQLState_42000.html">Hibernate执行SQL语句错误</a></h1>
+  <p class="author">
+    <span class="date">2016-12-21 05:39:22 +0800</span>
   </p>
 <!--
   <div class="content">
@@ -348,707 +959,28 @@
 <h2 id="简要">简要</h2>
 
 <ul>
-  <li>今天在做项目时需要用到使用 Spring-Data-Jpa查询Oracle数据库视图的功能，google了好多得到最后的经验分享给大家</li>
+  <li>
+    <p>今天在做项目时，有一个查询功能执行sql语句时一直报这个错误，搞了半天……才发现我是直接从PL/SQL中复制过来的SQL语句，最后带一个 <code class="highlighter-rouge">;</code></p>
+  </li>
+  <li>
+    <p>错误详情<code class="highlighter-rouge">SQL Error: 911, SQLState: 42000</code></p>
+  </li>
 </ul>
 
 <h2 id="说明">说明</h2>
 
 <ul>
-  <li>
-    <p>视图虽然在处理上和普通的 Table 没有多大的区别，但还是有许多需要注意的细节：</p>
-
-    <p>1.视图对应的实体类不需要任何注解，里面只有视图对应的 Column 以及构造器和Get/Set方法就可以了；</p>
-
-    <p>2.不能创建Repository接口，总会报错找不到表或者视图，这个我也不知道为什么(可能是因为视图没有id的原因)；</p>
-
-    <p>3.基本上是使用原生的SQL语句执行，封装的Spring-Data-Jpa应该是不能使用，查询出数据自己封装；</p>
-  </li>
+  <li>sql语句最后是要放在Hibetnate中执行的。</li>
 </ul>
 
 <h2 id="实例">实例</h2>
+<p><img src="http://jiaohongwei.github.io/images/2016-12/20161220215139.png" alt="Object" /></p>
 
-<ol>
-  <li>
-    <p>需要先在数据库（Oracle）创建好视图，执行一遍sql语句保证能查询到信息</p>
-
-    <p><code class="highlighter-rouge">select * from  NEWJW.XS_XJB_VIEW t</code></p>
-  </li>
-  <li>
-    <p>创建基础的EntityManage</p>
-
-    <div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="err"> </span><span class="kn">import</span> <span class="nn">javax.persistence.EntityManager</span><span class="o">;</span>
-     
- <span class="cm">/**
-  * Created by jiaohongwei on 2016/12/19.
-  */</span>
-     
- <span class="kd">public</span> <span class="kd">interface</span> <span class="nc">ObjectDaoService</span> <span class="o">{</span>
-     <span class="n">EntityManager</span> <span class="nf">getEntityManager</span><span class="o">();</span>
- <span class="o">}</span>
-    
-</code></pre>
-    </div>
-
-    <div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">org.springframework.stereotype.Service</span><span class="o">;</span>
-    
-<span class="kn">import</span> <span class="nn">javax.persistence.EntityManager</span><span class="o">;</span>
-<span class="kn">import</span> <span class="nn">javax.persistence.PersistenceContext</span><span class="o">;</span>
-    
-<span class="cm">/**
- * Created by jiaohongwei on 2016/12/19.
- */</span>
-<span class="nd">@Service</span>
-<span class="kd">public</span> <span class="kd">class</span> <span class="nc">ObjectDaoServiceImpl</span> <span class="kd">implements</span> <span class="n">ObjectDaoService</span> <span class="o">{</span>
-       
-    <span class="nd">@PersistenceContext</span>
-    <span class="kd">private</span> <span class="n">EntityManager</span> <span class="n">entityManager</span><span class="o">;</span>
-    
-    <span class="nd">@Override</span>
-    <span class="kd">public</span> <span class="n">EntityManager</span> <span class="nf">getEntityManager</span><span class="o">()</span> <span class="o">{</span>
-        <span class="k">return</span> <span class="k">this</span><span class="o">.</span><span class="na">entityManager</span><span class="o">;</span>
-    <span class="o">}</span>
-<span class="o">}</span>
-    
-</code></pre>
-    </div>
-  </li>
-  <li>
-    <p>创建实体类</p>
-
-    <div class="language-java highlighter-rouge"><pre class="highlight"><code>    
-<span class="c1">// domain 中不需要任何的注解，这是一个映射到视图的enity,并没有真实的表。</span>
-<span class="kd">public</span> <span class="kd">class</span> <span class="nc">KdOrView</span> <span class="kd">implements</span> <span class="n">Serializable</span> <span class="o">{</span>
-    
-	<span class="cm">/**
-	 * 
-	 */</span>
-	<span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="kt">long</span> <span class="n">serialVersionUID</span> <span class="o">=</span> <span class="mi">1L</span><span class="o">;</span>
-	<span class="c1">// KD Table Field</span>
-	<span class="kd">private</span> <span class="n">String</span> <span class="n">id</span><span class="o">;</span>
-	<span class="kd">private</span> <span class="n">String</span> <span class="n">user_name</span><span class="o">;</span>
-    
-	<span class="c1">// Or Table Field</span>
-	<span class="kd">private</span> <span class="n">String</span> <span class="n">userid</span><span class="o">;</span>
-    
-	<span class="kd">public</span> <span class="nf">KdOrView</span><span class="o">()</span> <span class="o">{</span>
-    
-	<span class="o">}</span>
-    
-	<span class="kd">public</span> <span class="nf">KdOrView</span><span class="o">(</span><span class="n">String</span> <span class="n">id</span><span class="o">,</span> <span class="n">String</span> <span class="n">user_name</span><span class="o">,</span> <span class="n">String</span> <span class="n">userid</span><span class="o">)</span> <span class="o">{</span>
-		<span class="k">this</span><span class="o">.</span><span class="na">id</span> <span class="o">=</span> <span class="n">id</span><span class="o">;</span>
-		<span class="k">this</span><span class="o">.</span><span class="na">user_name</span> <span class="o">=</span> <span class="n">user_name</span><span class="o">;</span>
-		<span class="k">this</span><span class="o">.</span><span class="na">userid</span> <span class="o">=</span> <span class="n">userid</span><span class="o">;</span>
-	<span class="o">}</span>
-    
-	<span class="c1">// GET SET....... 省略</span>
-    
-<span class="o">}</span>
-
-</code></pre>
-    </div>
-  </li>
-  <li>
-    <p>开始查询</p>
-
-    <div class="language-java highlighter-rouge"><pre class="highlight"><code>    
-<span class="nd">@Service</span>
-<span class="kd">public</span> <span class="kd">class</span> <span class="nc">UserCertificationServiceImpl</span> <span class="kd">implements</span> <span class="n">UserCertificationService</span> <span class="o">{</span>
-    	
-	<span class="nd">@Resource</span>
-	<span class="kd">private</span> <span class="n">ObjectDaoService</span> <span class="n">objectDaoService</span><span class="o">;</span>
-    
-	<span class="kd">public</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">KdOrView</span><span class="o">&gt;</span> <span class="nf">findKdByNativeSQL</span><span class="o">()</span> <span class="o">{</span>
-		<span class="c1">// 1.组织sql语句，这里设置参数 ":id" 方式，还有一种是 "?1,?2"，需要指定</span>
-		<span class="n">String</span> <span class="n">sql</span> <span class="o">=</span> <span class="s">"select id,user_name,userid from NEWJW.XS_XJB_VIEW k where k.id = :id"</span><span class="o">;</span>
-		<span class="c1">// 2.创建实体管理对象</span>
-		<span class="n">EntityManager</span> <span class="n">entityManager</span> <span class="o">=</span> <span class="n">objectDaoService</span><span class="o">.</span><span class="na">getEntityManager</span><span class="o">();</span>
-		<span class="c1">// 3.使用jpa 包装查询，获取query 对象</span>
-		<span class="n">Query</span> <span class="n">query</span> <span class="o">=</span> <span class="n">entityManager</span><span class="o">.</span><span class="na">createNativeQuery</span><span class="o">(</span><span class="n">sql</span><span class="o">);</span>
-		<span class="c1">// 4.再使用去包装查询获取 nativeQuery 对象</span>
-		<span class="n">SQLQuery</span> <span class="n">nativeQuery</span> <span class="o">=</span> <span class="n">query</span><span class="o">.</span><span class="na">unwrap</span><span class="o">(</span><span class="n">SQLQuery</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
-		<span class="c1">// 5.设置参数，对应上面的参数 ":id"</span>
-		<span class="n">nativeQuery</span><span class="o">.</span><span class="na">setParameter</span><span class="o">(</span><span class="s">"id"</span><span class="o">,</span> <span class="s">"1"</span><span class="o">);</span>
-		<span class="c1">// 设置返回值类型Map，然后对Map进行处理。</span>
-		<span class="n">nativeQuery</span><span class="o">.</span><span class="na">setResultTransformer</span><span class="o">(</span><span class="n">CriteriaSpecification</span><span class="o">.</span><span class="na">ALIAS_TO_ENTITY_MAP</span><span class="o">);</span>
-		<span class="c1">// 6.执行查询，获取viewlist</span>
-		<span class="n">List</span><span class="o">&lt;</span><span class="n">KdOrView</span><span class="o">&gt;</span> <span class="n">viewlist</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">KdOrView</span><span class="o">&gt;();</span>
-    
-		<span class="c1">// 解析viewlist，根据功能逻辑封装</span>
-		<span class="nd">@SuppressWarnings</span><span class="o">(</span><span class="s">"unchecked"</span><span class="o">)</span>
-		<span class="n">List</span><span class="o">&lt;</span><span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">Object</span><span class="o">&gt;&gt;</span> <span class="n">retVal</span> <span class="o">=</span> <span class="n">nativeQuery</span><span class="o">.</span><span class="na">list</span><span class="o">();</span>
-		<span class="k">if</span> <span class="o">(</span><span class="n">retVal</span> <span class="o">!=</span> <span class="kc">null</span> <span class="o">&amp;&amp;</span> <span class="n">retVal</span><span class="o">.</span><span class="na">size</span><span class="o">()</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
-			<span class="k">for</span> <span class="o">(</span><span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">Object</span><span class="o">&gt;</span> <span class="n">map</span> <span class="o">:</span> <span class="n">retVal</span><span class="o">)</span> <span class="o">{</span>
-				<span class="n">KdOrView</span> <span class="n">kv</span> <span class="o">=</span> <span class="k">new</span> <span class="n">KdOrView</span><span class="o">();</span>
-				<span class="c1">// key字段全部要大写，这里使用的是oracle数据库</span>
-				<span class="n">kv</span><span class="o">.</span><span class="na">setId</span><span class="o">(</span><span class="n">map</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="s">"ID"</span><span class="o">).</span><span class="na">toString</span><span class="o">());</span>
-				<span class="n">kv</span><span class="o">.</span><span class="na">setUser_name</span><span class="o">(</span><span class="n">map</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="s">"USER_NAME"</span><span class="o">).</span><span class="na">toString</span><span class="o">());</span>
-				<span class="n">kv</span><span class="o">.</span><span class="na">setUserid</span><span class="o">(</span><span class="n">map</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="s">"USERID"</span><span class="o">).</span><span class="na">toString</span><span class="o">());</span>
-				<span class="n">viewlist</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">kv</span><span class="o">);</span>
-			<span class="o">}</span>
-		<span class="o">}</span>
-    
-		<span class="k">return</span> <span class="n">viewlist</span><span class="o">;</span>
-	<span class="o">}</span>
-<span class="o">}</span>
-
-</code></pre>
-    </div>
-  </li>
-</ol>
-
-  </div>
--->
-
-  <h1><a href="/%E5%89%8D%E7%AB%AF/2016/12/13/Ajax%E8%AF%B7%E6%B1%82.html">Ajax-请求</a></h1>
-  <p class="author">
-    <span class="date">2016-12-13 00:30:18 +0800</span>
-  </p>
-<!--
-  <div class="content">
-    <ul id="markdown-toc">
-  <li><a href="#简要" id="markdown-toc-简要">简要</a></li>
-  <li><a href="#jquery-ajax" id="markdown-toc-jquery-ajax">jQuery Ajax</a></li>
-  <li><a href="#实例" id="markdown-toc-实例">实例</a></li>
-  <li><a href="#拓展" id="markdown-toc-拓展">拓展</a></li>
-</ul>
-
-<h2 id="简要">简要</h2>
+<p><img src="http://jiaohongwei.github.io/images/2016-12/20161220215638.png" alt="Object" /></p>
 
 <ul>
-  <li>Ajax（Asynchronous Javascript + XML）异步刷新</li>
+  <li>千万要细心……就因为这多了一个<code class="highlighter-rouge">；</code> 浪费我半个小时来找错误，谨记！</li>
 </ul>
-
-<h2 id="jquery-ajax">jQuery Ajax</h2>
-
-<ul>
-  <li>jQuery则是对js代码进行封装方便我们前台代码的编写，而且它还有一个非常大的优势就是解决了浏览器的兼容问题，这也是我们使用它非常重要的原因之一</li>
-</ul>
-
-<h2 id="实例">实例</h2>
-
-<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="err"> $</span><span class="o">.</span><span class="na">ajax</span><span class="o">({</span><span class="err">  </span>
-        
-        <span class="nl">async:</span> <span class="kc">true</span>   <span class="c1">//是否支持异步刷新，默认是true</span>
-<span class="err">        </span><span class="n">type</span><span class="err"> </span><span class="o">:</span><span class="err"> </span><span class="s">"POST"</span><span class="o">,</span><span class="err">  </span><span class="c1">//提交方式  </span>
-<span class="err">        </span><span class="n">url</span><span class="err"> </span> <span class="o">:</span><span class="err"> </span><span class="s">"${pageContext.request.contextPath}/org/doDelete.action"</span><span class="o">,</span><span class="c1">//路径  </span>
-<span class="err">        </span><span class="n">data</span><span class="err"> </span><span class="o">:</span><span class="err"> </span><span class="o">{</span><span class="err">  </span>
-<span class="err">                 </span><span class="s">"org.id"</span><span class="err"> </span><span class="o">:</span><span class="err"> </span><span class="s">"${org.id}"</span><span class="err">  </span>
-<span class="err">                </span><span class="o">},</span><span class="c1">//数据，这里使用的是Json格式进行传输  </span>
-<span class="err">        </span><span class="n">success</span><span class="err"> </span><span class="o">:</span><span class="err"> </span><span class="n">function</span><span class="o">(</span><span class="n">result</span><span class="o">)</span><span class="err"> </span><span class="o">{</span><span class="c1">//返回数据根据结果进行相应的处理  </span>
-<span class="err">        </span><span class="k">if</span><span class="err"> </span><span class="o">(</span><span class="err"> </span><span class="n">result</span><span class="o">.</span><span class="na">success</span><span class="err"> </span><span class="o">)</span><span class="err"> </span><span class="o">{</span><span class="err">  </span>
-<span class="err">              $</span><span class="o">(</span><span class="s">"#tipMsg"</span><span class="o">).</span><span class="na">text</span><span class="o">(</span><span class="s">"删除数据成功"</span><span class="o">);</span><span class="err">  </span>
-<span class="err">              </span><span class="n">tree</span><span class="o">.</span><span class="na">deleteItem</span><span class="o">(</span><span class="s">"${org.id}"</span><span class="o">,</span><span class="err"> </span><span class="kc">true</span><span class="o">);</span><span class="err">  </span>
-<span class="err">        </span><span class="o">}</span><span class="err"> </span><span class="k">else</span><span class="err"> </span><span class="o">{</span><span class="err">  </span>
-<span class="err">               $</span><span class="o">(</span><span class="s">"#tipMsg"</span><span class="o">).</span><span class="na">text</span><span class="o">(</span><span class="s">"删除数据失败"</span><span class="o">);</span><span class="err">  </span>
-<span class="err">               </span><span class="o">}</span><span class="err">  </span>
-<span class="err">           </span><span class="o">}</span><span class="err">  </span>
-<span class="err">        </span><span class="o">});</span><span class="err">  </span>
-
-</code></pre>
-</div>
-
-<h2 id="拓展">拓展</h2>
-
-<ul>
-  <li>Ajax请求中的async:false/true的作用</li>
-  <li>设为false为 同步，就是ajax请求把浏览器锁死，只有执行完本次请求之后才会继续向下执行，就不会出现两个ajax请求不分先后顺序的情况了。</li>
-</ul>
-
-  </div>
--->
-
-  <h1><a href="/%E5%90%8E%E7%AB%AF/2016/12/02/Maven-%E6%89%8B%E5%8A%A8%E6%B7%BB%E5%8A%A0Oracle%E9%A9%B1%E5%8A%A8.html">Maven-手动安装Oracle驱动</a></h1>
-  <p class="author">
-    <span class="date">2016-12-02 05:34:11 +0800</span>
-  </p>
-<!--
-  <div class="content">
-    <ul id="markdown-toc">
-  <li><a href="#简要" id="markdown-toc-简要">简要</a></li>
-  <li><a href="#获取oracle-jdbc-driver" id="markdown-toc-获取oracle-jdbc-driver">获取Oracle JDBC Driver</a></li>
-  <li><a href="#安装" id="markdown-toc-安装">安装</a></li>
-  <li><a href="#添加引用" id="markdown-toc-添加引用">添加引用</a></li>
-</ul>
-
-<h2 id="简要">简要</h2>
-
-<ul>
-  <li>由于Oracle授权问题，Maven3不提供Oracle JDBC driver，为了在Maven项目中应用Oracle JDBC driver,必须手动添加到本地仓库。</li>
-</ul>
-
-<h2 id="获取oracle-jdbc-driver">获取Oracle JDBC Driver</h2>
-
-<ul>
-  <li>通过Oracle官方网站下载相应版本：http://www.oracle.com/technetwork/database/features/jdbc/index-091264.html</li>
-  <li>通过Oracle的安装目录获得，位置在“{ORACLE_HOME}\jdbc\lib\ojdbc6.jar”</li>
-</ul>
-
-<h2 id="安装">安装</h2>
-
-<ul>
-  <li>将ojdbc6.jar 文件放在主项目路径下</li>
-</ul>
-
-<div class="highlighter-rouge"><pre class="highlight"><code>
-    mvn install:install-file -DgroupId=com.oracle -DartifactId=ojdbc6 -Dversion=11.2.0.1.0 -Dpackaging=jar -Dfile=ojdbc6.jar
-
-</code></pre>
-</div>
-<ul>
-  <li>安装成功截图</li>
-</ul>
-
-<p><img src="http://jiaohongwei.github.io/images/2016-12/20161206204445.png" alt="Object" /></p>
-
-<h2 id="添加引用">添加引用</h2>
-
-<div class="language-java highlighter-rouge"><pre class="highlight"><code>    <span class="o">&lt;</span><span class="n">dependency</span><span class="o">&gt;</span>
-    <span class="o">&lt;</span><span class="n">groupId</span><span class="o">&gt;</span><span class="n">com</span><span class="o">.</span><span class="na">oracle</span><span class="o">&lt;/</span><span class="n">groupId</span><span class="o">&gt;</span>
-    <span class="o">&lt;</span><span class="n">artifactId</span><span class="o">&gt;</span><span class="n">ojdbc6</span><span class="o">&lt;/</span><span class="n">artifactId</span><span class="o">&gt;</span>
-    <span class="o">&lt;</span><span class="n">version</span><span class="o">&gt;</span><span class="mf">11.2</span><span class="o">.</span><span class="mf">0.1</span><span class="o">.</span><span class="mi">0</span><span class="o">&lt;/</span><span class="n">version</span><span class="o">&gt;</span>
-    <span class="o">&lt;/</span><span class="n">dependency</span><span class="o">&gt;</span>
-</code></pre>
-</div>
-
-  </div>
--->
-
-  <h1><a href="/%E5%90%8E%E7%AB%AF/2016/12/02/Spring-%E5%AE%9E%E4%BD%93%E7%B1%BB%E6%B3%A8%E8%A7%A3.html">Spring-实体类注解</a></h1>
-  <p class="author">
-    <span class="date">2016-12-02 05:34:11 +0800</span>
-  </p>
-<!--
-  <div class="content">
-    <ul id="markdown-toc">
-  <li><a href="#简要" id="markdown-toc-简要">简要</a></li>
-  <li><a href="#entity" id="markdown-toc-entity">@Entity</a></li>
-  <li><a href="#table" id="markdown-toc-table">@Table</a></li>
-  <li><a href="#column" id="markdown-toc-column">@Column</a></li>
-  <li><a href="#id" id="markdown-toc-id">@Id</a></li>
-  <li><a href="#generatedvalue" id="markdown-toc-generatedvalue">@GeneratedValue</a></li>
-  <li><a href="#temporal" id="markdown-toc-temporal">@Temporal</a></li>
-  <li><a href="#transient" id="markdown-toc-transient">@Transient</a></li>
-  <li><a href="#enumerated" id="markdown-toc-enumerated">@Enumerated</a></li>
-  <li><a href="#lob" id="markdown-toc-lob">@Lob</a></li>
-  <li><a href="#basic" id="markdown-toc-basic">@Basic</a></li>
-  <li><a href="#onetoone" id="markdown-toc-onetoone">@OneToOne</a></li>
-</ul>
-
-<h2 id="简要">简要</h2>
-
-<ul>
-  <li>持久化是位于JDBC之上的一个更高层抽象。持久层将对象映射到数据库，以便在查询、装载、更新或删除对象的时候，无须使用像JDBC那样繁琐的API。EJB的早期版本中，持久化是EJB平台的一部分。EJB3.0开始，持久化已经自成规范，被称为Java Persistence API。</li>
-  <li>本次主要介绍Spring Bean的几个常用注解，方便快捷开发。</li>
-</ul>
-
-<h2 id="entity">@Entity</h2>
-
-<ul>
-  <li>该注释指名这是一个实体Bean</li>
-</ul>
-
-<h2 id="table">@Table</h2>
-
-<ul>
-  <li>该注释注释指定了Entity所要映射带数据库表，其中@Table.name()用来指定映射表的表名。如果缺省@Table注释，系统默认采用类名作为映射表的表名。实体Bean的每个实例代表数据表中的一行数据，行中的一列对应实例中的一个属性。</li>
-</ul>
-
-<h2 id="column">@Column</h2>
-
-<ul>
-  <li>该注释指名了将成员属性映射到关系表中的哪一列和该列的结构信息，属性如下：</li>
-</ul>
-
-<div class="highlighter-rouge"><pre class="highlight"><code>
-  1）name：映射的列名。如：映射tbl_user表的name列，可以在name属性的上面或getName方法上面加入；
-
-  2）unique：是否唯一；
-
-  3）nullable：是否允许为空；
-
-  4）length：对于字符型列，length属性指定列的最大字符长度；
-
-  5）insertable：是否允许插入；
-
-  6）updatetable：是否允许更新；
-
-  7）columnDefinition：定义建表时创建此列的DDL；
-
-  8）secondaryTable：从表名。如果此列不建在主表上（默认是主表），该属性定义该列所在从表的名字。
-
-</code></pre>
-</div>
-
-<h2 id="id">@Id</h2>
-
-<ul>
-  <li>该注释指定表的主键，它可以有多种生成方式：</li>
-</ul>
-
-<div class="highlighter-rouge"><pre class="highlight"><code>  1）TABLE：容器指定用底层的数据表确保唯一；
-
-  2）SEQUENCE：使用数据库德SEQUENCE列莱保证唯一（Oracle数据库通过序列来生成唯一ID）；
-
-  3）IDENTITY：使用数据库的IDENTITY列莱保证唯一；
-
-  4）AUTO：由容器挑选一个合适的方式来保证唯一；
-
-  5）NONE：容器不负责主键的生成，由程序来完成。
-
-</code></pre>
-</div>
-
-<h2 id="generatedvalue">@GeneratedValue</h2>
-
-<ul>
-  <li>该注释定义了标识字段生成方式</li>
-</ul>
-
-<h2 id="temporal">@Temporal</h2>
-
-<ul>
-  <li>该注释用来指定java.util.Date或java.util.Calender属性与数据库类型date、time或timestamp中的那一种类型进行映射。</li>
-</ul>
-
-<h2 id="transient">@Transient</h2>
-
-<ul>
-  <li>该注释指名不想让一些成员属性映射成数据库字段，</li>
-</ul>
-
-<h2 id="enumerated">@Enumerated</h2>
-
-<ul>
-  <li>该注释指映射枚举对象到数据库</li>
-</ul>
-
-<h2 id="lob">@Lob</h2>
-
-<ul>
-  <li>
-    <p>有时可能需要存放一些文本或大文本数据进数据库，JDBC使用java.sql.Blob类型存放二进制数据，java.sql.Clob类型存放字符数据，这些数据都是非常占内存的。</p>
-  </li>
-  <li>
-    <p>该注释用作映射这些大数据类型，当属性的类型为byte[],Byte[]或java.io.Serializable时，@Lob注释映射为数据库的Blob类型，当属性的类型为char[]，Character[]或java.lang.String时，@Lob注释将映射为数据库的Clob类型。</p>
-  </li>
-</ul>
-
-<h2 id="basic">@Basic</h2>
-
-<ul>
-  <li>
-    <p>对于加了@Lob注释的大数据类型，为了避免每次加载实体时占用大量内存，有必要对该属性进行延时加载，这是需要用到@Basic注释。</p>
-  </li>
-  <li>
-    <p>FetchType属性指定是否延时加载，默认为立即加载，optional属性指定在生成数据库结构时字段能否为null。</p>
-  </li>
-</ul>
-
-<h2 id="onetoone">@OneToOne</h2>
-
-<ul>
-  <li>
-    <p>一对一关系，需要在关系维护端的@OneToOne注释中定义mappedBy属性。在关系被维护端建立外键列指向关系维护的主键列。</p>
-  </li>
-  <li>
-    <p>该注释指明关联的两个类为一对一关系，@OneToOne\@ManyToMany\@ManyToOne\@OneToMany 注释有5个属性：targetEntity、cascade、fetch、optional和mappedBy。</p>
-  </li>
-</ul>
-
-<div class="highlighter-rouge"><pre class="highlight"><code>
-  1）targetEntity：Class类型的属性
-
-  2）mappedBy：String类型的属性。定义类之间的双向关联。如果类之间是单向关系，不需要提供定义，如果类和类之间形成双向关系。就需要使用这个属性进行定义，否则可能引起数据一致性的问题。
-
-  3）cascade：CascadeType类型。该属性定义类和类之间的级联关系。定义级联关系将被容器视为当前类对象及其关联类对象采取相同的操作，而且这种关系是递归的。cascade的值只能从CascadeType.PERSIST(级联新建)、CascadeType.REMOVE(级联删除)、CascadeType.REFRESH(级联刷新)、Cascade.MERGE(级联更新)中选择一个或多个。还有一个选择是使用CascadeType.ALL，表示选择全部四项。
-
-  4）fetch：FetchType类型的属性。可选择项包括：FetchType.EAGER和FetchType.LAZY。前者表示关系类在主体类加载的时候同时加载，后者表示关系类在被访问时才加载。默认值是FetchType.LAZY。
-
-  5）optional：表示被维护对象是否需要存在。如果为真，说明card属性可以null，也就是允许没有身份证，未成年人就是没有身份证。
-
-</code></pre>
-</div>
-
-<div class="language-java highlighter-rouge"><pre class="highlight"><code>
-<span class="nd">@Entity</span>
-<span class="nd">@Table</span><span class="o">(</span><span class="n">name</span><span class="o">=</span><span class="s">"tbl_teacher"</span><span class="o">)</span>
-<span class="n">publicclass</span> <span class="n">Teacher</span> <span class="kd">implements</span> <span class="n">Serializable</span><span class="o">{</span>
-
-    <span class="nd">@Id</span>
-    <span class="nd">@GeneratedValue</span><span class="o">(</span><span class="n">strategy</span> <span class="o">=</span> <span class="n">GenerationType</span><span class="o">.</span><span class="na">AUTO</span><span class="o">)</span>
-    <span class="nd">@Column</span><span class="o">(</span><span class="n">name</span><span class="o">=</span><span class="s">"teacher_id"</span><span class="o">)</span>
-    <span class="kd">private</span> <span class="n">Integer</span> <span class="n">id</span><span class="o">;</span>
-
-    <span class="kd">private</span> <span class="n">String</span> <span class="n">name</span><span class="o">;</span>
-
-    <span class="nd">@ManyToMany</span><span class="o">(</span><span class="n">targetEntity</span><span class="o">=</span><span class="n">Student</span><span class="o">.</span><span class="na">class</span><span class="o">,</span><span class="n">mappedBy</span><span class="o">=</span><span class="s">"set"</span><span class="o">)</span>
-    <span class="kd">private</span> <span class="n">Set</span> <span class="n">set</span><span class="o">=</span><span class="k">new</span> <span class="n">HashSet</span><span class="o">();</span>
-
-    <span class="nd">@OneToMany</span><span class="o">(</span><span class="n">targetEntity</span><span class="o">=</span><span class="n">OrderItem</span><span class="o">.</span><span class="na">class</span><span class="o">,</span><span class="n">cascade</span><span class="o">=</span><span class="n">CascadeType</span><span class="o">.</span><span class="na">ALL</span><span class="o">,</span><span class="n">mappedBy</span><span class="o">=</span><span class="s">"order"</span><span class="o">)</span>
-    <span class="kd">private</span> <span class="n">Set</span> <span class="n">set1</span><span class="o">=</span><span class="k">new</span> <span class="n">HashSet</span><span class="o">();</span>
-
-    <span class="nd">@Enumerated</span><span class="o">(</span><span class="n">EnumType</span><span class="o">.</span><span class="na">STRING</span><span class="o">)</span>
-    <span class="nd">@Column</span><span class="o">(</span><span class="n">name</span><span class="o">=</span><span class="s">"address_type"</span><span class="o">)</span>
-    <span class="kd">private</span> <span class="n">AddressType</span> <span class="n">type</span><span class="o">;</span><span class="c1">//地址类型</span>
-
-    <span class="nd">@Transient</span>
-    <span class="kd">private</span> <span class="n">String</span> <span class="n">sex</span><span class="o">;</span>
-
-    <span class="nd">@Temporal</span><span class="o">(</span><span class="n">value</span><span class="o">=</span><span class="n">TemporalType</span><span class="o">.</span><span class="na">TIME</span><span class="o">)</span>
-    <span class="kd">private</span> <span class="n">Date</span> <span class="n">birthday</span><span class="o">;</span>
-
-<span class="o">}</span>
-
-</code></pre>
-</div>
-
-  </div>
--->
-
-  <h1><a href="/%E5%90%8E%E7%AB%AF/2016/11/19/Spring-Boot-jsp.html">Spring-Boot+Jsp demo</a></h1>
-  <p class="author">
-    <span class="date">2016-11-19 00:25:11 +0800</span>
-  </p>
-<!--
-  <div class="content">
-    <ul id="markdown-toc">
-  <li><a href="#简要" id="markdown-toc-简要">简要</a></li>
-  <li><a href="#开始" id="markdown-toc-开始">开始</a></li>
-  <li><a href="#运行" id="markdown-toc-运行">运行</a></li>
-  <li><a href="#部署" id="markdown-toc-部署">部署</a></li>
-  <li><a href="#源码" id="markdown-toc-源码">源码</a></li>
-</ul>
-
-<h2 id="简要">简要</h2>
-
-<ul>
-  <li>Spring-Boot 官方并不推荐使用jsp（好像是推荐用Thymeleaf），但是有些情况下的业务还是使用jsp更加合适，出于此我是阅历无数博客论坛，在经历千万次失败之后终于修得正果。</li>
-  <li>现在分享给大家，望后人少走弯路。</li>
-</ul>
-
-<h2 id="开始">开始</h2>
-
-<ul>
-  <li>使用maven快速搭建一个项目Spring-Boot-Jsp-demo，pom文件如下：</li>
-</ul>
-
-<div class="language-java highlighter-rouge"><pre class="highlight"><code>
-<span class="o">&lt;?</span><span class="n">xml</span> <span class="n">version</span><span class="o">=</span><span class="s">"1.0"</span> <span class="n">encoding</span><span class="o">=</span><span class="s">"UTF-8"</span><span class="o">?&gt;</span>
-<span class="o">&lt;</span><span class="n">project</span> <span class="n">xmlns</span><span class="o">=</span><span class="s">"http://maven.apache.org/POM/4.0.0"</span>
-         <span class="nl">xmlns:</span><span class="n">xsi</span><span class="o">=</span><span class="s">"http://www.w3.org/2001/XMLSchema-instance"</span>
-         <span class="nl">xsi:</span><span class="n">schemaLocation</span><span class="o">=</span><span class="s">"http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"</span><span class="o">&gt;</span>
-    <span class="o">&lt;</span><span class="n">modelVersion</span><span class="o">&gt;</span><span class="mf">4.0</span><span class="o">.</span><span class="mi">0</span><span class="o">&lt;/</span><span class="n">modelVersion</span><span class="o">&gt;</span>
-
-    <span class="o">&lt;</span><span class="n">groupId</span><span class="o">&gt;</span><span class="n">Temp</span><span class="o">&lt;/</span><span class="n">groupId</span><span class="o">&gt;</span>
-    <span class="o">&lt;</span><span class="n">artifactId</span><span class="o">&gt;</span><span class="n">Spring</span><span class="o">-</span><span class="n">Boot</span><span class="o">-</span><span class="n">Jsp</span><span class="o">-</span><span class="n">demo</span><span class="o">&lt;/</span><span class="n">artifactId</span><span class="o">&gt;</span>
-    <span class="o">&lt;</span><span class="n">version</span><span class="o">&gt;</span><span class="mf">1.0</span><span class="o">-</span><span class="n">SNAPSHOT</span><span class="o">&lt;/</span><span class="n">version</span><span class="o">&gt;</span>
-    <span class="o">&lt;</span><span class="n">packaging</span><span class="o">&gt;</span><span class="n">war</span><span class="o">&lt;/</span><span class="n">packaging</span><span class="o">&gt;</span>
-    <span class="o">&lt;</span><span class="n">parent</span><span class="o">&gt;</span>
-        <span class="o">&lt;</span><span class="n">groupId</span><span class="o">&gt;</span><span class="n">org</span><span class="o">.</span><span class="na">springframework</span><span class="o">.</span><span class="na">boot</span><span class="o">&lt;/</span><span class="n">groupId</span><span class="o">&gt;</span>
-        <span class="o">&lt;</span><span class="n">artifactId</span><span class="o">&gt;</span><span class="n">spring</span><span class="o">-</span><span class="n">boot</span><span class="o">-</span><span class="n">starter</span><span class="o">-</span><span class="n">parent</span><span class="o">&lt;/</span><span class="n">artifactId</span><span class="o">&gt;</span>
-        <span class="o">&lt;</span><span class="n">version</span><span class="o">&gt;</span><span class="mf">1.4</span><span class="o">.</span><span class="mi">1</span><span class="o">.</span><span class="na">RELEASE</span><span class="o">&lt;/</span><span class="n">version</span><span class="o">&gt;</span>
-    <span class="o">&lt;/</span><span class="n">parent</span><span class="o">&gt;</span>
-
-    <span class="o">&lt;</span><span class="n">description</span><span class="o">&gt;</span><span class="n">Physical</span><span class="o">-</span><span class="n">fitness</span><span class="o">-</span><span class="n">test</span><span class="o">-</span><span class="n">center</span><span class="o">&lt;/</span><span class="n">description</span><span class="o">&gt;</span>
-    <span class="o">&lt;</span><span class="n">properties</span><span class="o">&gt;</span>
-        <span class="o">&lt;</span><span class="n">main</span><span class="o">.</span><span class="na">basedir</span><span class="o">&gt;</span><span class="err">$</span><span class="o">{</span><span class="n">basedir</span><span class="o">}/../..&lt;/</span><span class="n">main</span><span class="o">.</span><span class="na">basedir</span><span class="o">&gt;</span>
-        <span class="o">&lt;</span><span class="n">m2eclipse</span><span class="o">.</span><span class="na">wtp</span><span class="o">.</span><span class="na">contextRoot</span><span class="o">&gt;/&lt;/</span><span class="n">m2eclipse</span><span class="o">.</span><span class="na">wtp</span><span class="o">.</span><span class="na">contextRoot</span><span class="o">&gt;</span>
-    <span class="o">&lt;/</span><span class="n">properties</span><span class="o">&gt;</span>
-
-    <span class="o">&lt;</span><span class="n">dependencies</span><span class="o">&gt;</span>
-        <span class="o">&lt;</span><span class="n">dependency</span><span class="o">&gt;</span>
-            <span class="o">&lt;</span><span class="n">groupId</span><span class="o">&gt;</span><span class="n">org</span><span class="o">.</span><span class="na">springframework</span><span class="o">.</span><span class="na">boot</span><span class="o">&lt;/</span><span class="n">groupId</span><span class="o">&gt;</span>
-            <span class="o">&lt;</span><span class="n">artifactId</span><span class="o">&gt;</span><span class="n">spring</span><span class="o">-</span><span class="n">boot</span><span class="o">-</span><span class="n">starter</span><span class="o">-</span><span class="n">web</span><span class="o">&lt;/</span><span class="n">artifactId</span><span class="o">&gt;</span>
-        <span class="o">&lt;/</span><span class="n">dependency</span><span class="o">&gt;</span>
-
-        <span class="o">&lt;!--</span><span class="err">若不是使用</span><span class="n">intellij</span><span class="err">作为集成开发环境，则</span><span class="n">scope</span><span class="err">需要设置为</span><span class="n">provided</span> <span class="o">&lt;</span><span class="n">scope</span><span class="o">&gt;</span><span class="n">provided</span><span class="o">&lt;/</span><span class="n">scope</span><span class="o">&gt;</span> <span class="o">--&gt;</span>
-        <span class="o">&lt;</span><span class="n">dependency</span><span class="o">&gt;</span>
-            <span class="o">&lt;</span><span class="n">groupId</span><span class="o">&gt;</span><span class="n">org</span><span class="o">.</span><span class="na">springframework</span><span class="o">.</span><span class="na">boot</span><span class="o">&lt;/</span><span class="n">groupId</span><span class="o">&gt;</span>
-            <span class="o">&lt;</span><span class="n">artifactId</span><span class="o">&gt;</span><span class="n">spring</span><span class="o">-</span><span class="n">boot</span><span class="o">-</span><span class="n">starter</span><span class="o">-</span><span class="n">tomcat</span><span class="o">&lt;/</span><span class="n">artifactId</span><span class="o">&gt;</span>
-            <span class="o">&lt;</span><span class="n">scope</span><span class="o">&gt;</span><span class="n">compile</span><span class="o">&lt;/</span><span class="n">scope</span><span class="o">&gt;</span>
-        <span class="o">&lt;/</span><span class="n">dependency</span><span class="o">&gt;</span>
-        <span class="o">&lt;</span><span class="n">dependency</span><span class="o">&gt;</span>
-            <span class="o">&lt;</span><span class="n">groupId</span><span class="o">&gt;</span><span class="n">org</span><span class="o">.</span><span class="na">apache</span><span class="o">.</span><span class="na">tomcat</span><span class="o">.</span><span class="na">embed</span><span class="o">&lt;/</span><span class="n">groupId</span><span class="o">&gt;</span>
-            <span class="o">&lt;</span><span class="n">artifactId</span><span class="o">&gt;</span><span class="n">tomcat</span><span class="o">-</span><span class="n">embed</span><span class="o">-</span><span class="n">jasper</span><span class="o">&lt;/</span><span class="n">artifactId</span><span class="o">&gt;</span>
-            <span class="o">&lt;</span><span class="n">scope</span><span class="o">&gt;</span><span class="n">compile</span><span class="o">&lt;/</span><span class="n">scope</span><span class="o">&gt;</span>
-        <span class="o">&lt;/</span><span class="n">dependency</span><span class="o">&gt;</span>
-
-        <span class="o">&lt;</span><span class="n">dependency</span><span class="o">&gt;</span>
-            <span class="o">&lt;</span><span class="n">groupId</span><span class="o">&gt;</span><span class="n">javax</span><span class="o">.</span><span class="na">servlet</span><span class="o">&lt;/</span><span class="n">groupId</span><span class="o">&gt;</span>
-            <span class="o">&lt;</span><span class="n">artifactId</span><span class="o">&gt;</span><span class="n">jstl</span><span class="o">&lt;/</span><span class="n">artifactId</span><span class="o">&gt;</span>
-        <span class="o">&lt;/</span><span class="n">dependency</span><span class="o">&gt;</span>
-        <span class="o">&lt;</span><span class="n">dependency</span><span class="o">&gt;</span>
-            <span class="o">&lt;</span><span class="n">groupId</span><span class="o">&gt;</span><span class="n">org</span><span class="o">.</span><span class="na">springframework</span><span class="o">.</span><span class="na">boot</span><span class="o">&lt;/</span><span class="n">groupId</span><span class="o">&gt;</span>
-            <span class="o">&lt;</span><span class="n">artifactId</span><span class="o">&gt;</span><span class="n">spring</span><span class="o">-</span><span class="n">boot</span><span class="o">-</span><span class="n">starter</span><span class="o">-</span><span class="n">test</span><span class="o">&lt;/</span><span class="n">artifactId</span><span class="o">&gt;</span>
-            <span class="o">&lt;</span><span class="n">scope</span><span class="o">&gt;</span><span class="n">test</span><span class="o">&lt;/</span><span class="n">scope</span><span class="o">&gt;</span>
-        <span class="o">&lt;/</span><span class="n">dependency</span><span class="o">&gt;</span>
-    <span class="o">&lt;/</span><span class="n">dependencies</span><span class="o">&gt;</span>
-    <span class="o">&lt;</span><span class="n">build</span><span class="o">&gt;</span>
-        <span class="o">&lt;</span><span class="n">plugins</span><span class="o">&gt;</span>
-            <span class="o">&lt;</span><span class="n">plugin</span><span class="o">&gt;</span>
-                <span class="o">&lt;</span><span class="n">groupId</span><span class="o">&gt;</span><span class="n">org</span><span class="o">.</span><span class="na">springframework</span><span class="o">.</span><span class="na">boot</span><span class="o">&lt;/</span><span class="n">groupId</span><span class="o">&gt;</span>
-                <span class="o">&lt;</span><span class="n">artifactId</span><span class="o">&gt;</span><span class="n">spring</span><span class="o">-</span><span class="n">boot</span><span class="o">-</span><span class="n">maven</span><span class="o">-</span><span class="n">plugin</span><span class="o">&lt;/</span><span class="n">artifactId</span><span class="o">&gt;</span>
-            <span class="o">&lt;/</span><span class="n">plugin</span><span class="o">&gt;</span>
-            <span class="o">&lt;</span><span class="n">plugin</span><span class="o">&gt;</span>
-                <span class="o">&lt;</span><span class="n">groupId</span><span class="o">&gt;</span><span class="n">org</span><span class="o">.</span><span class="na">apache</span><span class="o">.</span><span class="na">maven</span><span class="o">.</span><span class="na">plugins</span><span class="o">&lt;/</span><span class="n">groupId</span><span class="o">&gt;</span>
-                <span class="o">&lt;</span><span class="n">artifactId</span><span class="o">&gt;</span><span class="n">maven</span><span class="o">-</span><span class="n">surefire</span><span class="o">-</span><span class="n">plugin</span><span class="o">&lt;/</span><span class="n">artifactId</span><span class="o">&gt;</span>
-                <span class="o">&lt;</span><span class="n">configuration</span><span class="o">&gt;</span>
-                    <span class="o">&lt;</span><span class="n">useSystemClassLoader</span><span class="o">&gt;</span><span class="kc">false</span><span class="o">&lt;/</span><span class="n">useSystemClassLoader</span><span class="o">&gt;</span>
-                <span class="o">&lt;/</span><span class="n">configuration</span><span class="o">&gt;</span>
-            <span class="o">&lt;/</span><span class="n">plugin</span><span class="o">&gt;</span>
-        <span class="o">&lt;/</span><span class="n">plugins</span><span class="o">&gt;</span>
-    <span class="o">&lt;/</span><span class="n">build</span><span class="o">&gt;</span>
-<span class="o">&lt;/</span><span class="n">project</span><span class="o">&gt;</span>
-
-</code></pre>
-</div>
-
-<ul>
-  <li>文件目录如下：</li>
-</ul>
-
-<p><img src="http://jiaohongwei.github.io/images/2016-11/20161118165131.png" alt="Object" /></p>
-
-<ul>
-  <li>创建PageController</li>
-</ul>
-
-<div class="language-java highlighter-rouge"><pre class="highlight"><code>
-<span class="kn">package</span> <span class="n">vg</span><span class="o">.</span><span class="na">controller</span><span class="o">;</span>
-
-<span class="kn">import</span> <span class="nn">org.springframework.beans.factory.annotation.Value</span><span class="o">;</span>
-<span class="kn">import</span> <span class="nn">org.springframework.stereotype.Controller</span><span class="o">;</span>
-<span class="kn">import</span> <span class="nn">org.springframework.web.bind.annotation.GetMapping</span><span class="o">;</span>
-<span class="kn">import</span> <span class="nn">org.springframework.web.bind.annotation.RequestMapping</span><span class="o">;</span>
-
-<span class="kn">import</span> <span class="nn">java.util.Date</span><span class="o">;</span>
-<span class="kn">import</span> <span class="nn">java.util.Map</span><span class="o">;</span>
-
-<span class="cm">/**
- * Created by jiaohongwei on 2016/11/18.
- */</span>
-<span class="nd">@Controller</span>     <span class="c1">//这里一定用@Controller  而不是@RestController !!!!</span>
-<span class="kd">public</span> <span class="kd">class</span> <span class="nc">PageController</span> <span class="o">{</span>
-
-    <span class="nd">@Value</span><span class="o">(</span><span class="s">"${application.message:Hello World}"</span><span class="o">)</span>
-    <span class="kd">private</span> <span class="n">String</span> <span class="n">message</span> <span class="o">=</span> <span class="s">"Hello World"</span><span class="o">;</span>
-
-    <span class="nd">@GetMapping</span><span class="o">(</span><span class="s">"/"</span><span class="o">)</span>
-    <span class="kd">public</span> <span class="n">String</span> <span class="nf">welcome</span><span class="o">(</span><span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">Object</span><span class="o">&gt;</span> <span class="n">model</span><span class="o">)</span> <span class="o">{</span>
-        <span class="n">model</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">"time"</span><span class="o">,</span> <span class="k">new</span> <span class="n">Date</span><span class="o">());</span>
-        <span class="n">model</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">"message"</span><span class="o">,</span> <span class="k">this</span><span class="o">.</span><span class="na">message</span><span class="o">);</span>
-        <span class="k">return</span> <span class="s">"welcome"</span><span class="o">;</span>
-    <span class="o">}</span>
-
-    <span class="nd">@RequestMapping</span><span class="o">(</span><span class="s">"/foo"</span><span class="o">)</span>
-    <span class="kd">public</span> <span class="n">String</span> <span class="nf">foo</span><span class="o">(</span><span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">Object</span><span class="o">&gt;</span> <span class="n">model</span><span class="o">)</span> <span class="o">{</span>
-        <span class="k">throw</span> <span class="k">new</span> <span class="nf">RuntimeException</span><span class="o">(</span><span class="s">"Foo"</span><span class="o">);</span>
-    <span class="o">}</span>
-<span class="o">}</span>
-
-</code></pre>
-</div>
-
-<ul>
-  <li>创建Application启动类</li>
-</ul>
-
-<div class="language-java highlighter-rouge"><pre class="highlight"><code>
-<span class="kn">package</span> <span class="n">vg</span><span class="o">;</span>
-
-<span class="kn">import</span> <span class="nn">org.springframework.boot.SpringApplication</span><span class="o">;</span>
-<span class="kn">import</span> <span class="nn">org.springframework.boot.autoconfigure.SpringBootApplication</span><span class="o">;</span>
-<span class="kn">import</span> <span class="nn">org.springframework.boot.builder.SpringApplicationBuilder</span><span class="o">;</span>
-<span class="kn">import</span> <span class="nn">org.springframework.boot.web.support.SpringBootServletInitializer</span><span class="o">;</span>
-
-<span class="cm">/**
- * Created by jiaohongwei on 2016/11/18.
- */</span>
-<span class="nd">@SpringBootApplication</span>
-<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Application</span> <span class="kd">extends</span> <span class="n">SpringBootServletInitializer</span> <span class="o">{</span>
-
-    <span class="nd">@Override</span>
-    <span class="kd">protected</span> <span class="n">SpringApplicationBuilder</span> <span class="nf">configure</span><span class="o">(</span><span class="n">SpringApplicationBuilder</span> <span class="n">application</span><span class="o">)</span> <span class="o">{</span>
-        <span class="k">return</span> <span class="n">application</span><span class="o">.</span><span class="na">sources</span><span class="o">(</span><span class="n">Application</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
-    <span class="o">}</span>
-
-    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
-        <span class="n">SpringApplication</span><span class="o">.</span><span class="na">run</span><span class="o">(</span><span class="n">Application</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="n">args</span><span class="o">);</span>
-    <span class="o">}</span>
-
-<span class="o">}</span>
-
-</code></pre>
-</div>
-
-<ul>
-  <li>创建 application.yaml 配置文件</li>
-</ul>
-
-<div class="highlighter-rouge"><pre class="highlight"><code>
-spring:
-  mvc:
-    view:
-      suffix: .jsp
-      prefix: /WEB-INF/jsp/
-server:
-  port: 8080
-
-application.message:  Hello Phil
-
-</code></pre>
-</div>
-
-<ul>
-  <li>创建welcome.jsp文件</li>
-</ul>
-
-<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="o">&lt;!</span><span class="n">DOCTYPE</span> <span class="n">html</span><span class="o">&gt;</span>
-
-<span class="o">&lt;%</span><span class="err">@</span> <span class="n">page</span> <span class="n">contentType</span><span class="o">=</span><span class="s">"text/html;charset=UTF-8"</span> <span class="n">language</span><span class="o">=</span><span class="s">"java"</span> <span class="o">%&gt;</span>
-<span class="o">&lt;%</span><span class="err">@</span> <span class="n">taglib</span> <span class="n">prefix</span><span class="o">=</span><span class="s">"spring"</span> <span class="n">uri</span><span class="o">=</span><span class="s">"http://www.springframework.org/tags"</span><span class="o">%&gt;</span>
-
-<span class="o">&lt;%</span><span class="err">@</span> <span class="n">taglib</span> <span class="n">prefix</span><span class="o">=</span><span class="s">"c"</span> <span class="n">uri</span><span class="o">=</span><span class="s">"http://java.sun.com/jsp/jstl/core"</span><span class="o">%&gt;</span>
-
-<span class="o">&lt;</span><span class="n">html</span> <span class="n">lang</span><span class="o">=</span><span class="s">"en"</span><span class="o">&gt;</span>
-
-<span class="o">&lt;</span><span class="n">body</span><span class="o">&gt;</span>
-<span class="o">&lt;</span><span class="nl">c:</span><span class="n">url</span> <span class="n">value</span><span class="o">=</span><span class="s">"/resources/text.txt"</span> <span class="n">var</span><span class="o">=</span><span class="s">"url"</span><span class="o">/&gt;</span>
-<span class="o">&lt;</span><span class="nl">spring:</span><span class="n">url</span> <span class="n">value</span><span class="o">=</span><span class="s">"/resources/text.txt"</span> <span class="n">htmlEscape</span><span class="o">=</span><span class="s">"true"</span> <span class="n">var</span><span class="o">=</span><span class="s">"springUrl"</span> <span class="o">/&gt;</span>
-<span class="n">Spring</span> <span class="nl">URL:</span> <span class="err">$</span><span class="o">{</span><span class="n">springUrl</span><span class="o">}</span> <span class="n">at</span> <span class="err">$</span><span class="o">{</span><span class="n">time</span><span class="o">}</span>
-<span class="o">&lt;</span><span class="n">br</span><span class="o">&gt;</span>
-<span class="n">JSTL</span> <span class="nl">URL:</span> <span class="err">$</span><span class="o">{</span><span class="n">url</span><span class="o">}</span>
-<span class="o">&lt;</span><span class="n">br</span><span class="o">&gt;</span>
-<span class="nl">Message:</span> <span class="err">$</span><span class="o">{</span><span class="n">message</span><span class="o">}</span>
-<span class="o">&lt;/</span><span class="n">body</span><span class="o">&gt;</span>
-<span class="o">&lt;/</span><span class="n">html</span><span class="o">&gt;</span>
-
-
-</code></pre>
-</div>
-
-<h2 id="运行">运行</h2>
-
-<ul>
-  <li>至此准备完成，开始运行，注意了，不要从tomcat启动，</li>
-  <li>1.直接运行main方法；</li>
-  <li>2.敲命令 <code class="highlighter-rouge">mvn spring-boot:run</code> 运行；</li>
-  <li>接下来访问 http://localhost:8080/  便能看到结果了。</li>
-</ul>
-
-<p><img src="http://jiaohongwei.github.io/images/2016-11/20161118170458.png" alt="Object" /></p>
-
-<h2 id="部署">部署</h2>
-
-<ul>
-  <li>使用 <code class="highlighter-rouge">mvn clean install</code> 命令打成war包</li>
-  <li>上传至服务器，通过 <code class="highlighter-rouge">java -jar xx.war</code> 启动服务</li>
-</ul>
-
-<h2 id="源码">源码</h2>
-
-<p>贴上项目源码：<a href="https://github.com/JiaoHongwei/Spring-Boot-Jsp-demo">Spring-Boot-Jsp-demo</a></p>
-
 
   </div>
 -->
@@ -1082,6 +1014,10 @@ application.message:  Hello Phil
   
     
       <a href="/page6">6</a>
+    
+  
+    
+      <a href="/page7">7</a>
     
   
 

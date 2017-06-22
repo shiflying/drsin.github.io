@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>C语言系统调用</title>
+  <meta name="description" content="C语言">
+
+  <meta name="description" content="我不生产代码，只是github的搬用工   
+"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#157878">
+  <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="/assets/css/style.css?v=6215a2849678db39332432a733632219d4f4a945">
+  <link rel="stylesheet" href="/assets/css/main.css">
+  <link rel="canonical" href="http://ninowon.com/c%E8%AF%AD%E8%A8%80/2017/06/16/C%E8%AF%AD%E8%A8%80%E7%B3%BB%E7%BB%9F%E8%B0%83%E7%94%A8.html">
+  <link rel="alternate" type="application/rss+xml" title="drsinBlog" href="http://ninowon.com/feed.xml">
+
+    <script>
+    // 百度统计代码
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?9509c46947d444c42bdfd33deeaff852";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+    </script>
+
+
+</head>
+
+  <body>
+  <header class="site-header">
+
+  <div class="wrapper">
+
+    <a class="site-title" href="/">drsinBlog</a>
+
+    <nav class="site-nav">
+      <a href="#" class="menu-icon">
+        <svg viewBox="0 0 18 15">
+          <path fill="#424242" d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.031C17.335,0,18,0.665,18,1.484L18,1.484z"/>
+          <path fill="#424242" d="M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0c0-0.82,0.665-1.484,1.484-1.484 h15.031C17.335,6.031,18,6.696,18,7.516L18,7.516z"/>
+          <path fill="#424242" d="M18,13.516C18,14.335,17.335,15,16.516,15H1.484C0.665,15,0,14.335,0,13.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.031C17.335,12.031,18,12.696,18,13.516L18,13.516z"/>
+        </svg>
+      </a>
+
+      <div class="trigger">
+        
+          
+          <a class="page-link" href="/about/">About</a>
+          
+        
+          
+          <a class="page-link" href="/category/">Category</a>
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      </div>
+    </nav>
+
+  </div>
+
+</header>
+
+    <section class="page-header">
+      <h1 class="project-name">drsinBlog</h1>
+      <h2 class="project-tagline">我不生产代码，只是github的搬用工   
+</h2>
+      
+        <a href="http://github.com/drsin/drsin.github.io" class="btn">View on GitHub</a>
+      
+      
+        <a href="http://github.com/drsin/drsin.github.io/zipball/gh-pages" class="btn">Download .zip</a>
+        <a href="http://github.com/drsin/drsin.github.io/tarball/gh-pages" class="btn">Download .tar.gz</a>
+      
+    </section>
+
+    <section class="main-content">
+   <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title" itemprop="name headline">C语言系统调用</h1>
+    <p class="post-meta"><time datetime="2017-06-16T00:00:00+08:00" itemprop="datePublished">Jun 16, 2017</time></p>
+  </header>
+
+  <div class="post-content" itemprop="articleBody">
+    
+<p><strong>fgets</strong>
+头文件：include<stdio.h></stdio.h></p>
+
+<p>定义函数：har * fgets(char * s, int size, FILE * stream);</p>
+
+<p>函数说明：fgets()用来从参数stream 所指的文件内读入字符并存到参数s 所指的内存空间, 直到出现换行字符、读到文件尾或是已读了size-1 个字符为止, 最后会加上NULL 作为字符串结束.</p>
+
+<p>返回值：gets()若成功则返回s 指针, 返回NULL 则表示有错误发生.</p>
+<div class="highlighter-rouge"><pre class="highlight"><code>#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;string.h&gt;
+
+int main( void )
+{
+	char buf[1024] = {};
+	
+	//gets(buf);//丢弃\n
+	fgets(buf, 1024, stdin);//不丢弃\n
+	int n = strlen(buf);
+	//printf("len=%d,buf=%s\n", n, buf);
+	buf[n-1] = 0;
+	puts(buf);//自动加\n
+	//fputs(buf, stdout);
+}
+</code></pre>
+</div>
+<p><strong>open</strong>
+头文件：#include <stdio.h></stdio.h></p>
+
+<p>fopen()是一个常用的函数，用来以指定的方式打开文件，其原型为：
+    FILE * fopen(const char * path, const char * mode);</p>
+
+<p>【参数】path为包含了路径的文件名，mode为文件打开方式。</p>
+
+<p>mode有以下几种方式：
+打开方式	说明</p>
+
+<blockquote>
+  <p>r	以只读方式打开文件，该文件必须存在。
+-r+	以读/写方式打开文件，该文件必须存在。 rb+	以读/写方式打开一个二进制文件，只允许读/写数据。 rt+	以读/写方式打开一个文本文件，允许读和写。 w	打开只写文件，若文件存在则长度清为0，即该文件内容消失，若不存在则创建该文件。
+w+	打开可读/写文件，若文件存在则文件长度清为零，即该文件内容会消失。若文件不存在则建立该文件。
+a	以附加的方式打开只写文件。若文件不存在，则会建立该文件，如果文件存在，写入的数据会被加到文件尾，即文件原先的内容会被保留（EOF符保留)。
+a+	以附加方式打开可读/写的文件。若文件不存在，则会建立该文件，如果文件存在，则写入的数据会被加到文件尾后，即文件原先的内容会被保留（原来的EOF符
+不保留)。 wb	以只写方式打开或新建一个二进制文件，只允许写数据。 wb+	以读/写方式打开或建立一个二进制文件，允许读和写。
+wt+	以读/写方式打开或建立一个文本文件，允许读写。 at+	以读/写方式打开一个文本文件，允许读或在文本末追加数据。
+ab+	以读/写方式打开一个二进制文件，允许读或在文件末追加数据。 在POSIX 系统，包含Linux 下都会忽略 b
+字符。由fopen()所建立的新文件会具有S_IRUSR|S_IWUSR|S_IRGRP|S_IWGRP|S_IROTH|S_IWOTH(0666)权限，此文件权限也会参考umask
+值。</p>
+</blockquote>
+
+<p>二进制和文本模式的区别：</p>
+
+<blockquote>
+  <p>在windows系统中，文本模式下，文件以”\r\n”代表换行。若以文本模式打开文件，并用fputs等函数写入换行符”\n”时，函数会自动在”\n”前面加上”\r”。即实际写入文件的是”\r\n”
+。 在类Unix/Linux系统中文本模式下，文件以”\n”代表换行。所以Linux系统中在文本模式和二进制模式下并无区别</p>
+</blockquote>
+
+<p>【返回值】文件顺利打开后，指向该流的文件指针就会被返回。若果文件打开失败则返回NULL，并把错误代码存在errno 中。</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+int main( void )
+{
+	FILE *fp = fopen("hehe.txt", "w");
+	if ( fp == NULL )
+		exit(EXIT_FAILURE);
+
+	fprintf(fp, "how are your!");
+	
+	fclose(fp);
+	
+	return 0;
+}
+</code></pre>
+</div>
+<p><strong>malloc()</strong> 
+头文件：#include <stdlib.h></stdlib.h></p>
+
+<p>malloc() 函数用来动态地分配内存空间（如果你不了解动态内存分配，请查看：C语言动态内存分配及变量存储类别），其原型为：
+void* malloc (size_t size);</p>
+
+<p>【参数说明】size 为需要分配的内存空间的大小，以字节（Byte）计。</p>
+
+<p>【函数说明】malloc() 在堆区分配一块指定大小的内存空间，用来存放数据。这块内存空间在函数执行完成后不会被初始化，它们的值是未知的。如果希望在分配内存的同时进行初始化，请使用 calloc() 函数。</p>
+
+<p>【返回值】分配成功返回指向该内存的地址，失败则返回 NULL。</p>
+
+<p>由于申请内存空间时可能有也可能没有，所以需要自行判断是否申请成功，再进行后续操作。</p>
+
+<p>如果 size 的值为 0，那么返回值会因标准库实现的不同而不同，可能是 NULL，也可能不是，但返回的指针不应该再次被引用。</p>
+
+<p>注意：函数的返回值类型是 void *，void 并不是说没有返回值或者返回空指针，而是返回的指针类型未知。所以在使用 malloc() 时通常需要进行强制类型转换，将 void 指针转换成我们希望的类型，例如：
+纯文本复制
+char *ptr = (char *)malloc(10);  // 分配10个字节的内存空间，用来存放字符
+头文件：#include <string.h>
+**memset**
+memset() 函数用来将指定内存的前n个字节设置为特定的值，其原型为：
+    void * memset( void * ptr, int value, size_t num );</string.h></p>
+
+<p>参数说明：
+ptr 为要操作的内存的指针。
+value 为要设置的值。你既可以向 value 传递 int 类型的值，也可以传递 char 类型的值，int 和 char 可以根据 ASCII 码相互转换。
+num 为 ptr 的前 num 个字节，size_t 就是unsigned int。</p>
+
+<p>【函数说明】memset() 会将 ptr 所指的内存区域的前 num 个字节的值都设置为 value，然后返回指向 ptr 的指针。</p>
+
+<p>memset() 可以将一段内存空间全部设置为特定的值，所以经常用来初始化字符数组。例如：
+char str[20];
+memset(str, ‘\0’, sizeof(str)-1);</p>
+
+<p>【返回值】返回指向 ptr 的指针。</p>
+
+<p>注意：参数 value 虽声明为 int，但必须是 unsigned char，所以范围在0 到255 之间。</p>
+<div class="highlighter-rouge"><pre class="highlight"><code>#include &lt;stdio.h&gt;
+#include &lt;assert.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;string.h&gt;
+
+typedef struct student {
+	int id;
+	char name[20];
+	struct student *next;
+} stu_t;
+
+void input(stu_t **ph) {
+	stu_t *p = *ph;
+	stu_t *t=(stu_t*)malloc(sizeof(stu_t));
+	assert(t);
+	memset(t, 0x00, sizeof(stu_t));
+	printf("input name: ");
+	scanf("%s", t-&gt;name);
+	printf("input id: ");
+	scanf("%d", &amp;t-&gt;id);
+	
+	if ( p == NULL ) {
+		*ph = t;
+	} else {	
+		while ( p-&gt;next != NULL )
+			p = p-&gt;next;
+		p-&gt;next = t;
+	}
+}
+
+void front(stu_t **ph)
+{
+	stu_t *p = malloc(sizeof(stu_t));
+	assert(p);
+	
+	memset(p, 0x00, sizeof(stu_t));
+	printf("input name: ");
+	scanf("%s", p-&gt;name);
+	printf("input id: ");
+	scanf("%d", &amp;p-&gt;id);
+	
+	p-&gt;next = *ph;
+	*ph = p;
+}
+
+void output(stu_t *h)
+{
+	while ( h != NULL ) {
+		printf("%d %s\n", h-&gt;id, h-&gt;name);
+		h = h-&gt;next;
+	}
+}
+
+int main( void )
+{
+	char c;
+	stu_t *head = NULL;
+	while ( 1 ) {
+		printf("I input other exit\n");
+		scanf(" %c", &amp;c);
+		if ( c!='i' &amp;&amp; c!='I')
+			break;
+		//input(&amp;head);
+		front(&amp;head);
+	}
+	output(head);
+}
+</code></pre>
+</div>
+<p><strong>sscanf</strong>
+头文件：#include <stdio.h></stdio.h></p>
+
+<p>sscanf()函数用于从字符串中读取指定格式的数据，其原型如下：
+    int sscanf (char *str, char * format [, argument, …]);</p>
+
+<p>【参数】参数str为要读取数据的字符串；format为用户指定的格式；argument为变量，用来保存读取到的数据。</p>
+
+<p>【返回值】成功则返回参数数目，失败则返回-1，错误原因存于errno 中。</p>
+
+<p>sscanf()会将参数str 的字符串根据参数format（格式化字符串）来转换并格式化数据（格式化字符串请参考scanf()）， 转换后的结果存于对应的变量中。</p>
+
+<p>sscanf()与scanf()类似，都是用于输入的，只是scanf()以键盘(stdin)为输入源，sscanf()以固定字符串为输入源
+<strong>fprintf</strong>
+头文件：#include <stdio.h></stdio.h></p>
+
+<p>定义函数：int fprintf(FILE * stream, const char * format, …);</p>
+
+<p>函数说明：fprintf()会根据参数format 字符串来转换并格式化数据, 然后将结果输出到参数stream 指定的文件中, 直到出现字符串结束(‘\0’)为止。</p>
+
+<p>返回值：关于参数format 字符串的格式请参考printf(). 成功则返回实际输出的字符数, 失败则返回-1, 错误原因存于errno 中.</p>
+<div class="highlighter-rouge"><pre class="highlight"><code>#include &lt;stdio.h&gt;
+
+int main( void )
+{
+	char buf[] = "lilei 123|45.3";
+	int i;
+	double d;
+	char name[10] = {};
+	
+	sscanf(buf, "%s%d|%lf", name, &amp;i, &amp;d);
+	fprintf(stdout, "name=%s,i=%d,d=%f\n", name, i, d);
+}
+</code></pre>
+</div>
+<p><strong>sprintf</strong>
+头文件：#include <stdio.h></stdio.h></p>
+
+<p>sprintf()函数用于将格式化的数据写入字符串，其原型为：
+    int sprintf(char *str, char * format [, argument, …]);</p>
+
+<p>【参数】str为要写入的字符串；format为格式化字符串，与printf()函数相同；argument为变量。</p>
+
+<p>除了前两个参数类型固定外，后面可以接任意多个参数。而它的精华，显然就在第二个参数–格式化字符串–上。 printf()和sprintf()都使用格式化字符串来指定串的格式，在格式串内部使用一些以“%”开头的格式说明符（format specifications）来占据一个位置，在后边的变参列表中提供相应的变量，最终函数就会用相应位置的变量来替代那个说明符，产生一个调用者想要的字符串。</p>
+
+<p>sprintf()最常见的应用之一莫过于把整数打印到字符串中，如：
+    sprintf(s, “%d”, 123);  //把整数123打印成一个字符串保存在s中
+    sprintf(s, “%8x”, 4567);  //小写16进制，宽度占8个位置，右对齐</p>
+
+<p>sprintf的作用是将一个格式化的字符串输出到一个目的字符串中，而printf是将一个格式化的字符串输出到屏幕。sprintf的第一个参数应该是目的字符串，如果不指定这个参数，执行过程中出现 “该程序产生非法操作,即将被关闭….”的提示。</p>
+
+<p>sprintf()会根据参数format 字符串来转换并格式化数据，然后将结果复制到参数str 所指的字符串数组，直到出现字符串结束(‘\0’)为止。关于参数format 字符串的格式请参考printf()。</p>
+
+<p>【返回值】成功则返回参数str 字符串长度，失败则返回-1，错误原因存于errno 中</p>
+<div class="highlighter-rouge"><pre class="highlight"><code>#include &lt;stdio.h&gt;
+
+int main( void )
+{
+	int i = 123;
+	double d = 99.99;
+	char *name = "furong";
+	char buf[1024] = {};
+	
+	sprintf(buf, "name=%s|i=%d|d=%f|", name, i, d);
+	sprintf(buf, "%d", 123);
+	printf("buf=%s\n", buf);
+}
+</code></pre>
+</div>
+<p>##特殊输入</p>
+<div class="highlighter-rouge"><pre class="highlight"><code>#include &lt;stdio.h&gt;
+
+int main( void )
+{
+	int x, y;
+	
+/*
+	scanf("%2d%2d", &amp;x, &amp;y);
+	printf("x=%d,y=%d\n", x, y);
+	scanf("%*d%d", &amp;x);
+	printf("x=%d\n", x);
+*/
+	
+	char c;
+	char str[100];
+	scanf("%[^\n]", str); //读取[]里面有的字符
+	scanf("%*c%c", &amp;c);
+	scanf("%*[^\n]"); scanf("%*c");
+	printf("str=%s\n", str);
+	printf("c=[%c]\n", c);
+}
+</code></pre>
+</div>
+
+  </div>
+
+</article>
+
+   <footer class="site-footer">
+
+  <div class="wrapper">
+
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li><a href="mailto:86478582@qq.com">email:86478582@qq.com</a></li>
+        </ul>
+      </div>
+
+
+      <div class="footer-col footer-col-2">
+        <ul class="social-media-list">
+          
+          <li>
+            <a href="https://github.com/drsin"><span class="icon icon--github"><svg viewBox="0 0 16 16"><path fill="#828282" d="M7.999,0.431c-4.285,0-7.76,3.474-7.76,7.761 c0,3.428,2.223,6.337,5.307,7.363c0.388,0.071,0.53-0.168,0.53-0.374c0-0.184-0.007-0.672-0.01-1.32 c-2.159,0.469-2.614-1.04-2.614-1.04c-0.353-0.896-0.862-1.135-0.862-1.135c-0.705-0.481,0.053-0.472,0.053-0.472 c0.779,0.055,1.189,0.8,1.189,0.8c0.692,1.186,1.816,0.843,2.258,0.645c0.071-0.502,0.271-0.843,0.493-1.037 C4.86,11.425,3.049,10.76,3.049,7.786c0-0.847,0.302-1.54,0.799-2.082C3.768,5.507,3.501,4.718,3.924,3.65 c0,0,0.652-0.209,2.134,0.796C6.677,4.273,7.34,4.187,8,4.184c0.659,0.003,1.323,0.089,1.943,0.261 c1.482-1.004,2.132-0.796,2.132-0.796c0.423,1.068,0.157,1.857,0.077,2.054c0.497,0.542,0.798,1.235,0.798,2.082 c0,2.981-1.814,3.637-3.543,3.829c0.279,0.24,0.527,0.713,0.527,1.437c0,1.037-0.01,1.874-0.01,2.129 c0,0.208,0.14,0.449,0.534,0.373c3.081-1.028,5.302-3.935,5.302-7.362C15.76,3.906,12.285,0.431,7.999,0.431z"/></svg>
+</span><span class="username">drsin</span></a>
+
+          </li>
+          
+<!--
+          
+-->
+        </ul>
+      </div>
+      <div class="footer-col footer-col-3">
+        
+          <span class="site-footer-owner"><a href="http://github.com/drsin/drsin.github.io">drsin.github.io</a> is maintained by <a href="http://github.com/drsin">drsin</a>.</span>
+        
+            本站总访问量<span id="busuanzi_value_site_pv"></span>次，本站访客数<span id="busuanzi_value_site_uv"></span>人次，本文总阅读量<span id="busuanzi_value_page_pv"></span>次
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+
+
+    </section>
+
+    
+  </body>
+</html>

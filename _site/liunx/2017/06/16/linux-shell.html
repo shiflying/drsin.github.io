@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>linux</title>
+  <meta name="description" content="liunx">
+
+  <meta name="description" content="我不生产代码，只是github的搬用工   
+"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#157878">
+  <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="/assets/css/style.css?v=6215a2849678db39332432a733632219d4f4a945">
+  <link rel="stylesheet" href="/assets/css/main.css">
+  <link rel="canonical" href="http://ninowon.com/liunx/2017/06/16/linux-shell.html">
+  <link rel="alternate" type="application/rss+xml" title="drsinBlog" href="http://ninowon.com/feed.xml">
+
+    <script>
+    // 百度统计代码
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?9509c46947d444c42bdfd33deeaff852";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+    </script>
+
+
+</head>
+
+  <body>
+  <header class="site-header">
+
+  <div class="wrapper">
+
+    <a class="site-title" href="/">drsinBlog</a>
+
+    <nav class="site-nav">
+      <a href="#" class="menu-icon">
+        <svg viewBox="0 0 18 15">
+          <path fill="#424242" d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.031C17.335,0,18,0.665,18,1.484L18,1.484z"/>
+          <path fill="#424242" d="M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0c0-0.82,0.665-1.484,1.484-1.484 h15.031C17.335,6.031,18,6.696,18,7.516L18,7.516z"/>
+          <path fill="#424242" d="M18,13.516C18,14.335,17.335,15,16.516,15H1.484C0.665,15,0,14.335,0,13.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.031C17.335,12.031,18,12.696,18,13.516L18,13.516z"/>
+        </svg>
+      </a>
+
+      <div class="trigger">
+        
+          
+          <a class="page-link" href="/about/">About</a>
+          
+        
+          
+          <a class="page-link" href="/category/">Category</a>
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      </div>
+    </nav>
+
+  </div>
+
+</header>
+
+    <section class="page-header">
+      <h1 class="project-name">drsinBlog</h1>
+      <h2 class="project-tagline">我不生产代码，只是github的搬用工   
+</h2>
+      
+        <a href="http://github.com/drsin/drsin.github.io" class="btn">View on GitHub</a>
+      
+      
+        <a href="http://github.com/drsin/drsin.github.io/zipball/gh-pages" class="btn">Download .zip</a>
+        <a href="http://github.com/drsin/drsin.github.io/tarball/gh-pages" class="btn">Download .tar.gz</a>
+      
+    </section>
+
+    <section class="main-content">
+   <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title" itemprop="name headline">linux</h1>
+    <p class="post-meta"><time datetime="2017-06-16T00:00:00+08:00" itemprop="datePublished">Jun 16, 2017</time></p>
+  </header>
+
+  <div class="post-content" itemprop="articleBody">
+    <ul id="markdown-toc">
+  <li><a href="#c语言基础" id="markdown-toc-c语言基础">c语言基础</a></li>
+  <li><a href="#liunx-shell" id="markdown-toc-liunx-shell">liunx shell</a></li>
+</ul>
+<h3 id="c语言基础">c语言基础</h3>
+<ul>
+  <li><a href="https://github.com/drsin/linuxCoreLearn/tree/master/c/dataType">数据类型</a></li>
+  <li><a href="https://github.com/drsin/linuxCoreLearn/tree/master/c/PrintSacnf">输入输出</a></li>
+  <li><a href="https://github.com/drsin/linuxCoreLearn/tree/master/c/baePractice">基础练习</a></li>
+  <li><a href="https://github.com/drsin/linuxCoreLearn/tree/master/c/sysCall">系统调用</a>
+    <h3 id="liunx-shell">liunx shell</h3>
+  </li>
+  <li>kernel的版本
+    <div class="highlighter-rouge"><pre class="highlight"><code>uname -a 可以查看linux内核版本
+X-window 下创建的终端是虚拟终端
+</code></pre>
+    </div>
+  </li>
+  <li>配置网络
+    <div class="highlighter-rouge"><pre class="highlight"><code>vim /etc/sysconf/network-script/ifcfg-eth0
+如果想使用图形化界面setup
+</code></pre>
+    </div>
+  </li>
+  <li>man linux中的帮助手册</li>
+</ul>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>分为8章： 		
+第1章 Linux系统命令的帮助 	
+第2章 Linux系统API的帮助手册		 		
+第3章 C库函数的帮助 		
+第5章系统配置文件的帮助 		
+第7章 某一主题的帮助 		
+第8章 系统管理的命令 
+命令组成 cmd [option [argument]]
+</code></pre>
+</div>
+
+<ul>
+  <li>pwd命令，查看当前路径</li>
+  <li>ls 查看目录下的文件</li>
+</ul>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>单敲一个ls，只显示当前目录下的文件 	默认不显示隐藏文件，想显示用-a选项 	
+-d显示目录本身的信息 	多个选项可以合并着写 -ld
+一个目录创建后，会自动创建两个目录，
+.  代表本目录 	.. 代表上级目录 	最顶层的..就是自身
+</code></pre>
+</div>
+
+<ul>
+  <li>mv 文件的移动或改名</li>
+  <li>cp source dest 把source拷贝到dest</li>
+</ul>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>-r 拷贝目录
+</code></pre>
+</div>
+
+<ul>
+  <li>touch 创建文件</li>
+</ul>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>更新文件最后修改时间
+</code></pre>
+</div>
+
+<ul>
+  <li>cd改变当前目录到制定的目录</li>
+  <li>mkdir 创建目录</li>
+  <li>rmdir 只能删除空目录</li>
+  <li>
+    <p>rm -rf 删除非空目录</p>
+  </li>
+  <li>cat 显示文件的内容</li>
+  <li>more 分屏显示文件内容,空格显示下一屏，b上一屏</li>
+  <li>alias 起别名
+    <div class="highlighter-rouge"><pre class="highlight"><code>linux有个习惯：在终端设置的信息只在本终端有效，离开终端就无效,如果想让设置永久生效，得修改配置文件,但是不立即生效，下一次用就生效了
+</code></pre>
+    </div>
+  </li>
+  <li>useradd 用户名 添加新用户</li>
+  <li>passwd 修改用户密码</li>
+  <li>
+    <p>userdel -r 删除用户</p>
+  </li>
+  <li>hostname</li>
+  <li>id显示用户信息</li>
+  <li>whoami</li>
+  <li>
+    <p>date 显示时间</p>
+  </li>
+  <li>shutdow -h now 发送广播信息</li>
+  <li>init 0   关闭系统的所有服务</li>
+  <li>halt -p  关闭电源</li>
+  <li>shutdown -r now</li>
+  <li>init 6</li>
+  <li>
+    <p>reboot</p>
+  </li>
+  <li>创建一个用户</li>
+</ul>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>在/home/创建一个目录,并且添加一些隐藏文件,这些隐藏文件来自/etc/skel/.*  
+chown -R xiaoyan.xiaoyan  .
+在/etc/passwd文件中添加一行记录
+在/etc/shadow文件中添加一条记录
+在/etc/group中添加一条组的信息
+在/etc/gshadow文件中添加一条记录
+</code></pre>
+</div>
+
+<ul>
+  <li>groupadd</li>
+</ul>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>将一个用户加入到一个组，在group文件中对应的组后面添加上用户名，如果添加多个用户用逗号分割，
+ 管理员的组id等于0，其他用户加入到这组也不是管理员
+</code></pre>
+</div>
+
+<ul>
+  <li>-rw-r–r–. 1 root    root     1045 7月  15 14:13 day02.txt</li>
+</ul>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>第一列 文件的类型
+普通文件
+d 目录文件
+l 软链接文件
+p 管道文件
+b 块设备文件
+c 字符设备文件
+s socket文件	
+  own        grp       othr
+  r w -     r - -     r - -
+  | | |
+  | | |
+  | | \_执行
+  | \___写
+  \_____读
+</code></pre>
+</div>
+
+<ul>
+  <li>chmod 修改文件的权限</li>
+</ul>
+
+<div class="highlighter-rouge"><pre class="highlight"><code> chmod 谁-/+/=权限  文件
+		  o       r
+          g       w
+          u       x
+          a
+	+ 在原有的权限基础上添加新的权限
+	- 在原有的权限基础上取消对应的权限
+	= 取消原有权限设置为新的权限
+
+	t 粘帖位
+	s 用户设置位
+	
+</code></pre>
+</div>
+<div class="highlighter-rouge"><pre class="highlight"><code>程序在执行过程中存在两个用户:实际用户,有效用户
+
+- 硬链接数
+	硬链接文件不能跨分区
+</code></pre>
+</div>
+
+<ul>
+  <li>which 查找命令在哪里</li>
+  <li>
+    <p>whereis 查找命令在哪里，比which多了关于帮助的位置</p>
+  </li>
+  <li>find 找文件</li>
+</ul>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>	-name
+	-type
+	-user
+	-group
+	-mtime
+		+n 更新时间距离现在n天前
+		-n 更改时间距离现在n天内
+	多个查找条件可以用 -a -o
+- grep 查找文件中的内容
+	如果要递归查找子目录 -r
+</code></pre>
+</div>
+
+<ul>
+  <li>tar 打包</li>
+</ul>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>	tar -cvf 打包
+	gzip 压缩成 tar.gz
+	bzip2 压缩程 tar.bz2
+
+	tar -jcvf tar.bz2
+	tar -zcvf tar.gz
+</code></pre>
+</div>
+
+<ul>
+  <li>head 显示文件的开始若干行,默认10行</li>
+  <li>
+    <p>tail 显示文件末尾的若干行</p>
+  </li>
+  <li>cut 显示文件某些列 -d列的分割符号 -f要显示的列</li>
+  <li>
+    <p>sort -t -k -n</p>
+  </li>
+  <li>
+    <p>uniq 过滤相邻的重复行</p>
+  </li>
+  <li>
+    <p>wc 用于统计行数，单词数，字符数
+   -l
+   -c
+   -w</p>
+  </li>
+  <li>sed 流式编辑器</li>
+</ul>
+
+<div class="highlighter-rouge"><pre class="highlight"><code> 逐行读取文件中的内容存储到临时缓存，接着用sed命令处理缓存中的内容，处理完成以后，把缓存中的内容送到屏幕，接着处理下一行，直到文件末尾，对源文件的内容没有改变。
+ -n 不打印 	
+用法 sed [选项] 命令 文件 
+	sed '4,$d' day03.txt 	从第4行到最后一行删除 
+	sed '3q' day03.txt 		处理完第三行时退出 	
+	sed 's/3/三/' note.txt 		将每行的第一个3替换成三
+	sed 's/3/三/g' note.txt 		将所有的3替换成三
+</code></pre>
+</div>
+
+<ul>
+  <li>awk 处理数据和生成报告的编程语言</li>
+</ul>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>awk比sed多了列处理功能
+
+awk [option] awk_script files
+	-F 指定输入记录分段的分割符
+	-f 从指定的awk脚本读
+
+awk -F: '{print $1}' /etc/passwd
+
+		awk -F: 'BEGIN{}
+		/pattern/{}
+		END{}'  /etc/passwd
+
+正则表达式
+	\&lt;\&gt;匹配单词
+	.* 任意多个任意字符
+	.  任意单个字符
+	^  行首
+	
+输入输出重定向
+ls 从磁盘读，向屏幕写
+cat 从文件读，向屏幕写
+
+输入：数据来源
+输出：数据去向
+我们将有输入输出的命令叫过滤器
+
+标准的输入 0 stdin
+标准的输出 1 stdout
+标准的错误 2 stderr
+
+改变输入输出方向叫重定向
+</code></pre>
+</div>
+
+<ul>
+  <li>进程优先级 nice</li>
+</ul>
+
+<p>前后台进程</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>&amp;  把进程放入后台
+jobs 查看后台有哪些进程
+fg %i 把i号进程从后台搬到前台
+ctrl+z 把前台进程拿到后台
+bf %i 将后台i号进程运行起来
+
+如果想在离开shell终端时，后台进程继续运行
+nohup
+</code></pre>
+</div>
+
+
+  </div>
+
+</article>
+
+   <footer class="site-footer">
+
+  <div class="wrapper">
+
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li><a href="mailto:86478582@qq.com">email:86478582@qq.com</a></li>
+        </ul>
+      </div>
+
+
+      <div class="footer-col footer-col-2">
+        <ul class="social-media-list">
+          
+          <li>
+            <a href="https://github.com/drsin"><span class="icon icon--github"><svg viewBox="0 0 16 16"><path fill="#828282" d="M7.999,0.431c-4.285,0-7.76,3.474-7.76,7.761 c0,3.428,2.223,6.337,5.307,7.363c0.388,0.071,0.53-0.168,0.53-0.374c0-0.184-0.007-0.672-0.01-1.32 c-2.159,0.469-2.614-1.04-2.614-1.04c-0.353-0.896-0.862-1.135-0.862-1.135c-0.705-0.481,0.053-0.472,0.053-0.472 c0.779,0.055,1.189,0.8,1.189,0.8c0.692,1.186,1.816,0.843,2.258,0.645c0.071-0.502,0.271-0.843,0.493-1.037 C4.86,11.425,3.049,10.76,3.049,7.786c0-0.847,0.302-1.54,0.799-2.082C3.768,5.507,3.501,4.718,3.924,3.65 c0,0,0.652-0.209,2.134,0.796C6.677,4.273,7.34,4.187,8,4.184c0.659,0.003,1.323,0.089,1.943,0.261 c1.482-1.004,2.132-0.796,2.132-0.796c0.423,1.068,0.157,1.857,0.077,2.054c0.497,0.542,0.798,1.235,0.798,2.082 c0,2.981-1.814,3.637-3.543,3.829c0.279,0.24,0.527,0.713,0.527,1.437c0,1.037-0.01,1.874-0.01,2.129 c0,0.208,0.14,0.449,0.534,0.373c3.081-1.028,5.302-3.935,5.302-7.362C15.76,3.906,12.285,0.431,7.999,0.431z"/></svg>
+</span><span class="username">drsin</span></a>
+
+          </li>
+          
+<!--
+          
+-->
+        </ul>
+      </div>
+      <div class="footer-col footer-col-3">
+        
+          <span class="site-footer-owner"><a href="http://github.com/drsin/drsin.github.io">drsin.github.io</a> is maintained by <a href="http://github.com/drsin">drsin</a>.</span>
+        
+            本站总访问量<span id="busuanzi_value_site_pv"></span>次，本站访客数<span id="busuanzi_value_site_uv"></span>人次，本文总阅读量<span id="busuanzi_value_page_pv"></span>次
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+
+
+    </section>
+
+    
+  </body>
+</html>
