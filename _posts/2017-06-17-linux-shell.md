@@ -1,4 +1,3 @@
-
 ---
 layout: post
 title:  "linux"
@@ -8,6 +7,8 @@ tags: liunx
 excerpt: liunx
 
 ---
+* content
+{:toc}
 ###  c语言基础
 - [数据类型](https://github.com/drsin/linuxCoreLearn/tree/master/c/dataType)
 - [输入输出](https://github.com/drsin/linuxCoreLearn/tree/master/c/PrintSacnf)
