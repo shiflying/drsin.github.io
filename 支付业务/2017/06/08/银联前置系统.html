@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>银联前置系统</title>
+  <meta name="description" content="支付业务">
+
+  <meta name="description" content="我不生产代码，只是github的搬用工   
+"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#157878">
+  <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="/assets/css/style.css?v=6215a2849678db39332432a733632219d4f4a945">
+  <link rel="stylesheet" href="/assets/css/main.css">
+  <link rel="canonical" href="http://ninowon.com/%E6%94%AF%E4%BB%98%E4%B8%9A%E5%8A%A1/2017/06/08/%E9%93%B6%E8%81%94%E5%89%8D%E7%BD%AE%E7%B3%BB%E7%BB%9F.html">
+  <link rel="alternate" type="application/rss+xml" title="drsinBlog" href="http://ninowon.com/feed.xml">
+
+    <script>
+    // 百度统计代码
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?9509c46947d444c42bdfd33deeaff852";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+    </script>
+
+
+</head>
+
+  <body>
+  <header class="site-header">
+
+  <div class="wrapper">
+
+    <a class="site-title" href="/">drsinBlog</a>
+
+    <nav class="site-nav">
+      <a href="#" class="menu-icon">
+        <svg viewBox="0 0 18 15">
+          <path fill="#424242" d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.031C17.335,0,18,0.665,18,1.484L18,1.484z"/>
+          <path fill="#424242" d="M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0c0-0.82,0.665-1.484,1.484-1.484 h15.031C17.335,6.031,18,6.696,18,7.516L18,7.516z"/>
+          <path fill="#424242" d="M18,13.516C18,14.335,17.335,15,16.516,15H1.484C0.665,15,0,14.335,0,13.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.031C17.335,12.031,18,12.696,18,13.516L18,13.516z"/>
+        </svg>
+      </a>
+
+      <div class="trigger">
+        
+          
+          <a class="page-link" href="/about/">About</a>
+          
+        
+          
+          <a class="page-link" href="/category/">Category</a>
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      </div>
+    </nav>
+
+  </div>
+
+</header>
+
+    <section class="page-header">
+      <h1 class="project-name">drsinBlog</h1>
+      <h2 class="project-tagline">我不生产代码，只是github的搬用工   
+</h2>
+      
+        <a href="http://github.com/drsin/drsin.github.io" class="btn">View on GitHub</a>
+      
+      
+        <a href="http://github.com/drsin/drsin.github.io/zipball/gh-pages" class="btn">Download .zip</a>
+        <a href="http://github.com/drsin/drsin.github.io/tarball/gh-pages" class="btn">Download .tar.gz</a>
+      
+    </section>
+
+    <section class="main-content">
+   <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title" itemprop="name headline">银联前置系统</h1>
+    <p class="post-meta"><time datetime="2017-06-08T00:00:00+08:00" itemprop="datePublished">Jun 8, 2017</time></p>
+  </header>
+
+  <div class="post-content" itemprop="articleBody">
+    <ul id="markdown-toc">
+  <li><a href="#系统概述" id="markdown-toc-系统概述">系统概述:</a></li>
+  <li><a href="#系统架构" id="markdown-toc-系统架构">系统架构</a></li>
+</ul>
+
+<h2 id="系统概述">系统概述:</h2>
+<blockquote>
+  <p><strong>银行卡前置系统</strong>(TOPFe)是针对中国银联接口规范2.0而整合的银行卡交易处理系统，整个系统分为5个子系统：银联前置系统（NCUP）、ATM前置系统（ATMP）、POS前置系统（POSP）、加密处理系统（HSM）、批处理系统（BATCH）。
+介于中国银联处理系统和银行帐务主机处理系统之间的一个交易处理系统，它完成跨行交易（包括本代他，他代本）的处理和转接的功能。若与其他两个子系统（ATM前置系统、POSP前置系统）整合使用，银联前置系统还可以提供本行卡交易（本代本）处理模块。
+ATM前置系统：ATM机具的接入，管理和监控ATM设备，转发ATM上进行的交易。
+<strong>POS前置系统</strong>：POS机具的接入，管理POS设备信息，转发POS上进行的交易。
+<strong>加密处理系统</strong>（HSM）：向外界提供统一的加密调用接口，支持DES软加密功能（OS：32位）；支持30所和56所加密机的接入功能。
+<strong>批处理系统</strong>：提供最基本的操作函数（文件入库、数据提取、报表输出等）；提供系统数据备份功能。</p>
+</blockquote>
+
+<h2 id="系统架构">系统架构</h2>
+<p><img src="./1496995188924.png" alt="Alt text" /></p>
+
+<blockquote>
+  <p>他带本交易流程：      请求：通讯模块-&gt;I.1-&gt;I.2-&gt;I.3-&gt;I.4-&gt;通讯模块
+应答：通讯模块-&gt;O.1-&gt;O.2-&gt;O.3-&gt;O.4-&gt;通讯模块 本代他交易流程：
+          请求：通讯模块-&gt;O.1-&gt;O.2-&gt;O.3-&gt;O.4-&gt;通讯模块
+		  应答：通讯模块-&gt;I.1-&gt;I.2-&gt;I.3-&gt;I.4-&gt;通讯模块</p>
+</blockquote>
+
+<p>##系统模块</p>
+
+<ul>
+  <li>守护进程模块  Daemon</li>
+  <li>桥接路由模块  Bridge</li>
+  <li>通讯服务模块
+    <blockquote>
+      <p>Commcup1  （南京银联通讯进程）
+Commcup2  （总行银联通讯进程）
+Commcup3 （杭州银联通讯进程）
+Commcup4  （成都银联通讯进程）
+CommDeb  （信用卡模块通讯进程）
+CoEsbCli    （核心通讯进程）
+CommAtmp （ATMP通讯进程）
+CommPosP  （POSP通讯进程）
+CoEsbSrv    （中间业务平台通讯进程）
+Commcon	  （控制台通讯进程）</p>
+    </blockquote>
+  </li>
+  <li>加密机模块：  HSM         （加密模块）
+    <blockquote>
+      <p>加密模块与加密机的连接与一般通讯程序的方法类似，只不过所连的是加密机而不是中心而已。本加密程序支持软加密，硬加密TCP以及硬加密串口等多种加密方式。</p>
+    </blockquote>
+  </li>
+</ul>
+
+<p>###Brigdge模块</p>
+
+<ul>
+  <li>初始化（BrigdgeInit)
+守护进程Daemon fork子进程并调用系统函数execvp()替换进程上下文启动桥接进程Bridge,其中传入的参数分别为服务ID和服务序列号。之后通过srvId从数据库加载服务的配置信息到内存中。
+对应调用代码如下：
+    <div class="highlighter-rouge"><pre class="highlight"><code>  nReturnCode = DbsSRVINF(DBS_SELECT, &amp;tTblSrvInf);
+  nReturnCode = MsqInit (gsSrvId, gatSrvMsq);
+  nReturnCode = CvtInit (gatConvType, gatUsageTransRule);
+  nReturnCode = BufChgLoad(1,&amp;tBufChgRule);
+  nReturnCode = IpcDftLoad(1,&amp;tIpcDftRule);
+  nReturnCode = DbsRouteInfLoad (&amp;gnRouteInfNum, gatRouteInf);
+  nReturnCode = DbsCardBinload (&amp;gnCardBinNum, gatCardBin);
+</code></pre>
+    </div>
+    <p>其中加载服务和消息队列是调用嵌入式数据库开发语言*.pc</p>
+  </li>
+</ul>
+
+<blockquote>
+  <p>提供对于嵌入式SQL的支持，需要数据库厂商除了提供DBMS之外，还必须提供一些工具。为了实现对于嵌入式SQL的支持，技术上必须解决以下4个问题[1]：
+宿主语言的编译器不可能识别和接受SQL文，需要解决如何将SQL的宿主语言源代码编译成可执行码。
+宿主语言的应用程序如何与DBMS之间传递数据和消息。 如何把对数据的查询结果逐次赋值给宿主语言程序中的变量以供其处理。
+数据库的数据类型与宿主语言的数据类型有时不完全对应或等价，如何解决必要的数据类型转换问题。
+嵌入式工作原理
+<img src="./1497002360274.png" alt="Alt text" /></p>
+</blockquote>
+
+<p>流程图</p>
+<pre><code class="language-flow">st=&gt;start: 启动Bridge
+conDB=&gt;operation: 连接数据库
+loadSrv=&gt;operation: 服务属性
+loadMsq=&gt;operation: 消息队列
+loadConv=&gt;operation: 转换规则
+loadIpc=&gt;operation: 内部结构体
+loadRoute=&gt;operation: 路由
+sub=&gt;subroutine: 加载配置信息
+condb=&gt;condition: 连接成功
+Suc1=&gt;condition: true
+Suc2=&gt;condition: true
+Suc3=&gt;condition: true
+Suc4=&gt;condition: true
+Suc5=&gt;condition: true
+io=&gt;inputoutput: 加载配置信息
+e=&gt;end: 结束
+
+st-&gt;conDB-&gt;condb
+condb(yes)-&gt;loadSrv-&gt;Suc1
+Suc1(yes)-&gt;loadMsq-&gt;Suc2
+Suc2(yes)-&gt;loadConv-&gt;Suc3
+Suc3(yes)-&gt;loadIpc-&gt;Suc4
+Suc4(yes)-&gt;loadRoute-&gt;e
+Suc1(no)-&gt;e
+Suc2(no)-&gt;e
+Suc3(no)-&gt;e
+Suc4(no)-&gt;e
+condb(no)-&gt;conDB
+</code></pre>
+<ul>
+  <li>格式转换规则是系统比较复杂的内容：
+```flow
+st=&gt;start: begin
+loadConv=&gt;operation: load tbl_conv_type
+condb=&gt;condition: true
+i1=&gt;operation: j=0
+i2=&gt;operation: j++
+i3=&gt;operation: usage_key=-1
+con1=&gt;condition: j&lt;14
+forv1=&gt;operation: 判断是否为8583转换规则
+forfld=&gt;operation: nMLoadFldInf
+formsg=&gt;operation: nMLoadMsgInf
+forconv=&gt;operation: nMLoadConInf
+forbmp=&gt;operation: nMLoadBmpInf
+foripc=&gt;operation: nMLoadIpcInf</li>
+</ul>
+
+<p>convInit=&gt;inputoutput: ConvInit(FldInfKey,MsgInfKey,ConInfKey,BmpInfKey,IpcInfKey)</p>
+
+<p>ed=&gt;end: end
+st-&gt;loadConv-&gt;condb
+condb(yes,right)-&gt;i1-&gt;i3-&gt;con1
+con1(yes,right)-&gt;i2(right)-&gt;i3
+con1(no)-&gt;forv1-&gt;convInit
+convInit-&gt;forfld-&gt;formsg-&gt;forconv-&gt;forbmp-&gt;foripc(left)-&gt;ed
+condb(no)-&gt;ed
+```
+ 报文转换我们转换可以把它比作为衣服加工厂，不同款式的衣服代表不同的交易类型，不同的衣服他们所需的衣服部件也不同有的需要衣领有的不需要衣领更好的比拟了不同交易所需的报文域不同。不同的尺寸也代表的了各域的的长度。对于工厂生产当然存在流水线，得确定下一个环节进行进一步加工。其实银联前置系统也是按此原理设计的。系统中涉及的三大对象就是报文域、交易报文、转换链路。对于通讯工具如消息队列，和socket共享内存，线程池、数据库连接池等都是系统的DAO层，没有上升到业务服务层。为了清晰了解转换过程我们先从交易报文说起，对于发至birdge桥接模块，他需要外部的报文转换为内部结构体IPC(此IPC并非是unix系统间通讯机制)而是针对报文所存在的属性设置的结构体，比如交易中设计的主账号，交易金额，发卡机构识别码，受理机构识别码等都是内部结构的字段。那如何提取报文到内部结构体呢。对于银联前置系统的设计是不同模块他们都有一样的内部结构体容易IPC,包括所有的域信息，转换中将不同的域赋值给IPC结构体的对应字段中。有值即给对应字段赋值，没有则赋值为空，系统中用标记指示位来识别(Y/N)。那如何区分不同的交易类型呢，系统内部设置了交易码，不同的交易码对应不同交易类型，通过关键域的值来匹配交易码，首先是F01交易类型、F03交易处理码的的前两位、F25服务条件码和F60.2.5终端类型来判断。确定了衣服的款式，接下来要确定它的尺寸。</p>
+<ul>
+  <li>加载域属性(nMLoadFldInf)
+    <blockquote>
+      <p>8583每个域包括可比拟为两个对象域值和域长度
+比如F02主账号3136363232343234323030303030303231(ans)=&gt;
+166224242000000021
+前两位16代表域值长度后面的域值，相对于主账号为变长域，但是有些域为定长比如交易处理码为6位定长字符，那如何区分是定长的域还是不定长的域呢。其实这对我们交易报文中不知晓是否为定长报文域，对我们提取报文域值没有影响，只要知道域的长度按长取值就可以了。但是如何截取呢，没有对应的尺码该如何裁剪缝衣。考虑到此报文只涉及到的是交易类报文主要包括余额查询，取款，转账等。不同的交易他们所需的报文是各银行和银联约定俗成的。他们也用最小位图和最大位图来描述那些域是所需，那些不需要出现。位图
+对于某些域中存在</p>
+
+    </blockquote>
+  </li>
+</ul>
+
+
+  </div>
+
+</article>
+
+   <footer class="site-footer">
+
+  <div class="wrapper">
+
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li><a href="mailto:86478582@qq.com">email:86478582@qq.com</a></li>
+        </ul>
+      </div>
+
+
+      <div class="footer-col footer-col-2">
+        <ul class="social-media-list">
+          
+          <li>
+            <a href="https://github.com/drsin"><span class="icon icon--github"><svg viewBox="0 0 16 16"><path fill="#828282" d="M7.999,0.431c-4.285,0-7.76,3.474-7.76,7.761 c0,3.428,2.223,6.337,5.307,7.363c0.388,0.071,0.53-0.168,0.53-0.374c0-0.184-0.007-0.672-0.01-1.32 c-2.159,0.469-2.614-1.04-2.614-1.04c-0.353-0.896-0.862-1.135-0.862-1.135c-0.705-0.481,0.053-0.472,0.053-0.472 c0.779,0.055,1.189,0.8,1.189,0.8c0.692,1.186,1.816,0.843,2.258,0.645c0.071-0.502,0.271-0.843,0.493-1.037 C4.86,11.425,3.049,10.76,3.049,7.786c0-0.847,0.302-1.54,0.799-2.082C3.768,5.507,3.501,4.718,3.924,3.65 c0,0,0.652-0.209,2.134,0.796C6.677,4.273,7.34,4.187,8,4.184c0.659,0.003,1.323,0.089,1.943,0.261 c1.482-1.004,2.132-0.796,2.132-0.796c0.423,1.068,0.157,1.857,0.077,2.054c0.497,0.542,0.798,1.235,0.798,2.082 c0,2.981-1.814,3.637-3.543,3.829c0.279,0.24,0.527,0.713,0.527,1.437c0,1.037-0.01,1.874-0.01,2.129 c0,0.208,0.14,0.449,0.534,0.373c3.081-1.028,5.302-3.935,5.302-7.362C15.76,3.906,12.285,0.431,7.999,0.431z"/></svg>
+</span><span class="username">drsin</span></a>
+
+          </li>
+          
+<!--
+          
+-->
+        </ul>
+      </div>
+      <div class="footer-col footer-col-3">
+        
+          <span class="site-footer-owner"><a href="http://github.com/drsin/drsin.github.io">drsin.github.io</a> is maintained by <a href="http://github.com/drsin">drsin</a>.</span>
+        
+            本站总访问量<span id="busuanzi_value_site_pv"></span>次，本站访客数<span id="busuanzi_value_site_uv"></span>人次，本文总阅读量<span id="busuanzi_value_page_pv"></span>次
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+
+
+    </section>
+
+    
+  </body>
+</html>

@@ -5,17 +5,17 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <title>HFConsole收单系统问题</title>
-  <meta name="description" content="1.生成的*.hbm.xml无法被SaxReader解析解析在确保配置文件中属性名和POJO的类属性名一致和配置文件中的字段属性名与数据库字段一致的前提下检查Hirbernate的头文件中的dtd文件是否能访问（点击左键即可访问),如果无法访问，可以有两种原因：(1)配置的xml 的key键不存在，可以自己添加。...">
+  <title>C语言基础练习</title>
+  <meta name="description" content="C语言">
 
   <meta name="description" content="我不生产代码，只是github的搬用工   
 "/>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#157878">
   <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
-  <link rel="stylesheet" href="/assets/css/style.css?v=48beb8dd6d243b69a1e23dea37e9061fe218d24d">
+  <link rel="stylesheet" href="/assets/css/style.css?v=6215a2849678db39332432a733632219d4f4a945">
   <link rel="stylesheet" href="/assets/css/main.css">
-  <link rel="canonical" href="http://ninowon.com/faq/2017/05/22/Hibernate-FAQ.html">
+  <link rel="canonical" href="http://ninowon.com/c%E8%AF%AD%E8%A8%80/2017/06/16/C%E8%AF%AD%E8%A8%80%E5%9F%BA%E7%A1%80%E7%BB%83%E4%B9%A0.html">
   <link rel="alternate" type="application/rss+xml" title="drsinBlog" href="http://ninowon.com/feed.xml">
 
     <script>
@@ -76,6 +76,8 @@
         
           
         
+          
+        
       </div>
     </nav>
 
@@ -100,33 +102,161 @@
    <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
 
   <header class="post-header">
-    <h1 class="post-title" itemprop="name headline">HFConsole收单系统问题</h1>
-    <p class="post-meta"><time datetime="2017-05-22T00:00:00+08:00" itemprop="datePublished">May 22, 2017</time></p>
+    <h1 class="post-title" itemprop="name headline">C语言基础练习</h1>
+    <p class="post-meta"><time datetime="2017-06-16T00:00:00+08:00" itemprop="datePublished">Jun 16, 2017</time></p>
   </header>
 
   <div class="post-content" itemprop="articleBody">
     
-<p>1.生成的*.hbm.xml无法被SaxReader解析解析</p>
+<p><strong>汉诺塔</strong></p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>在确保配置文件中属性名和POJO的类属性名一致和配置文件中的字段属性名与数据库字段一致的前提下
+<div class="highlighter-rouge"><pre class="highlight"><code>#include &lt;stdio.h&gt;
 
-检查Hirbernate的头文件中的dtd文件是否能访问（点击左键即可访问),如果无法访问，可以有两种原因：
+void move(char x, char y)
+{
+	static int cnt = 0;
+	printf("%d %c =&gt; %c\n", ++cnt, x, y);
+}
+
+void hanno(int n, char a, char b, char c)
+{
+	if ( n == 1 )
+		move(a, c);
+	else {
+		hanno(n-1, a, c, b);
+		move(a, c);
+		hanno(n-1, b, a, c);
+	}
+}
+
+int main( void )
+{
+	hanno(3, 'A', 'B', 'C');
+	return 0;
+}
 </code></pre>
 </div>
 
-<p>(1)配置的xml 的key键不存在，可以自己添加。</p>
+<p><strong>百鸡百钱</strong>
+鸡翁一值钱五——公鸡五文一只，而百钱买百鸡（100文钱买鸡），所以公鸡数量要至少小于20</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>具体步骤：Window&gt;&gt;Preferencesl&gt;&gt;MyEclipse&gt;&gt;FilesandEditors&gt;&gt;XML&gt;&gt;XML_Catolog&gt;&gt;uses_specified_entries&gt; add 
+<div class="highlighter-rouge"><pre class="highlight"><code>#include &lt;stdio.h&gt;
 
-location:本地下载的DTmD文件
+int main( void )
+{
+	int x;
+	int y;
+	int z;
 
-key:值为你*.hbm.xml 制定本地key。
+	for (x=0; x&lt;=100; x++)
+	{
+		for (y=0; y&lt;=100; y++)
+		{
+			z = 100-x-y;
+			if (z%3==0 &amp;&amp; 5*x+3*y+z/3==100)
+			{
+				printf("公鸡%d,母鸡%d,小鸡%d\n",
+					x, y, z);
+			}
+		}
+	}
 
-如："-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+	return 0;
+}
+</code></pre>
+</div>
+<p><strong>常胜将军</strong>
+现有21根火柴，两人轮流取，每人每次可以取走1至4根，不可多取，也不能不取，谁取最后一楰火柴谁输。请编写一个程序进行人机对弈，要求人先取，计算机后取；计算机一方为“常胜将军”</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>#include &lt;stdio.h&gt;
+
+int main( void )
+{
+	int last = 21;
+	int user;
+	int computer;
+
+	for ( ; ; ) {
+		printf("还剩%d根火柴!\n", last);
+		printf("用户取几根? ");
+		scanf("%d", &amp;user);
+		if ( user&lt;1 || user&gt;4 || user&gt;last)
+			continue;
+		printf("你取了%d根火柴!\n", user);
+		last -= user;
+		if ( last == 0) {
+		  printf("你取走了最后一支火柴,你失败!\n");
+		  break;
+		}
+	
+		computer = 5 - user;
+		printf("计算机取了%d根火柴!\n", computer);
+		last -= computer;
+	}
+
+	return 0;
+}
 </code></pre>
 </div>
 
-<p>(2) 无法访问外网</p>
+<p><strong>约瑟夫环</strong></p>
+
+<p>已知n个人（以编号1，2，3…n分别表示）围坐在一张圆桌周围。从编号为k的人开始报数，数到m的那个人出列；他的下一个人又从1开始报数，数到m的那个人又出列；依此规律重复下去，直到圆桌周围的人全部出列</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>#include&lt;stdio.h&gt;
+int main( void ) {
+	int i = -1;
+	int j = 0;
+	int kill = 0; //跳海的人数，用于控制循环结束
+	int a[8] = {1,2,3,4,5,6,7,8};
+	
+	while ( kill &lt; 8 ) {
+	
+		//for用于找到第三个离开的人
+		for (j=0; j&lt;=2; ) {
+			i = (i+1)%8; //让i在0-7之间找下一个
+			if (a[i] != -1 )
+				j++;
+		}
+
+		printf("%d ", a[i]);
+		a[i] = -1; //离开后位置用-1表示
+		kill ++; //跳海人数+1
+	}
+	printf("\n");
+	
+	return 0;
+}
+</code></pre>
+</div>
+<p><strong>最大公约数</strong></p>
+<div class="highlighter-rouge"><pre class="highlight"><code>#include &lt;stdio.h&gt;
+
+int main( void )
+{
+	int m;
+	int n;
+	int r;
+
+	printf("求最大公约数!\n");
+	printf("请输入两个数:");
+	scanf("%d%d", &amp;m, &amp;n);
+
+	r = m%n;
+	while ( r != 0 )
+	{
+		m = n;
+		n = r;
+		r = m%n;
+	}
+
+	printf("最大公约数是%d\n", n);
+
+	return 0;
+}
+</code></pre>
+</div>
+
 
   </div>
 

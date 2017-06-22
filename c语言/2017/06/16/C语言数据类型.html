@@ -5,17 +5,17 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <title>Hibernate Faq</title>
-  <meta name="description" content="layout: posttitle:  “HFConsole收单系统问题”date:   2017-05-22 categories: FAQ—-1.生成的*.hbm.xml无法被SaxReader解析解析在确保配置文件中属性名和POJO的类属性名一致和配置文件中的字段属性名与数据库字段一致的前提下检查Hirbe...">
+  <title>C语言数据类型</title>
+  <meta name="description" content="C语言">
 
   <meta name="description" content="我不生产代码，只是github的搬用工   
 "/>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#157878">
   <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
-  <link rel="stylesheet" href="/assets/css/style.css?v=83d8760c61ea08a3a1c52564f23bd360f9038d9b">
+  <link rel="stylesheet" href="/assets/css/style.css?v=6215a2849678db39332432a733632219d4f4a945">
   <link rel="stylesheet" href="/assets/css/main.css">
-  <link rel="canonical" href="http://ninowon.com/2017/05/22/Hibernate-FAQ.html">
+  <link rel="canonical" href="http://ninowon.com/c%E8%AF%AD%E8%A8%80/2017/06/16/C%E8%AF%AD%E8%A8%80%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B.html">
   <link rel="alternate" type="application/rss+xml" title="drsinBlog" href="http://ninowon.com/feed.xml">
 
     <script>
@@ -76,6 +76,8 @@
         
           
         
+          
+        
       </div>
     </nav>
 
@@ -100,39 +102,150 @@
    <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
 
   <header class="post-header">
-    <h1 class="post-title" itemprop="name headline">Hibernate Faq</h1>
-    <p class="post-meta"><time datetime="2017-05-22T00:00:00+08:00" itemprop="datePublished">May 22, 2017</time></p>
+    <h1 class="post-title" itemprop="name headline">C语言数据类型</h1>
+    <p class="post-meta"><time datetime="2017-06-16T00:00:00+08:00" itemprop="datePublished">Jun 16, 2017</time></p>
   </header>
 
   <div class="post-content" itemprop="articleBody">
-    <hr />
-<p>layout: post
-title:  “HFConsole收单系统问题”
-date:   2017-05-22 
-categories: FAQ
-—-</p>
+    
+<hr />
+<p><strong>整数在计算机内部的表示形式是二进制</strong></p>
 
-<p>1.生成的*.hbm.xml无法被SaxReader解析解析</p>
+<div class="highlighter-rouge"><pre class="highlight"><code> 1  0  0  1
+1X2^3 + 0X2^2 + 0X2^1 + 1X2^0	
+</code></pre>
+</div>
+<p><strong>最高位是符号位 0正 1负</strong></p>
+<div class="highlighter-rouge"><pre class="highlight"><code>-1+1 本该等于0 但是按照相加原理得到值为-2
+  1000 0001    -1
++ 0000 0001     1
+  ---------------
+  1000 0010    -2
+</code></pre>
+</div>
+<p><strong>计算机为了处理这种情况设计了源码，补码和反码</strong>
+<strong>机器数的补码可由原码得到。如果机器数是正数，则该机器数的补码与原码一样,如果机器数是负数，则该机器数的补码是对它的原码（除符号位外）各位取反，并在未位加1而得到的；</strong></p>
+<div class="highlighter-rouge"><pre class="highlight"><code>1111 1111   -1[补]
+0000 0001    1[原]
+------------
+0000 0000    0
 
-<div class="highlighter-rouge"><pre class="highlight"><code>在确保配置文件中属性名和POJO的类属性名一致和配置文件中的字段属性名与数据库字段一致的前提下
+1000 0101 -5
+1000 0111 -7
 
-检查Hirbernate的头文件中的dtd文件是否能访问（点击左键即可访问),如果无法访问，可以有两种原因：
+1111 1011   -5[补]
+1111 1001   -7[补]
+------------------
+1111 0100   
+1000 1100  -12 
+</code></pre>
+</div>
+<p><strong>unsigned int</strong></p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>0000 0000-1111 1111  [ 0-255 ]
 </code></pre>
 </div>
 
-<p>(1)配置的xml 的key键不存在，可以自己添加。</p>
+<p><strong>int</strong></p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>具体步骤：Window&gt;&gt;Preferencesl&gt;&gt;MyEclipse&gt;&gt;FilesandEditors&gt;&gt;XML&gt;&gt;XML_Catolog&gt;&gt;uses_specified_entries&gt; add 
+<div class="highlighter-rouge"><pre class="highlight"><code>1111 1111 -  0111 1111         [-128 - 127 ]
+</code></pre>
+</div>
+<p><strong>字符 每个字符都有一个编码叫ASCII编码</strong></p>
 
-location:本地下载的DTmD文件
-
-key:值为你*.hbm.xml 制定本地key。
-
-如："-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+<div class="highlighter-rouge"><pre class="highlight"><code>'a'-'z'   97-122
+'A'-'Z'   65-90
+'0'-'9'   48-57
+'\r'  13
+'\n'  10
+'\t'   9
+'\0'   0
+	' '   32
 </code></pre>
 </div>
 
-<p>(2) 无法访问外网</p>
+<p><strong>用字符用的是编码，不是图案，所以可以当整数用</strong></p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>从字符到整数的转换 '6'-'0'
+				 6 +'0'
+</code></pre>
+</div>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>gb2312
+char
+int 4B  -2G - 2G-1
+short 2B -32768 +32767  0  65535
+
+unsigned short int
+unsigned int
+unsigned char
+unsigned long int
+
+[signed] int
+[signed] short [int]
+
+long long  8字节 
+
+char &lt;= short &lt;= int &lt;= long
+float  
+1   
+</code></pre>
+</div>
+<p><strong>小数溢出 无穷 INF</strong></p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>3.5 double 
+3.5F float
+3.5L long double
+
+35 int
+35L long int
+</code></pre>
+</div>
+
+<p><strong>没有真假类型 C语言用数值表示真假，非0就是真，0就是假</strong></p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>10 '\0' '0' 0
+
+0.0001
+
+char 
+short 
+
+int 
+long 
+
+float 
+double 
+
+printf("12%dhehe", 3);
+%i
+%d
+%hd
+%hhd
+%c
+%u
+%ld
+%#x %#X
+%#o
+
+%f
+%lf
+%g
+%e
+
+%s
+%p
+
+int age price float;
+
+int iAge;
+float fPrice;
+double dIncome;
+
+int my_name;
+</code></pre>
+</div>
+
 
   </div>
 

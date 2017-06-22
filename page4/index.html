@@ -14,7 +14,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#157878">
   <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
-  <link rel="stylesheet" href="/assets/css/style.css?v=ea10e8ebf8a9c6b10cd6f2f4c5ddea68f5d54250">
+  <link rel="stylesheet" href="/assets/css/style.css?v=6215a2849678db39332432a733632219d4f4a945">
   <link rel="stylesheet" href="/assets/css/main.css">
   <link rel="canonical" href="http://ninowon.com/page4/">
   <link rel="alternate" type="application/rss+xml" title="drsinBlog" href="http://ninowon.com/feed.xml">
@@ -77,6 +77,8 @@
         
           
         
+          
+        
       </div>
     </nav>
 
@@ -103,6 +105,46 @@
   <h1 class="page-heading">好记性不如烂笔头</h1>
 <!--
   <ul class="post-list">
+    
+      <li>
+        <span class="post-meta">Jun 16, 2017</span>
+
+        <h2>
+          <a class="post-link" href="/liunx/2017/06/16/linux-shell.html">linux</a>
+        </h2>
+      </li>
+    
+      <li>
+        <span class="post-meta">Jun 16, 2017</span>
+
+        <h2>
+          <a class="post-link" href="/c%E8%AF%AD%E8%A8%80/2017/06/16/C%E8%AF%AD%E8%A8%80%E7%B3%BB%E7%BB%9F%E8%B0%83%E7%94%A8.html">C语言系统调用</a>
+        </h2>
+      </li>
+    
+      <li>
+        <span class="post-meta">Jun 16, 2017</span>
+
+        <h2>
+          <a class="post-link" href="/c%E8%AF%AD%E8%A8%80/2017/06/16/C%E8%AF%AD%E8%A8%80%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B.html">C语言数据类型</a>
+        </h2>
+      </li>
+    
+      <li>
+        <span class="post-meta">Jun 16, 2017</span>
+
+        <h2>
+          <a class="post-link" href="/c%E8%AF%AD%E8%A8%80/2017/06/16/C%E8%AF%AD%E8%A8%80%E5%9F%BA%E7%A1%80%E7%BB%83%E4%B9%A0.html">C语言基础练习</a>
+        </h2>
+      </li>
+    
+      <li>
+        <span class="post-meta">Jun 8, 2017</span>
+
+        <h2>
+          <a class="post-link" href="/%E6%94%AF%E4%BB%98%E4%B8%9A%E5%8A%A1/2017/06/08/%E9%93%B6%E8%81%94%E5%89%8D%E7%BD%AE%E7%B3%BB%E7%BB%9F.html">银联前置系统</a>
+        </h2>
+      </li>
     
       <li>
         <span class="post-meta">May 22, 2017</span>
@@ -333,612 +375,630 @@
 
 <!-- This loops through the paginated posts -->
 
-  <h1><a href="/%E5%90%8E%E7%AB%AF/2017/01/03/JPA%E4%BD%BF%E7%94%A8%E8%81%94%E5%90%88%E4%B8%BB%E9%94%AE.html">JPA使用联合主键</a></h1>
+  <h1><a href="/%E5%90%8E%E7%AB%AF/2017/02/13/Spring-Data-Jpa%E6%9F%A5%E8%AF%A2%E5%AD%98%E5%82%A8%E8%BF%87%E7%A8%8B.html">Spring-Data-Jpa 查询存储过程</a></h1>
   <p class="author">
-    <span class="date">2017-01-03 18:34:16 +0800</span>
-  </p>
-<!--
-  <div class="content">
-    <ul id="markdown-toc">
-  <li><a href="#简要" id="markdown-toc-简要">简要</a></li>
-  <li><a href="#jpa实体类" id="markdown-toc-jpa实体类">JPA实体类</a>    <ul>
-      <li><a href="#讲一下-spring-date-jpa-如何映射实体类" id="markdown-toc-讲一下-spring-date-jpa-如何映射实体类">讲一下 Spring-Date-JPA 如何映射实体类：</a></li>
-    </ul>
-  </li>
-  <li><a href="#资料文档" id="markdown-toc-资料文档">资料文档</a></li>
-</ul>
-
-<h2 id="简要">简要</h2>
-
-<ul>
-  <li>介绍一下今天在开发时遇到的数据存储问题。</li>
-  <li>
-    <p>具体情况是建立一张表存储学生的成绩，但要求每个学生一年只能有一条成绩（即一条数据），这个时候仅仅用id这一列来标识的话很难做到数据不重复的问题，这就用到了Oracle的联合主键，让年份（nf）和学号（xh）组合成联合主键。</p>
-
-    <p>数据格式如下</p>
-
-    <div class="highlighter-rouge"><pre class="highlight"><code>    nf      xh              score
-    2017    20131812227     98
-    2017    20131812228     99
-    2016    20131812227     99
-    2016    20131812228     99
-    都是正确的，而
-    2017    20131812227     99
-    这条数据的联合主键已经存在所以存不进去，从而实现学生每年的成绩存储不重复的问题
-        
-</code></pre>
-    </div>
-  </li>
-</ul>
-
-<h2 id="jpa实体类">JPA实体类</h2>
-
-<h4 id="讲一下-spring-date-jpa-如何映射实体类">讲一下 Spring-Date-JPA 如何映射实体类：</h4>
-
-<ol>
-  <li>
-    <p>先建一个联合主键的Java类，用来存你的联合主键。要求如下：</p>
-
-    <div class="highlighter-rouge"><pre class="highlight"><code> 1.必须要实现serializable接口
- 2.需要有无参的构造函数
- 3.@Embeddable注释,表示此类可以被插入某个entity中
-</code></pre>
-    </div>
-  </li>
-</ol>
-
-<div class="language-java highlighter-rouge"><pre class="highlight"><code>
-<span class="nd">@Embeddable</span>
-<span class="kd">public</span> <span class="kd">class</span> <span class="nc">CJBKey</span> <span class="kd">implements</span> <span class="n">Serializable</span> <span class="o">{</span>
-    <span class="kd">private</span> <span class="kt">int</span> <span class="n">nf</span><span class="o">;</span>
-    <span class="kd">private</span> <span class="n">String</span> <span class="n">xh</span><span class="o">;</span>
-<span class="o">}</span>
-
-</code></pre>
-</div>
-
-<ol>
-  <li>
-    <p>新建用于持久化的实体类（CJB）。要求如下：</p>
-
-    <div class="highlighter-rouge"><pre class="highlight"><code>1.必须要实现serializable接口
-2.需要有无参的构造函数
-3.不使用@Id了而是使用@EmbeddedId，加了这个注解就说明这里的主键是联合主键
-</code></pre>
-    </div>
-  </li>
-</ol>
-
-<div class="language-java highlighter-rouge"><pre class="highlight"><code>
-<span class="nd">@Entity</span>
-<span class="nd">@Table</span><span class="o">(</span><span class="n">name</span> <span class="o">=</span> <span class="s">"CJB"</span><span class="o">)</span>
-<span class="kd">public</span> <span class="kd">class</span> <span class="nc">CJB</span> <span class="kd">implements</span> <span class="n">Serializable</span> <span class="o">{</span>
-
-    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="kt">long</span> <span class="n">serialVersionUID</span> <span class="o">=</span> <span class="mi">1L</span><span class="o">;</span>
-
-    <span class="nd">@EmbeddedId</span>
-    <span class="kd">private</span> <span class="n">CJBKey</span> <span class="n">key</span><span class="o">;</span>
-    <span class="kd">private</span> <span class="n">String</span> <span class="n">score</span><span class="o">;</span>
-<span class="o">}</span>
-
-</code></pre>
-</div>
-
-<ol>
-  <li>
-    <p>数据库中对应的表结构</p>
-
-    <p><img src="http://jiaohongwei.github.io/images/2017-01/20170110162025.png" alt="Object" /></p>
-  </li>
-</ol>
-
-<h2 id="资料文档">资料文档</h2>
-
-<ul>
-  <li>Spring-Data-JPA api文档：http://docs.spring.io/spring-data/jpa/docs/2.0.0.M1/reference/html/</li>
-  <li>因为JPA底层还是Hibernate实现的，另附一份Hibernate文档： http://docs.jboss.org/hibernate/orm/5.2/userguide/html_single/Hibernate_User_Guide.html#identifiers-generators@</li>
-</ul>
-
-  </div>
--->
-
-  <h1><a href="/%E5%89%8D%E7%AB%AF/2017/01/03/Bootstrap-Tab%E6%A0%87%E7%AD%BE%E9%A1%B5.html">Bootstrap-Tab 标签页</a></h1>
-  <p class="author">
-    <span class="date">2017-01-03 18:34:16 +0800</span>
-  </p>
-<!--
-  <div class="content">
-    <ul id="markdown-toc">
-  <li><a href="#简要" id="markdown-toc-简要">简要</a></li>
-  <li><a href="#事件" id="markdown-toc-事件">事件</a></li>
-  <li><a href="#本地实测" id="markdown-toc-本地实测">本地实测</a></li>
-  <li><a href="#资料文档" id="markdown-toc-资料文档">资料文档</a></li>
-</ul>
-
-<h2 id="简要">简要</h2>
-
-<ul>
-  <li>具体的使用方法自己查看api文档就能搞定，很简单的，先在主要介绍一下关于tab的几个点击事件，在开发中常用到的</li>
-  <li>实际开发中可能会有多个tab页面，但是不可能一下子全部加载出来，否则速度太慢不说也不好更新内容，我们则可以通过触发tab时初始化tab中的数据</li>
-</ul>
-
-<h2 id="事件">事件</h2>
-
-<ol>
-  <li><code class="highlighter-rouge">show.bs.tab</code></li>
-</ol>
-
-<ul>
-  <li>
-    <p>介绍：</p>
-  </li>
-  <li>
-    <p>该事件在标签页显示时触发，但是必须在新标签页被显示之前。分别使用 event.target 和 event.relatedTarget 来定位到激活的标签页和前一个激活的标签页。</p>
-  </li>
-  <li>
-    <p>实例：</p>
-
-    <div class="highlighter-rouge"><pre class="highlight"><code>```js
-    
-$('a[data-toggle="tab"]').on('show.bs.tab', function (e) {
-  e.target // 激活的标签页
-  e.relatedTarget // 前一个激活的标签页
-})
-    
-```
-</code></pre>
-    </div>
-  </li>
-</ul>
-
-<ol>
-  <li><code class="highlighter-rouge">shown.bs.tab</code></li>
-</ol>
-
-<ul>
-  <li>
-    <p>介绍：</p>
-  </li>
-  <li>
-    <p>该事件在标签页显示时触发，但是必须在某个标签页已经显示之后。分别使用 event.target 和 event.relatedTarget 来定位到激活的标签页和前一个激活的标签页。</p>
-  </li>
-  <li>
-    <p>实例：</p>
-
-    <div class="highlighter-rouge"><pre class="highlight"><code>```js
-   
-$('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
-  e.target // 激活的标签页
-  e.relatedTarget // 前一个激活的标签页
-})
-   
-```
-</code></pre>
-    </div>
-  </li>
-</ul>
-
-<h2 id="本地实测">本地实测</h2>
-
-<ul>
-  <li>就是在激活标签页后 初始化tab中的表格及其数据</li>
-</ul>
-
-<div class="language-js highlighter-rouge"><pre class="highlight"><code>
-<span class="nx">$</span><span class="p">(</span><span class="s1">'a[data-toggle="tab"]'</span><span class="p">).</span><span class="nx">on</span><span class="p">(</span><span class="s1">'shown.bs.tab'</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
-    <span class="nx">e</span><span class="p">.</span><span class="nx">target</span> <span class="c1">// 激活的标签页</span>
-    <span class="nx">e</span><span class="p">.</span><span class="nx">relatedTarget</span> <span class="c1">// 前一个激活的标签页</span>
-    <span class="kd">var</span> <span class="nx">currentTab</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="nx">e</span><span class="p">.</span><span class="nx">target</span><span class="p">).</span><span class="nx">text</span><span class="p">();</span> <span class="c1">//获取当前标签页的标题</span>
-
-    <span class="k">if</span> <span class="p">(</span><span class="nx">currentTab</span> <span class="o">==</span> <span class="s1">'项目代码管理'</span><span class="p">){</span>
-        <span class="c1">//1.初始化Table</span>
-        <span class="kd">var</span> <span class="nx">oTable</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">TableInitj</span><span class="p">();</span>
-        <span class="nx">oTable</span><span class="p">.</span><span class="nx">Init</span><span class="p">(</span><span class="s2">"/admin/sel/getxmdmb"</span><span class="p">,</span> <span class="s2">"toolbar_xmdm"</span><span class="p">);</span>
-
-        <span class="c1">//2.初始化select的change事件</span>
-        <span class="nx">$</span><span class="p">(</span><span class="s2">"#sel_exportoption"</span><span class="p">).</span><span class="nx">change</span><span class="p">(</span><span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
-            <span class="nx">$</span><span class="p">(</span><span class="s1">'#table_xmdm'</span><span class="p">).</span><span class="nx">bootstrapTable</span><span class="p">(</span><span class="s1">'refreshOptions'</span><span class="p">,</span> <span class="p">{</span>
-                <span class="na">exportDataType</span><span class="p">:</span> <span class="nx">$</span><span class="p">(</span><span class="k">this</span><span class="p">).</span><span class="nx">val</span><span class="p">()</span>
-            <span class="p">});</span>
-
-        <span class="p">});</span>
-    <span class="p">}</span>
-
-<span class="p">})</span>
-
-</code></pre>
-</div>
-
-<h2 id="资料文档">资料文档</h2>
-
-<ul>
-  <li>Bootstrap-tab标签 官方api文档：http://www.tutorialspoint.com/bootstrap/bootstrap_tab_plugin.htm</li>
-</ul>
-
-  </div>
--->
-
-  <h1><a href="/%E5%89%8D%E7%AB%AF/2017/01/03/Bootstrap-table%E5%AF%BC%E5%87%BAExcel.html">Bootstrap-Table 导出Excel</a></h1>
-  <p class="author">
-    <span class="date">2017-01-03 18:03:37 +0800</span>
-  </p>
-<!--
-  <div class="content">
-    <ul id="markdown-toc">
-  <li><a href="#简要" id="markdown-toc-简要">简要</a></li>
-  <li><a href="#概述" id="markdown-toc-概述">概述</a></li>
-  <li><a href="#初始化" id="markdown-toc-初始化">初始化</a></li>
-  <li><a href="#页面设置" id="markdown-toc-页面设置">页面设置</a></li>
-  <li><a href="#页面展现" id="markdown-toc-页面展现">页面展现</a></li>
-  <li><a href="#注意" id="markdown-toc-注意">注意</a></li>
-</ul>
-
-<h2 id="简要">简要</h2>
-
-<ul>
-  <li>简要介绍一下bootatrap-table的导出功能（纯前端操作）</li>
-</ul>
-
-<h2 id="概述">概述</h2>
-
-<ul>
-  <li>bootstrap-table中可以设置导出表格内容，需要引入相关的export.js文件</li>
-</ul>
-
-<div class="language-html highlighter-rouge"><pre class="highlight"><code>
-<span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"${basePath}/static/js/bootstrap-table/bootstrap-table-export.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
-<span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"${basePath}/static/js/bootstrap-table/tableExport/tableExport.js"</span><span class="nt">&gt;&lt;/script&gt;</span>    
-
-</code></pre>
-</div>
-
-<h2 id="初始化">初始化</h2>
-
-<div class="language-js highlighter-rouge"><pre class="highlight"><code><span class="nx">$</span><span class="p">(</span><span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
-
-    <span class="c1">//1.初始化Table</span>
-    <span class="kd">var</span> <span class="nx">oTable</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">TableInitj</span><span class="p">();</span>
-    <span class="nx">oTable</span><span class="p">.</span><span class="nx">Init</span><span class="p">(</span><span class="s2">"/admin/sel/getxmdmb"</span><span class="p">,</span> <span class="s2">"toolbar_xmdm"</span><span class="p">);</span>
-
-    <span class="c1">//2.初始化Button的点击事件</span>
-    <span class="kd">var</span> <span class="nx">oButtonInit</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">ButtonInit</span><span class="p">();</span>
-    <span class="nx">oButtonInit</span><span class="p">.</span><span class="nx">Init</span><span class="p">();</span>
-
-    <span class="c1">//2.初始化select的change事件</span>
-    <span class="nx">$</span><span class="p">(</span><span class="s2">"#sel_exportoption"</span><span class="p">).</span><span class="nx">change</span><span class="p">(</span><span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
-        <span class="nx">$</span><span class="p">(</span><span class="s1">'#table_xmdm'</span><span class="p">).</span><span class="nx">bootstrapTable</span><span class="p">(</span><span class="s1">'refreshOptions'</span><span class="p">,</span> <span class="p">{</span>
-            <span class="na">exportDataType</span><span class="p">:</span> <span class="nx">$</span><span class="p">(</span><span class="k">this</span><span class="p">).</span><span class="nx">val</span><span class="p">()</span>
-        <span class="p">});</span>
-
-    <span class="p">});</span>
-
-
-<span class="p">});</span>
-
-<span class="kd">var</span> <span class="nx">TableInitj</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
-    <span class="kd">var</span> <span class="nx">oTableInit</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Object</span><span class="p">();</span>
-    <span class="c1">//初始化Table</span>
-    <span class="nx">oTableInit</span><span class="p">.</span><span class="nx">Init</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">uploadUrl</span><span class="p">,</span> <span class="nx">toolbar</span><span class="p">)</span> <span class="p">{</span>
-        <span class="kd">var</span> <span class="nx">toolbar</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="s1">'#'</span> <span class="o">+</span> <span class="nx">toolbar</span><span class="p">);</span>
-
-        <span class="nx">$</span><span class="p">(</span><span class="s2">"#table_xmdm"</span><span class="p">).</span><span class="nx">bootstrapTable</span><span class="p">({</span>
-                                            <span class="na">responsive</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
-                                            <span class="na">url</span><span class="p">:</span> <span class="nx">uploadUrl</span><span class="p">,</span>         <span class="c1">//请求后台的URL（*）</span>
-                                            <span class="na">method</span><span class="p">:</span> <span class="s1">'get'</span><span class="p">,</span>                      <span class="c1">//请求方式（*）</span>
-                                            <span class="na">toolbar</span><span class="p">:</span> <span class="nx">toolbar</span><span class="p">,</span>                <span class="c1">//工具按钮用哪个容器</span>
-                                            <span class="na">striped</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>                      <span class="c1">//是否显示行间隔色</span>
-                                            <span class="na">cache</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>                       <span class="c1">//是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）</span>
-                                            <span class="na">pagination</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>                   <span class="c1">//是否显示分页（*）</span>
-                                            <span class="na">sortable</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>                     <span class="c1">//是否启用排序</span>
-                                            <span class="c1">// sortStable:true,                     //设置为 true</span>
-                                            <span class="c1">// 将获得稳定的排序，我们会添加_position属性到 row 数据中。 sortOrder: "asc",</span>
-                                            <span class="c1">//           //定义排序方式 'asc' 或者 'desc'</span>
-                                            <span class="na">queryParams</span><span class="p">:</span> <span class="nx">oTableInit</span><span class="p">.</span><span class="nx">queryParams</span><span class="p">,</span><span class="c1">//传递参数（*）</span>
-                                            <span class="na">sidePagination</span><span class="p">:</span> <span class="s2">"client"</span><span class="p">,</span>           <span class="c1">//分页方式：client客户端分页，server服务端分页（*）</span>
-                                            <span class="na">pageNumber</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>                       <span class="c1">//初始化加载第一页，默认第一页</span>
-                                            <span class="na">pageSize</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>                       <span class="c1">//每页的记录行数（*）</span>
-                                            <span class="na">pageList</span><span class="p">:</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">25</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">100</span><span class="p">],</span>        <span class="c1">//可供选择的每页的行数（*）</span>
-                                            <span class="na">search</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>                       <span class="c1">//是否显示表格搜索，此搜索是客户端搜索，不会进服务端，所以，个人感觉意义不大</span>
-                                            <span class="na">strictSearch</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>                 <span class="c1">// 	设置为 true启用</span>
-                                                                                 <span class="c1">// 全匹配搜索，否则为模糊搜索</span>
-                                            <span class="na">showColumns</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>                  <span class="c1">//是否显示所有的列</span>
-                                            <span class="na">showRefresh</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>                  <span class="c1">//是否显示刷新按钮</span>
-                                            <span class="na">minimumCountColumns</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>             <span class="c1">//最少允许的列数</span>
-                                            <span class="na">clickToSelect</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>                <span class="c1">//是否启用点击选中行</span>
-                                            <span class="c1">// height: window.innerHeight - 300,</span>
-                                            <span class="c1">// //行高，如果没有设置height属性，表格自动根据记录条数觉得表格高度</span>
-                                            <span class="na">uniqueId</span><span class="p">:</span> <span class="s2">"ID"</span><span class="p">,</span>                     <span class="c1">//每一行的唯一标识，一般为主键列</span>
-                                            <span class="na">showToggle</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>                  <span class="c1">//是否显示详细视图和列表视图的切换按钮</span>
-                                            <span class="na">cardView</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>                    <span class="c1">//是否显示详细视图</span>
-                                            <span class="na">detailView</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>                   <span class="c1">//是否显示父子表</span>
-                                            <span class="na">showExport</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>                     <span class="c1">//是否显示导出</span>
-                                            <span class="na">exportDataType</span><span class="p">:</span> <span class="s2">"basic"</span><span class="p">,</span>              <span class="c1">//basic', 'all', 'selected'.</span>
-                                            <span class="na">columns</span><span class="p">:</span> <span class="p">[{</span>
-                                                <span class="na">checkbox</span><span class="p">:</span> <span class="kc">true</span>
-                                            <span class="p">},</span>
-                                                <span class="p">{</span>
-                                                    <span class="na">align</span><span class="p">:</span> <span class="s1">'center'</span><span class="p">,</span>
-                                                    <span class="na">field</span><span class="p">:</span> <span class="s1">'xmdm'</span><span class="p">,</span>
-                                                    <span class="na">title</span><span class="p">:</span> <span class="s1">'项目代码'</span>
-
-                                                <span class="p">},</span> <span class="p">{</span>
-                                                    <span class="na">field</span><span class="p">:</span> <span class="s1">'xmmc'</span><span class="p">,</span>
-                                                    <span class="na">title</span><span class="p">:</span> <span class="s1">'项目名称'</span>
-                                                <span class="p">},</span> <span class="p">{</span>
-                                                    <span class="na">field</span><span class="p">:</span> <span class="s1">'jldw'</span><span class="p">,</span>
-                                                    <span class="na">title</span><span class="p">:</span> <span class="s1">'计量单位'</span>
-                                                <span class="p">}</span>
-                                                <span class="p">,</span> <span class="p">{</span>
-                                                    <span class="na">field</span><span class="p">:</span> <span class="s1">'action'</span><span class="p">,</span>
-                                                    <span class="na">title</span><span class="p">:</span> <span class="s1">'操作'</span>
-                                                <span class="p">}</span>
-                                            <span class="p">]</span>
-                                        <span class="p">});</span>
-    <span class="p">};</span>
-
-    <span class="c1">//得到查询的参数</span>
-    <span class="nx">oTableInit</span><span class="p">.</span><span class="nx">queryParams</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">params</span><span class="p">)</span> <span class="p">{</span>
-        <span class="kd">var</span> <span class="nx">temp</span> <span class="o">=</span> <span class="p">{</span>   <span class="c1">//这里的键的名字和控制器的变量名必须一直，这边改动，控制器也需要改成一样的</span>
-            <span class="na">limit</span><span class="p">:</span> <span class="nx">params</span><span class="p">.</span><span class="nx">limit</span><span class="p">,</span>   <span class="c1">//页面大小</span>
-            <span class="na">offset</span><span class="p">:</span> <span class="nx">params</span><span class="p">.</span><span class="nx">offset</span><span class="p">,</span>  <span class="c1">//页码</span>
-        <span class="p">};</span>
-        <span class="k">return</span> <span class="nx">temp</span><span class="p">;</span>
-    <span class="p">};</span>
-    <span class="k">return</span> <span class="nx">oTableInit</span><span class="p">;</span>
-<span class="p">};</span>
-
-<span class="kd">var</span> <span class="nx">ButtonInit</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
-    <span class="kd">var</span> <span class="nx">oInit</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Object</span><span class="p">();</span>
-    <span class="kd">var</span> <span class="nx">postdata</span> <span class="o">=</span> <span class="p">{};</span>
-
-    <span class="nx">oInit</span><span class="p">.</span><span class="nx">Init</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
-        <span class="c1">//初始化页面上面的按钮事件</span>
-    <span class="p">};</span>
-
-    <span class="k">return</span> <span class="nx">oInit</span><span class="p">;</span>
-<span class="p">};</span>
-
-</code></pre>
-</div>
-
-<h2 id="页面设置">页面设置</h2>
-
-<div class="language-html highlighter-rouge"><pre class="highlight"><code><span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"table-responsive"</span><span class="nt">&gt;</span>
-    <span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">"toolbar_xmdm"</span> <span class="na">class=</span><span class="s">"btn-group"</span><span class="nt">&gt;</span>
-        <span class="nt">&lt;select</span> <span class="na">id=</span><span class="s">"sel_exportoption"</span> <span class="na">class=</span><span class="s">"form-control"</span><span class="nt">&gt;</span>
-            <span class="nt">&lt;option</span> <span class="na">value=</span><span class="s">""</span><span class="nt">&gt;</span>导出当前页面数据<span class="nt">&lt;/option&gt;</span>
-            <span class="nt">&lt;option</span> <span class="na">value=</span><span class="s">"all"</span><span class="nt">&gt;</span>导出全部数据<span class="nt">&lt;/option&gt;</span>
-            <span class="nt">&lt;option</span> <span class="na">value=</span><span class="s">"selected"</span><span class="nt">&gt;</span>导出选中数据<span class="nt">&lt;/option&gt;</span>
-        <span class="nt">&lt;/select&gt;</span>
-    <span class="nt">&lt;/div&gt;</span>
-    <span class="nt">&lt;table</span> <span class="na">class=</span><span class="s">"table table-primary mb30"</span> <span class="na">id=</span><span class="s">"table_xmdm"</span><span class="nt">&gt;</span>
-        <span class="nt">&lt;tbody&gt;</span>
-
-
-        <span class="nt">&lt;/tbody&gt;</span>
-    <span class="nt">&lt;/table&gt;</span>
-
-<span class="nt">&lt;/div&gt;</span><span class="c">&lt;!-- table-responsive --&gt;</span>
-
-</code></pre>
-</div>
-<h2 id="页面展现">页面展现</h2>
-
-<p><img src="http://jiaohongwei.github.io/images/2017-01/20170103095333.png" alt="Object" /></p>
-
-<p><img src="http://jiaohongwei.github.io/images/2017-01/20170103095556.png" alt="Object" /></p>
-
-<h2 id="注意">注意</h2>
-
-<ul>
-  <li>
-    <p>看初始化select按钮时的动作，是刷新bootstrap-table的Options，而不是直接导出，查了查好多文档都没有写这个导出是哪一个函数，官方文档也是这样定义了一个select选择类型，然后在选择导出。</p>
-  </li>
-  <li>Bootstrap-table-export demo 实例：http://issues.wenzhixin.net.cn/bootstrap-table/#extensions/export.html</li>
-  <li>Bootstrap-table 官方api文档：http://bootstrap-table.wenzhixin.net.cn/zh-cn/documentation/</li>
-</ul>
-
-  </div>
--->
-
-  <h1><a href="/%E5%89%8D%E7%AB%AF/2016/12/23/Bootstrap-table%E5%88%86%E9%A1%B5%E6%9F%A5%E8%AF%A2.html">Bootstrap-Table 分页查询</a></h1>
-  <p class="author">
-    <span class="date">2016-12-23 00:20:53 +0800</span>
-  </p>
-<!--
-  <div class="content">
-    <ul id="markdown-toc">
-  <li><a href="#简要" id="markdown-toc-简要">简要</a></li>
-  <li><a href="#概述" id="markdown-toc-概述">概述</a></li>
-  <li><a href="#实例" id="markdown-toc-实例">实例</a></li>
-</ul>
-
-<h2 id="简要">简要</h2>
-
-<ul>
-  <li>本篇主要介绍在项目中用到的Bootstrap-Table插件的两种分页方式，即服务器端分页和客户端分页。</li>
-</ul>
-
-<h2 id="概述">概述</h2>
-
-<h2 id="实例">实例</h2>
-
-<p>一、  服务端分页</p>
-
-<ul>
-  <li>设置如下属性
-    <div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="nl">sidePagination:</span> <span class="s">"server"</span><span class="o">,</span>   <span class="c1">//服务端分页</span>
-</code></pre>
-    </div>
-  </li>
-  <li>
-    <p>必须包含：total节点（总记录数），rows节点（分页后数据）</p>
-
-    <p>即返回json数据格式为：</p>
-  </li>
-</ul>
-
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="err">“total”:24</span><span class="w">  </span><span class="err">,</span><span class="w"> </span><span class="err">”rows”:[…]</span><span class="p">}</span><span class="w">
-</span></code></pre>
-</div>
-
-<div class="language-js highlighter-rouge"><pre class="highlight"><code><span class="s1">'#stu-table'</span><span class="p">).</span><span class="nx">bootstrapTable</span><span class="p">({</span>
-                                           <span class="na">responsive</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
-                                           <span class="na">url</span><span class="p">:</span> <span class="s1">'/admin/getStu/'</span><span class="o">+</span><span class="nx">nj</span><span class="o">+</span><span class="s2">"/"</span><span class="o">+</span><span class="nx">xy</span><span class="p">,</span>         <span class="c1">//请求后台的URL（*）</span>
-                                           <span class="na">method</span><span class="p">:</span> <span class="s1">'get'</span><span class="p">,</span>                      <span class="c1">//请求方式（*）</span>
-                                           <span class="na">toolbar</span><span class="p">:</span> <span class="s1">'#toolbar'</span><span class="p">,</span>                <span class="c1">//工具按钮用哪个容器</span>
-                                           <span class="na">striped</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>                      <span class="c1">//是否显示行间隔色</span>
-                                           <span class="na">cache</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>                       <span class="c1">//是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）</span>
-                                           <span class="na">pagination</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>                   <span class="c1">//是否显示分页（*）</span>
-                                           <span class="na">sortable</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>                     <span class="c1">//是否启用排序</span>
-                                           <span class="na">sortStable</span><span class="p">:</span><span class="kc">true</span><span class="p">,</span>                     <span class="c1">//设置为 true 将获得稳定的排序，我们会添加_position属性到 row 数据中。</span>
-                                           <span class="na">sortOrder</span><span class="p">:</span> <span class="s2">"asc"</span><span class="p">,</span>                   <span class="c1">//定义排序方式 'asc' 或者 'desc'</span>
-                                           <span class="na">queryParams</span><span class="p">:</span> <span class="nx">oTableInit</span><span class="p">.</span><span class="nx">queryParams</span><span class="p">,</span><span class="c1">//传递参数（*）</span>
-                                           <span class="na">sidePagination</span><span class="p">:</span> <span class="s2">"server"</span><span class="p">,</span>           <span class="c1">//分页方式：client客户端分页，server服务端分页（*）</span>
-                                           <span class="na">pageNumber</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>                       <span class="c1">//初始化加载第一页，默认第一页</span>
-                                           <span class="na">pageSize</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>                       <span class="c1">//每页的记录行数（*）</span>
-                                           <span class="na">pageList</span><span class="p">:</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">25</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">100</span><span class="p">],</span>        <span class="c1">//可供选择的每页的行数（*）</span>
-                                           <span class="na">search</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>                       <span class="c1">//是否显示表格搜索，此搜索是客户端搜索，不会进服务端，所以，个人感觉意义不大</span>
-                                           <span class="na">strictSearch</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>                 <span class="c1">// 	设置为 true启用 全匹配搜索，否则为模糊搜索</span>
-                                           <span class="na">showColumns</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>                  <span class="c1">//是否显示所有的列</span>
-                                           <span class="na">showRefresh</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>                  <span class="c1">//是否显示刷新按钮</span>
-                                           <span class="na">minimumCountColumns</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>             <span class="c1">//最少允许的列数</span>
-                                           <span class="na">clickToSelect</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>                <span class="c1">//是否启用点击选中行</span>
-                                           <span class="na">singleSelect</span><span class="p">:</span><span class="kc">true</span><span class="p">,</span>
-                                           <span class="na">checkboxHeader</span><span class="p">:</span><span class="kc">true</span><span class="p">,</span>
-                                           <span class="na">height</span><span class="p">:</span> <span class="nb">window</span><span class="p">.</span><span class="nx">innerHeight</span><span class="o">-</span><span class="mi">300</span><span class="p">,</span>
-                                           <span class="c1">// //行高，如果没有设置height属性，表格自动根据记录条数觉得表格高度</span>
-                                           <span class="na">uniqueId</span><span class="p">:</span> <span class="s2">"ID"</span><span class="p">,</span>                     <span class="c1">//每一行的唯一标识，一般为主键列</span>
-                                           <span class="na">showToggle</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>                  <span class="c1">//是否显示详细视图和列表视图的切换按钮</span>
-                                           <span class="na">cardView</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>                    <span class="c1">//是否显示详细视图</span>
-                                           <span class="na">detailView</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>                   <span class="c1">//是否显示父子表</span>
-                                           <span class="na">showExport</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>                     <span class="c1">//是否显示导出</span>
-                                           <span class="na">exportDataType</span><span class="p">:</span> <span class="s2">"all"</span><span class="p">,</span>   <span class="c1">//basic', 'all',</span>
-                                           <span class="c1">// 'selected'.</span>
-                                           <span class="na">rowStyle</span><span class="p">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">row</span><span class="p">,</span> <span class="nx">index</span><span class="p">)</span> <span class="p">{</span>
-                                               <span class="c1">//这里有5个取值代表5中颜色['active', 'success', 'info',</span>
-                                               <span class="c1">// 'warning', 'danger'];</span>
-                                               <span class="kd">var</span> <span class="nx">strclass</span> <span class="o">=</span> <span class="s2">""</span><span class="p">;</span>
-                                               <span class="k">if</span> <span class="p">(</span><span class="nx">row</span><span class="p">.</span><span class="nx">pcStatus</span> <span class="o">==</span> <span class="s2">"RUNNING"</span><span class="p">)</span> <span class="p">{</span>
-                                                   <span class="nx">strclass</span> <span class="o">=</span> <span class="s1">'success'</span><span class="p">;</span><span class="c1">//还有一个active</span>
-                                               <span class="p">}</span>
-                                               <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nx">row</span><span class="p">.</span><span class="nx">pcStatus</span> <span class="o">==</span> <span class="s2">"FINISH"</span><span class="p">)</span> <span class="p">{</span>
-                                                   <span class="nx">strclass</span> <span class="o">=</span> <span class="s1">'danger'</span><span class="p">;</span>
-                                               <span class="p">}</span>
-                                               <span class="k">else</span> <span class="p">{</span>
-                                                   <span class="k">return</span> <span class="p">{};</span>
-                                               <span class="p">}</span>
-                                               <span class="k">return</span> <span class="p">{</span><span class="na">classes</span><span class="p">:</span> <span class="nx">strclass</span><span class="p">}</span>
-                                           <span class="p">},</span>
-                                           <span class="na">columns</span><span class="p">:</span> <span class="p">[{</span>
-                                               <span class="na">checkbox</span><span class="p">:</span> <span class="kc">true</span>
-                                           <span class="p">}</span>
-                                           <span class="p">,</span> <span class="p">{</span>
-                                               <span class="na">field</span><span class="p">:</span> <span class="s1">'NJDM'</span><span class="p">,</span>
-                                               <span class="na">title</span><span class="p">:</span> <span class="s1">'年级编号'</span>
-                                           <span class="p">},</span>
-                                               <span class="p">{</span>
-                                                   <span class="na">field</span><span class="p">:</span> <span class="s1">'BJH'</span><span class="p">,</span>
-                                                   <span class="na">title</span><span class="p">:</span> <span class="s1">'班号'</span>
-                                               <span class="p">},</span> <span class="p">{</span>
-                                                   <span class="na">field</span><span class="p">:</span> <span class="s1">'BM'</span><span class="p">,</span>
-                                                   <span class="na">title</span><span class="p">:</span> <span class="s1">'班级'</span>
-                                               <span class="p">},</span> <span class="p">{</span>
-                                                   <span class="na">field</span><span class="p">:</span> <span class="s1">'XH'</span><span class="p">,</span>
-                                                   <span class="na">title</span><span class="p">:</span> <span class="s1">'学籍号'</span>
-                                               <span class="p">},</span>
-                                               <span class="p">{</span>
-                                                   <span class="na">field</span><span class="p">:</span> <span class="s1">'MZDM'</span><span class="p">,</span>
-                                                   <span class="na">title</span><span class="p">:</span> <span class="s1">'民族代码'</span>
-                                               <span class="p">},</span>
-                                               <span class="p">{</span>
-                                                   <span class="na">field</span><span class="p">:</span> <span class="s1">'XM'</span><span class="p">,</span>
-                                                   <span class="na">title</span><span class="p">:</span> <span class="s1">'姓名'</span>
-                                               <span class="p">},</span>
-                                               <span class="p">{</span>
-                                                   <span class="na">field</span><span class="p">:</span> <span class="s1">'XB'</span><span class="p">,</span>
-                                                   <span class="na">title</span><span class="p">:</span> <span class="s1">'性别'</span>
-                                               <span class="p">},</span>
-                                               <span class="p">{</span>
-                                                   <span class="na">field</span><span class="p">:</span> <span class="s1">'CSRQ'</span><span class="p">,</span>
-                                                   <span class="na">title</span><span class="p">:</span> <span class="s1">'出生日期'</span>
-                                               <span class="p">},</span>
-                                               <span class="p">{</span>
-                                                   <span class="na">field</span><span class="p">:</span> <span class="s1">'KQH'</span><span class="p">,</span>
-                                                   <span class="na">title</span><span class="p">:</span> <span class="s1">'学生来源'</span>
-                                               <span class="p">},</span>
-                                               <span class="p">{</span>
-                                                   <span class="na">field</span><span class="p">:</span> <span class="s1">'SFZH'</span><span class="p">,</span>
-                                                   <span class="na">title</span><span class="p">:</span> <span class="s1">'身份证号'</span>
-                                               <span class="p">},</span>
-                                               <span class="p">{</span>
-                                                   <span class="na">field</span><span class="p">:</span> <span class="s1">'TXDZ'</span><span class="p">,</span>
-                                                   <span class="na">title</span><span class="p">:</span> <span class="s1">'家庭住址'</span>
-                                               <span class="p">}</span>
-                                           <span class="p">]</span>
-                                       <span class="p">});</span>
-    <span class="p">};</span>
-</code></pre>
-</div>
-
-<p>二、客户端分页</p>
-<ul>
-  <li>设置如下属性
-    <div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="nl">sidePagination:</span> <span class="s">"client"</span><span class="o">,</span>   <span class="c1">//客户端分页</span>
-</code></pre>
-    </div>
-  </li>
-  <li>当数据量较少，只有上千条数据时，一次性将所有数据返回给客户端，无论点下一页，或搜索条件时，不向服务端发请求，实现全文检索。</li>
-  <li>
-    <p>服务器返回json数据必须包含data节点（展示数据）</p>
-  </li>
-  <li>即返回的数据格式：</li>
-</ul>
-
-<div class="highlighter-rouge"><pre class="highlight"><code>    [{'key'：value,},{'key':'value'}]
-</code></pre>
-</div>
-
-  </div>
--->
-
-  <h1><a href="/%E5%90%8E%E7%AB%AF/2016/12/21/SQL_Error_911_SQLState_42000.html">Hibernate执行SQL语句错误</a></h1>
-  <p class="author">
-    <span class="date">2016-12-21 05:39:22 +0800</span>
+    <span class="date">2017-02-13 05:13:08 +0800</span>
   </p>
 <!--
   <div class="content">
     <ul id="markdown-toc">
   <li><a href="#简要" id="markdown-toc-简要">简要</a></li>
   <li><a href="#说明" id="markdown-toc-说明">说明</a></li>
-  <li><a href="#实例" id="markdown-toc-实例">实例</a></li>
+  <li><a href="#存储过程" id="markdown-toc-存储过程">存储过程</a></li>
+</ul>
+
+<h2 id="简要">简要</h2>
+
+<ul>
+  <li>分享一下今日项目中用到的jpa调用oracle的存储过程。</li>
+</ul>
+
+<h2 id="说明">说明</h2>
+
+<ul>
+  <li>
+    <p>存储过程在一般的公司业务中都不推荐使用，原因很简单，不易于维护和管理（因为逻辑在数据库中）</p>
+  </li>
+  <li>
+    <p>最近的《阿里java编码规范文档》中就有提及：</p>
+
+    <div class="highlighter-rouge"><pre class="highlight"><code>7. 【强制】禁止使用存储过程，存储过程难以调试和扩展，更没有移植性
+</code></pre>
+    </div>
+  </li>
+  <li>
+    <p>存储过程一般都是在银行业务中使用，把核心逻辑打包成一个存储过程，非常复杂，而在互联网公司并没有多少使用的。</p>
+  </li>
+  <li>
+    <p>此处我使用存储过程原因也是出于项目本身的高并发优化（秒杀），为了减少事务行级锁持有的时间，从而抗住更多的qps，减少业务的反应时间。</p>
+  </li>
+</ul>
+
+<h2 id="存储过程">存储过程</h2>
+
+<ol>
+  <li>
+    <p>需要先在数据库（Oracle）创建好一个存储过程</p>
+
+    <div class="language-sql highlighter-rouge"><pre class="highlight"><code><span class="c1">-- 预约存储过程</span>
+<span class="k">CREATE</span> <span class="k">OR</span> <span class="k">REPLACE</span>
+<span class="k">PROCEDURE</span> <span class="nv">"STU_YY"</span> <span class="p">(</span><span class="n">v_username</span> <span class="k">IN</span> <span class="n">VARCHAR2</span><span class="p">,</span> <span class="n">v_yyccid</span> <span class="k">IN</span> <span class="n">VARCHAR2</span><span class="p">,</span> <span class="n">v_create_time</span> <span class="k">IN</span> <span class="n">NUMBER</span><span class="p">,</span><span class="n">v_pcdm</span> <span class="k">IN</span> <span class="n">VARCHAR2</span><span class="p">,</span> <span class="n">r_result</span> <span class="k">OUT</span> <span class="n">NUMBER</span><span class="p">)</span>
+<span class="k">AS</span>
+    <span class="n">insert_count</span> <span class="n">NUMBER</span> <span class="k">DEFAULT</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="n">update_count</span> <span class="n">NUMBER</span> <span class="k">DEFAULT</span> <span class="mi">0</span><span class="p">;</span>
+<span class="k">BEGIN</span>
+    <span class="c1">-- routine body goes here, e.g.</span>
+    <span class="c1">-- DBMS_OUTPUT.PUT_LINE('Navicat for Oracle');</span>
+    
+    <span class="k">UPDATE</span> <span class="n">TCYYB</span> <span class="k">SET</span> <span class="n">YYYRS</span><span class="o">=</span><span class="n">YYYRS</span><span class="o">+</span><span class="mi">1</span> <span class="k">WHERE</span> <span class="n">id</span><span class="o">=</span><span class="n">v_yyccid</span> <span class="k">AND</span> <span class="n">YYYRS</span><span class="o">&lt;</span><span class="n">ZDYYRS</span><span class="p">;</span>
+    <span class="n">update_count</span><span class="p">:</span><span class="o">=</span><span class="k">SQL</span><span class="o">%</span><span class="n">ROWCOUNT</span><span class="p">;</span>
+    
+    <span class="n">IF</span><span class="p">(</span><span class="n">update_count</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
+        <span class="k">ROLLBACK</span><span class="p">;</span>
+        <span class="n">r_result</span><span class="p">:</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span>
+    <span class="n">ELSIF</span><span class="p">(</span><span class="n">update_count</span><span class="o">&lt;</span><span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
+        <span class="k">ROLLBACK</span><span class="p">;</span>
+        <span class="n">r_result</span><span class="p">:</span><span class="o">=-</span><span class="mi">1</span><span class="p">;</span>
+    <span class="k">ELSE</span>
+        <span class="k">SELECT</span> <span class="k">COUNT</span><span class="p">(</span><span class="n">ROWNUM</span><span class="p">)</span> <span class="k">INTO</span> <span class="n">insert_count</span> <span class="k">FROM</span> <span class="n">TCYYMXB</span> <span class="k">WHERE</span> <span class="n">YYID</span><span class="o">=</span><span class="n">v_yyccid</span> <span class="k">AND</span> <span class="n">XH</span><span class="o">=</span><span class="n">v_username</span><span class="p">;</span>
+        <span class="n">IF</span><span class="p">(</span><span class="n">insert_count</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
+            <span class="k">ROLLBACK</span><span class="p">;</span>
+            <span class="n">r_result</span><span class="p">:</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span>
+        <span class="k">END</span> <span class="n">IF</span><span class="p">;</span>
+    
+        <span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">TCYYMXB</span><span class="p">(</span><span class="n">YYID</span><span class="p">,</span><span class="n">XH</span><span class="p">,</span><span class="n">CREATE_TIME</span><span class="p">,</span><span class="n">PCDM</span><span class="p">)</span> <span class="k">VALUES</span><span class="p">(</span><span class="n">v_yyccid</span><span class="p">,</span><span class="n">v_username</span><span class="p">,</span><span class="n">v_create_time</span><span class="p">,</span><span class="n">v_pcdm</span><span class="p">);</span>
+        <span class="n">insert_count</span><span class="p">:</span><span class="o">=</span><span class="k">SQL</span><span class="o">%</span><span class="n">ROWCOUNT</span><span class="p">;</span>
+        <span class="n">IF</span><span class="p">(</span><span class="n">insert_count</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
+            <span class="k">ROLLBACK</span><span class="p">;</span>
+            <span class="n">r_result</span><span class="p">:</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span>
+        <span class="n">ELSIF</span><span class="p">(</span><span class="n">insert_count</span> <span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="k">THEN</span>
+            <span class="c1">--先查询判断记录是否存在，不存在再插入</span>
+            <span class="k">SELECT</span> <span class="k">count</span><span class="p">(</span><span class="n">ROWNUM</span><span class="p">)</span> <span class="k">INTO</span> <span class="n">insert_count</span> <span class="k">FROM</span> <span class="n">TCMDB</span> <span class="k">WHERE</span> <span class="n">XH</span><span class="o">=</span><span class="n">v_username</span> <span class="k">AND</span> <span class="n">PCDM</span><span class="o">=</span><span class="n">v_pcdm</span> <span class="k">AND</span> <span class="n">MDLY</span><span class="o">=</span><span class="s1">'YY'</span><span class="p">;</span>
+            <span class="n">IF</span><span class="p">(</span><span class="n">insert_count</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
+                <span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">TCMDB</span><span class="p">(</span><span class="n">XH</span><span class="p">,</span><span class="n">PCDM</span><span class="p">,</span><span class="n">MDLY</span><span class="p">,</span><span class="n">CREATE_TIME</span><span class="p">)</span> <span class="k">VALUES</span><span class="p">(</span><span class="n">v_username</span><span class="p">,</span><span class="n">v_pcdm</span><span class="p">,</span><span class="s1">'YY'</span><span class="p">,</span><span class="n">v_create_time</span><span class="p">);</span>
+            <span class="k">END</span> <span class="n">IF</span><span class="p">;</span>
+            <span class="k">COMMIT</span><span class="p">;</span>
+            <span class="n">r_result</span><span class="p">:</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span>
+        <span class="k">END</span> <span class="n">IF</span><span class="p">;</span>
+    <span class="k">END</span> <span class="n">IF</span><span class="p">;</span>
+    <span class="n">EXCEPTION</span>
+    <span class="k">WHEN</span> <span class="n">OTHERS</span> <span class="k">THEN</span>
+    <span class="k">ROLLBACK</span><span class="p">;</span>
+    <span class="n">r_result</span><span class="p">:</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span>
+<span class="k">END</span><span class="p">;</span>
+    
+</code></pre>
+    </div>
+  </li>
+  <li>
+    <p>定义实体</p>
+
+    <blockquote>
+      <p>元数据存储过程可以通过配置 NamedStoredProcedureQuery 在一个实体类型注释。</p>
+    </blockquote>
+
+    <div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="err"> </span><span class="nd">@Entity</span>
+ <span class="nd">@NamedStoredProcedureQuery</span><span class="o">(</span><span class="n">name</span> <span class="o">=</span> <span class="s">"YY.plus1"</span><span class="o">,</span> <span class="n">procedureName</span> <span class="o">=</span> <span class="s">"stu_yy"</span><span class="o">,</span> <span class="n">parameters</span> <span class="o">=</span> <span class="o">{</span>
+         <span class="nd">@StoredProcedureParameter</span><span class="o">(</span><span class="n">mode</span> <span class="o">=</span> <span class="n">ParameterMode</span><span class="o">.</span><span class="na">IN</span><span class="o">,</span> <span class="n">name</span> <span class="o">=</span> <span class="s">"v_username"</span><span class="o">,</span> <span class="n">type</span> <span class="o">=</span> <span class="n">String</span><span class="o">.</span><span class="na">class</span><span class="o">),</span>
+         <span class="nd">@StoredProcedureParameter</span><span class="o">(</span><span class="n">mode</span> <span class="o">=</span> <span class="n">ParameterMode</span><span class="o">.</span><span class="na">IN</span><span class="o">,</span> <span class="n">name</span> <span class="o">=</span> <span class="s">"v_yyccid"</span><span class="o">,</span> <span class="n">type</span> <span class="o">=</span> <span class="n">String</span><span class="o">.</span><span class="na">class</span><span class="o">),</span>
+         <span class="nd">@StoredProcedureParameter</span><span class="o">(</span><span class="n">mode</span> <span class="o">=</span> <span class="n">ParameterMode</span><span class="o">.</span><span class="na">IN</span><span class="o">,</span> <span class="n">name</span> <span class="o">=</span> <span class="s">"v_create_time"</span><span class="o">,</span> <span class="n">type</span> <span class="o">=</span> <span class="n">Long</span><span class="o">.</span><span class="na">class</span><span class="o">),</span>
+         <span class="nd">@StoredProcedureParameter</span><span class="o">(</span><span class="n">mode</span> <span class="o">=</span> <span class="n">ParameterMode</span><span class="o">.</span><span class="na">IN</span><span class="o">,</span> <span class="n">name</span> <span class="o">=</span> <span class="s">"v_pcdm"</span><span class="o">,</span> <span class="n">type</span> <span class="o">=</span> <span class="n">String</span><span class="o">.</span><span class="na">class</span><span class="o">),</span>
+         <span class="nd">@StoredProcedureParameter</span><span class="o">(</span><span class="n">mode</span> <span class="o">=</span> <span class="n">ParameterMode</span><span class="o">.</span><span class="na">OUT</span><span class="o">,</span> <span class="n">name</span> <span class="o">=</span> <span class="s">"r_result"</span><span class="o">,</span> <span class="n">type</span> <span class="o">=</span> <span class="n">Long</span><span class="o">.</span><span class="na">class</span><span class="o">)})</span>
+ <span class="kd">public</span> <span class="kd">class</span> <span class="nc">YY</span> <span class="o">{</span>
+     <span class="nd">@Id</span>
+     <span class="nd">@GeneratedValue</span><span class="c1">//</span>
+     <span class="kd">private</span> <span class="n">Long</span> <span class="n">id</span><span class="o">;</span>
+ <span class="o">}</span>
+
+</code></pre>
+    </div>
+  </li>
+  <li>
+    <p>创建Repository</p>
+
+    <blockquote>
+      <p>存储过程可以从存储库引用以多种方式方法。定义的存储过程被称为可以直接通过 value 或 procedureName 的属性 @Procedure 注释或间接通过 name 属性。 如果没有配置名称的名称用作后备存储库的方法。</p>
+    </blockquote>
+
+    <div class="language-java highlighter-rouge"><pre class="highlight"><code>
+<span class="kd">public</span> <span class="kd">interface</span> <span class="nc">TCYYRepository</span> <span class="kd">extends</span> <span class="n">JpaRepository</span><span class="o">&lt;</span><span class="n">YY</span><span class="o">,</span> <span class="n">Long</span><span class="o">&gt;</span> <span class="o">{</span>
+    
+    <span class="nd">@Procedure</span><span class="o">(</span><span class="n">name</span> <span class="o">=</span> <span class="s">"YY.plus1"</span><span class="o">)</span>
+    <span class="n">Long</span> <span class="nf">stu_yy_procedure</span><span class="o">(</span><span class="nd">@Param</span><span class="o">(</span><span class="s">"v_username"</span><span class="o">)</span> <span class="n">String</span> <span class="n">v_username</span> 
+                            <span class="o">,</span> <span class="nd">@Param</span><span class="o">(</span><span class="s">"v_yyccid"</span><span class="o">)</span> <span class="n">String</span> <span class="n">v_yyccid</span>
+                            <span class="o">,</span> <span class="nd">@Param</span><span class="o">(</span><span class="s">"v_pcdm"</span><span class="o">)</span> <span class="n">String</span> <span class="n">v_pcdm</span>
+                            <span class="o">,</span> <span class="nd">@Param</span><span class="o">(</span><span class="s">"v_create_time"</span><span class="o">)</span> <span class="n">Long</span> <span class="n">v_create_time</span><span class="o">);</span>
+   
+<span class="o">}</span>
+</code></pre>
+    </div>
+  </li>
+  <li>
+    <p>调用</p>
+
+    <blockquote>
+      <p>我们可以根据控制存储过程的输出参数来判断执行的结果，这里就不再列出了，根据实际需求自定义。</p>
+    </blockquote>
+
+    <div class="language-java highlighter-rouge"><pre class="highlight"><code>
+<span class="nd">@Autowired</span>
+<span class="kd">private</span> <span class="n">TCYYRepository</span> <span class="n">tcyyRepository</span><span class="o">;</span>
+
+<span class="n">Long</span> <span class="n">result</span> <span class="o">=</span> <span class="n">tcyyRepository</span><span class="o">.</span><span class="na">stu_yy_procedure</span><span class="o">(</span><span class="n">username</span><span class="o">,</span> <span class="n">yyid</span><span class="o">,</span> <span class="n">pcdm</span><span class="o">,</span> <span class="n">timenow</span><span class="o">);</span>
+
+</code></pre>
+    </div>
+  </li>
+  <li>
+    <p>资料</p>
+
+    <p><a href="http://www.zhongtiancai.com/doc/JPA.htm#jpa.stored-procedures">jpa文档</a></p>
+  </li>
+</ol>
+
+  </div>
+-->
+
+  <h1><a href="/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%92%8C%E7%AE%97%E6%B3%95/2017/02/08/%E9%80%92%E5%BD%92%E5%92%8C%E5%88%86%E6%B2%BB-%E6%B1%89%E8%AF%BA%E5%A1%94%E9%97%AE%E9%A2%98.html">算法-汉诺（Hanoi）塔问题</a></h1>
+  <p class="author">
+    <span class="date">2017-02-08 22:54:28 +0800</span>
+  </p>
+<!--
+  <div class="content">
+    <ul id="markdown-toc">
+  <li><a href="#问题" id="markdown-toc-问题">问题</a></li>
+  <li><a href="#解题思路" id="markdown-toc-解题思路">解题思路</a></li>
+  <li><a href="#代码" id="markdown-toc-代码">代码</a></li>
+</ul>
+
+<h2 id="问题">问题</h2>
+
+<ul>
+  <li>汉诺（Hanoi）塔问题：</li>
+</ul>
+
+<p>古代有一个梵塔，塔内有三个座A、B、C，A座上有64个盘子，盘子大小不等，大的在下，小的在上（如图）。有一个和尚想把这64个盘子从A座移到B座，但每次只能允许移动一个盘子，并且在移动过程中，3个座上的盘子始终保持大盘在下，小盘在上。在移动过程中可以利用B座，要求打印移动的步骤。如果只有一个盘子，则不需要利用B座，直接将盘子从A移动到C。</p>
+
+<h2 id="解题思路">解题思路</h2>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>1. 先将前63个盘子移动到Y上,确保大盘在小盘下面;
+2. 再将X最底下的第64个盘子移动到Z上;
+3. 最后将Y上面的63个盘子移动到Z上。
+</code></pre>
+</div>
+
+<h2 id="代码">代码</h2>
+
+<div class="language-c++ highlighter-rouge"><pre class="highlight"><code><span class="cp">#include &lt;stdio.h&gt;
+</span><span class="c1">//经典递归问题
+//汉诺塔
+</span>
+<span class="c1">//将n个盘子从x借助y移动到z
+</span><span class="kt">void</span> <span class="n">move</span><span class="p">(</span><span class="kt">int</span> <span class="n">n</span><span class="p">,</span><span class="kt">char</span> <span class="n">x</span><span class="p">,</span><span class="kt">char</span> <span class="n">y</span><span class="p">,</span><span class="kt">char</span> <span class="n">z</span><span class="p">){</span>
+	<span class="k">if</span><span class="p">(</span><span class="mi">1</span><span class="o">==</span><span class="n">n</span><span class="p">){</span>
+		<span class="n">printf</span><span class="p">(</span><span class="s">"%c--&gt;%c</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span><span class="n">x</span><span class="p">,</span><span class="n">z</span><span class="p">);</span>
+	<span class="p">}</span>
+	<span class="k">else</span><span class="p">{</span>
+		<span class="n">move</span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="n">x</span><span class="p">,</span><span class="n">z</span><span class="p">,</span><span class="n">y</span><span class="p">);</span>		<span class="c1">//将n-1个盘子从X借助z移动到y
+</span>
+		<span class="n">printf</span><span class="p">(</span><span class="s">"%c--&gt;%c</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span><span class="n">x</span><span class="p">,</span><span class="n">z</span><span class="p">);</span><span class="c1">//将第n个盘子从x移动刀z上
+</span>		
+		<span class="n">move</span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">x</span><span class="p">,</span><span class="n">z</span><span class="p">);</span>		<span class="c1">//将n-1个盘子从y借助x移动到Z上;
+</span>	<span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kt">int</span> <span class="n">main</span><span class="p">()</span>
+<span class="p">{</span>
+	<span class="kt">int</span> <span class="n">n</span><span class="p">;</span>
+	<span class="n">printf</span><span class="p">(</span><span class="s">"请输入汉诺塔的层数："</span><span class="p">);</span>
+	<span class="n">scanf</span><span class="p">(</span><span class="s">"%d"</span><span class="p">,</span><span class="o">&amp;</span><span class="n">n</span><span class="p">);</span>
+	<span class="n">printf</span><span class="p">(</span><span class="s">"移动的部署如下：</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+	<span class="n">move</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="sc">'x'</span><span class="p">,</span><span class="sc">'y'</span><span class="p">,</span><span class="sc">'z'</span><span class="p">);</span>
+	<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+
+</code></pre>
+</div>
+
+  </div>
+-->
+
+  <h1><a href="/%E5%A4%A7%E6%95%B0%E6%8D%AE/2017/02/06/Hadoop%E6%A0%B8%E5%BF%83-MapReduce%E7%AE%80%E4%BB%8B.html">Hadoop核心-MapReduce简介</a></h1>
+  <p class="author">
+    <span class="date">2017-02-06 21:09:12 +0800</span>
+  </p>
+<!--
+  <div class="content">
+    <ul id="markdown-toc">
+  <li><a href="#简要" id="markdown-toc-简要">简要</a></li>
+  <li><a href="#基本概念" id="markdown-toc-基本概念">基本概念</a></li>
 </ul>
 
 <h2 id="简要">简要</h2>
 
 <ul>
   <li>
-    <p>今天在做项目时，有一个查询功能执行sql语句时一直报这个错误，搞了半天……才发现我是直接从PL/SQL中复制过来的SQL语句，最后带一个 <code class="highlighter-rouge">;</code></p>
+    <p>继续学习Hadoop的重要组成部分-MapReduce</p>
   </li>
   <li>
-    <p>错误详情<code class="highlighter-rouge">SQL Error: 911, SQLState: 42000</code></p>
+    <p>分而治之，一个大任务分成多个小的子任务（map），并行执行后，合并结果（reduce）</p>
   </li>
 </ul>
 
-<h2 id="说明">说明</h2>
+<h2 id="基本概念">基本概念</h2>
 
 <ul>
-  <li>sql语句最后是要放在Hibetnate中执行的。</li>
+  <li>
+    <p>Job &amp; Task</p>
+
+    <ol>
+      <li>
+        <p>Job就是一个要执行的任务 ==&gt; 提交Job</p>
+      </li>
+      <li>
+        <p>一个Job会被分为多个Task（MapTask和ReduceTask） ==&gt; 分片</p>
+      </li>
+    </ol>
+  </li>
+  <li>
+    <p>JobTracker：（讲一个Job拆分成多个Map和Reduce任务；分配Map和Reduce任务）</p>
+
+    <p>==&gt; 作业调度、分配任务、监控进度、监控TaskTracker状态</p>
+  </li>
+  <li>
+    <p>TaskTracker：（Map任务分发给下面的TaskTracker做实际 的任务；TaskTracker与DataNode保持对应关系）</p>
+
+    <p>==&gt; 执行任务、汇报任务状态</p>
+  </li>
 </ul>
 
-<h2 id="实例">实例</h2>
-<p><img src="http://jiaohongwei.github.io/images/2016-12/20161220215139.png" alt="Object" /></p>
-
-<p><img src="http://jiaohongwei.github.io/images/2016-12/20161220215638.png" alt="Object" /></p>
+<p><img src="http://jiaohongwei.github.io/images/2017-02/20170206131955.jpg" alt="Object" /></p>
 
 <ul>
-  <li>千万要细心……就因为这多了一个<code class="highlighter-rouge">；</code> 浪费我半个小时来找错误，谨记！</li>
+  <li>
+    <p>MapReduce的容错机制:</p>
+
+    <ol>
+      <li>重复执行 4次</li>
+      <li>推测执行</li>
+    </ol>
+  </li>
 </ul>
+
+
+  </div>
+-->
+
+  <h1><a href="/%E5%A4%A7%E6%95%B0%E6%8D%AE/2017/02/06/Hadoop%E6%A0%B8%E5%BF%83-HDFS%E7%AE%80%E4%BB%8B.html">Hadoop核心-HDFS简介</a></h1>
+  <p class="author">
+    <span class="date">2017-02-06 20:24:02 +0800</span>
+  </p>
+<!--
+  <div class="content">
+    <ul id="markdown-toc">
+  <li><a href="#简要" id="markdown-toc-简要">简要</a></li>
+  <li><a href="#基本概念" id="markdown-toc-基本概念">基本概念</a></li>
+  <li><a href="#hdfs数据管理" id="markdown-toc-hdfs数据管理">HDFS数据管理</a></li>
+  <li><a href="#hdfs读写" id="markdown-toc-hdfs读写">HDFS读写</a></li>
+  <li><a href="#hdfs特点" id="markdown-toc-hdfs特点">HDFS特点</a></li>
+  <li><a href="#hdfs使用" id="markdown-toc-hdfs使用">HDFS使用</a></li>
+</ul>
+
+<h2 id="简要">简要</h2>
+
+<ul>
+  <li>继续学习Hadoop的重要组成部分-HDFS（文件系统）</li>
+</ul>
+
+<h2 id="基本概念">基本概念</h2>
+
+<ul>
+  <li>
+    <p>块（Block）</p>
+
+    <p>1.HDFS的文件被分成块进行存储，HDFS块的默认大小64MB；</p>
+
+    <p>2.块是文件存储处理的逻辑单元；</p>
+
+    <p>注：默认大小是可以在hdfs-site.xml中手动配置的</p>
+
+    <div class="highlighter-rouge"><pre class="highlight"><code>&lt;property&gt;
+  &lt;name&gt;dfs.block.size&lt;/name&gt;
+  &lt;value&gt;67108864&lt;/value&gt;
+  &lt;description&gt;The default block size for new files.&lt;/description&gt;
+&lt;/property&gt;
+</code></pre>
+    </div>
+  </li>
+  <li>
+    <p>NameNode</p>
+
+    <p>1.NameNode是管理节点，存放文件元数据</p>
+
+    <div class="highlighter-rouge"><pre class="highlight"><code>①   文件与数据块的映射表
+    
+②   数据块与数据节点的映射表
+</code></pre>
+    </div>
+  </li>
+  <li>
+    <p>DataNode</p>
+
+    <p>1.DataNode是用来存放数据块</p>
+  </li>
+</ul>
+
+<p><img src="http://jiaohongwei.github.io/images/2017-02/20170206124144.jpg" alt="Object" /></p>
+
+<h2 id="hdfs数据管理">HDFS数据管理</h2>
+
+<ul>
+  <li>
+    <p>数据可靠：每个数据存3个副本，分布在两个机架内的三个节点</p>
+  </li>
+  <li>
+    <p>心跳检测： DataNode定期向NameNode发送心跳信息</p>
+  </li>
+  <li>
+    <p>Secondary NameNode：二级NameNode定期同步元数据映像文件和修改日志，NameNode发生故障时，备胎转正。</p>
+  </li>
+</ul>
+
+<h2 id="hdfs读写">HDFS读写</h2>
+
+<ul>
+  <li>读取文件</li>
+</ul>
+
+<p><img src="http://jiaohongwei.github.io/images/2017-02/20170206125109.jpg" alt="Object" /></p>
+
+<ul>
+  <li>
+    <p>写文件</p>
+
+    <div class="highlighter-rouge"><pre class="highlight"><code>1.客户端将文件拆分成块
+2.客户端通知NameNode,NameNode返回可用的DataNode节点地址
+3.客户端根据返回的DataNode将数据块写入到可用的DataNode中
+4.因为数据块要有三份，所以会通过一个复制管道将每个数据块复制出另外两份并保存
+5.更新元数据NameNode
+</code></pre>
+    </div>
+  </li>
+</ul>
+
+<p><img src="http://jiaohongwei.github.io/images/2017-02/20170206125405.jpg" alt="Object" /></p>
+
+<h2 id="hdfs特点">HDFS特点</h2>
+
+<ul>
+  <li>数据冗余，硬件容错</li>
+  <li>流式的数据访问（一次存储多次访问）</li>
+  <li>存储大文件</li>
+</ul>
+
+<p>适用性和局限性</p>
+
+<ul>
+  <li>适合数据批量读写，吞吐量高</li>
+  <li>
+    <p>不适合交互式应用，低延迟很难满足</p>
+  </li>
+  <li>适合一次写入多次读取，顺序读写</li>
+  <li>不支持对用户并发写相同的文件</li>
+</ul>
+
+<h2 id="hdfs使用">HDFS使用</h2>
+
+<ul>
+  <li>它提供了 shell 接口，可以进行命令行操作</li>
+</ul>
+
+<div class="language-shell highlighter-rouge"><pre class="highlight"><code>    hadoop namenode -format	<span class="c">#格式化namenode</span>
+    hadoop fs -ls / <span class="c">#打印 / 目录文件列表</span>
+    hadoop fs -mkdir input <span class="c">#创建目录 input</span>
+    hadoop fs -put hadoop-env.sh input/ <span class="c">#上传文件 hadoop-env.sh 到 input 目录下</span>
+    hadoop fs -get input/abc.sh hadoop-envcomp.sh <span class="c">#从 input 目录中下载文件</span>
+    hadoop fs -cat input/hadoop-env.sh <span class="c">#查看文件 input/hadoop-env.sh </span>
+    hadoop dfsadmin -report <span class="c">#dfs报告(所有DNFS信息)</span>
+</code></pre>
+</div>
+
+  </div>
+-->
+
+  <h1><a href="/%E5%A4%A7%E6%95%B0%E6%8D%AE/2017/02/06/Hadoop%E5%AE%89%E8%A3%85%E4%B8%8E%E9%85%8D%E7%BD%AE.html">Hadoop安装与配置</a></h1>
+  <p class="author">
+    <span class="date">2017-02-06 07:00:39 +0800</span>
+  </p>
+<!--
+  <div class="content">
+    <ul id="markdown-toc">
+  <li><a href="#简要" id="markdown-toc-简要">简要</a></li>
+  <li><a href="#准备" id="markdown-toc-准备">准备</a></li>
+  <li><a href="#下载" id="markdown-toc-下载">下载</a></li>
+  <li><a href="#安装" id="markdown-toc-安装">安装</a></li>
+  <li><a href="#配置" id="markdown-toc-配置">配置</a></li>
+  <li><a href="#启动" id="markdown-toc-启动">启动</a></li>
+  <li><a href="#资料文档" id="markdown-toc-资料文档">资料文档</a></li>
+</ul>
+
+<h2 id="简要">简要</h2>
+
+<ul>
+  <li>简单介绍一下Hadoop在linux下面的安装与配置</li>
+</ul>
+
+<h2 id="准备">准备</h2>
+
+<ul>
+  <li>需要linux下安装java环境,这里就不再详细介绍了</li>
+  <li>安装JDK:  <code class="highlighter-rouge">apt-get install openjdk-7-jdk</code></li>
+</ul>
+
+<h2 id="下载">下载</h2>
+
+<div class="language-shell highlighter-rouge"><pre class="highlight"><code>wget http://mirror.bit.edu.cn/apache/hadoop/common/hadoop-1.2.1/hadoop-1.2.1.tar.gz
+</code></pre>
+</div>
+
+<h2 id="安装">安装</h2>
+
+<p>移动到 <code class="highlighter-rouge">/opt/</code> 目录</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>mv hadoop-1.2.1.tar.gz /opt/
+</code></pre>
+</div>
+
+<p>解压</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>tar -zxvf hadoop-1.2.1.tar.gz
+</code></pre>
+</div>
+
+<p>设置环境变量</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>vi /etc/profile
+</code></pre>
+</div>
+
+<p>打开之后新添加</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>export HADOOP_HOME=/opt/hadoop-1.2.1
+//PATH新添加 $HADOOP_HOME/bin:
+export PATH=$JAVA_HOME/bin:/usr/local/nginx/sbin:/usr/local/mysql/bin:$HADOOP_HOME/bin:$PATH
+//wq保存
+</code></pre>
+</div>
+
+<p>重新加载资源生效</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>source /opt/profile
+</code></pre>
+</div>
+
+<h2 id="配置">配置</h2>
+
+<ul>
+  <li>
+    <p>修改相关配置文件    $HADOOP_HOME/conf:</p>
+
+    <div class="highlighter-rouge"><pre class="highlight"><code>1）修改hadoop-env.sh，设置JAVA_HOME；
+2）修改core-site.xml，设置hadoop.tmp.dir、dfs.name.dir、fs.default.name；
+3）修改mapred-site.xml，设置mapred.job.tracker；
+4）修改hdfs-site.xml，设置dfs.data.dir； 注意：
+
+hadoop.tmp.dir是临时文件存放目录
+dfs.name.dir是namenode元数据存放目录
+fs.default.name是缺省文件url标识
+</code></pre>
+    </div>
+  </li>
+</ul>
+
+<ol>
+  <li><code class="highlighter-rouge">vi hadoop-evn.sh</code></li>
+</ol>
+
+<ul>
+  <li>添加JAVA_HOME <code class="highlighter-rouge">echo &amp;JAVA_HOME</code>获取路径</li>
+</ul>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>export JAVA_HOME=/usr/java/default 
+</code></pre>
+</div>
+
+<ol>
+  <li>修改core-site.xml</li>
+</ol>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>vi core-site.xml
+</code></pre>
+</div>
+
+<p>然后添加下面内容</p>
+
+<div class="language-xml highlighter-rouge"><pre class="highlight"><code><span class="c">&lt;!-- core-site.xml --&gt;</span>
+<span class="nt">&lt;property&gt;</span>
+<span class="nt">&lt;name&gt;</span>hadoop.tmp.dir<span class="nt">&lt;/name&gt;</span>
+<span class="nt">&lt;value&gt;</span>/hadoop<span class="nt">&lt;/value&gt;</span>
+<span class="nt">&lt;/property&gt;</span>
+<span class="nt">&lt;property&gt;</span>
+<span class="nt">&lt;name&gt;</span>dfs.name.dir<span class="nt">&lt;/name&gt;</span>
+<span class="nt">&lt;value&gt;</span>/hadoop/name<span class="nt">&lt;/value&gt;</span>
+<span class="nt">&lt;/property&gt;</span>
+<span class="nt">&lt;property&gt;</span>
+<span class="nt">&lt;name&gt;</span>fs.default.name<span class="nt">&lt;/name&gt;</span>
+<span class="nt">&lt;value&gt;</span>hdfs://localhost:9000<span class="nt">&lt;/value&gt;</span>
+<span class="nt">&lt;/property&gt;</span>
+</code></pre>
+</div>
+
+<ol>
+  <li>修改mapred-site.xml</li>
+</ol>
+
+<div class="language-xml highlighter-rouge"><pre class="highlight"><code><span class="c">&lt;!--mapred-site.xml配置--&gt;</span>
+<span class="nt">&lt;property&gt;</span>
+<span class="nt">&lt;name&gt;</span>mapred.job.tracker<span class="nt">&lt;/name&gt;</span>
+<span class="nt">&lt;value&gt;</span>localhost:9001<span class="nt">&lt;/value&gt;</span>
+<span class="nt">&lt;/property&gt;</span>
+</code></pre>
+</div>
+
+<ol>
+  <li>修改hdfs-site.xml</li>
+</ol>
+
+<div class="language-xml highlighter-rouge"><pre class="highlight"><code><span class="c">&lt;!--hdfs-site.xml--&gt;</span>
+<span class="nt">&lt;property&gt;</span>
+<span class="nt">&lt;name&gt;</span>dfs.data.dir<span class="nt">&lt;/name&gt;</span>
+<span class="nt">&lt;value&gt;</span>/hapoop/data<span class="nt">&lt;/value&gt;</span>
+<span class="nt">&lt;/property&gt;</span>
+
+</code></pre>
+</div>
+
+<h2 id="启动">启动</h2>
+
+<ul>
+  <li>首先格式化</li>
+</ul>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>hadoop namenode -format
+</code></pre>
+</div>
+
+<ul>
+  <li>启动</li>
+</ul>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>start-all.sh
+</code></pre>
+</div>
+
+<ul>
+  <li>检查</li>
+</ul>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>jps
+</code></pre>
+</div>
+
+<p>看到如下进程，表示启动成功。安装完成</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>26882 SecondaryNameNode
+30563 Jps
+26758 DataNode
+8105 jar
+26619 NameNode
+27134 TaskTracker
+26958 JobTracker
+</code></pre>
+</div>
+
+<h2 id="资料文档">资料文档</h2>
+
+<p>官方文档：http://hadoop.apache.org/docs/r1.2.1/</p>
 
   </div>
 -->
@@ -972,6 +1032,10 @@ $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
   
     
       <a href="/page6">6</a>
+    
+  
+    
+      <a href="/page7">7</a>
     
   
 
